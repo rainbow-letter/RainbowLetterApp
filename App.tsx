@@ -1,24 +1,19 @@
 import React from 'react';
-import { Dimensions, SafeAreaView, StyleSheet } from 'react-native';
-import WebView from 'react-native-webview';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import { Platform, StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Appinner from './Appinner';
 
 function App(): React.JSX.Element {
+  console.log(Platform.OS);
   return (
-    <SafeAreaView style={styles.container}>
-      <WebView
-        style={styles.webview}
-        source={{ uri: 'https://rainbowletter.co.kr' }}
-      />
-    </SafeAreaView>
+    <SafeAreaProvider style={styles.container}>
+      <Appinner />
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', justifyContent: 'space-between' },
-  webview: { flex: 1, width: windowWidth, height: windowHeight },
 });
 
 export default App;
