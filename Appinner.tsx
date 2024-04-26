@@ -1,24 +1,25 @@
 import React from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
-import WebView from 'react-native-webview';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import SignUp from './src/pages/SignUp';
+import Login from './src/pages/Login';
+import Home from './src/pages/Home';
 
 const Appinner = () => {
+  const Stack = createNativeStackNavigator();
+
   return (
-    <SafeAreaView>
-      <WebView
-        style={styles.webview}
-        source={{ uri: 'https://rainbowletter.co.kr' }}
-      />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
 export default Appinner;
-
-const styles = StyleSheet.create({
-  webview: { flex: 1, width: windowWidth, height: windowHeight },
-});
