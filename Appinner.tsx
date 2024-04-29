@@ -33,9 +33,25 @@ const Appinner = () => {
             headerBackTitleVisible: false,
             headerShadowVisible: false,
             headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
           }}
         />
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerTitle: '로그인',
+            headerLeft: () => <GoBack />,
+            headerBackTitleVisible: false,
+            headerShadowVisible: false,
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

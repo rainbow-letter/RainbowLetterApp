@@ -6,6 +6,7 @@ import {
   Pressable,
   TextInput,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
@@ -17,14 +18,15 @@ import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+const windowWidth = Dimensions.get('window').width;
 
 const Login = ({ navigation }: Props) => {
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
       <ScrollView style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>무료로 편지를 써보세요!</Text>
-          <Text style={styles.subTitle}>SNS로 간편 가입하기</Text>
+          <Text style={styles.title}>다시 와주셨네요!</Text>
+          <Text style={styles.subTitle}>SNS로 간편 로그인하기</Text>
           <View style={styles.iconBox}>
             <Pressable>
               <Image source={google} style={styles.icon} />
@@ -36,7 +38,7 @@ const Login = ({ navigation }: Props) => {
         </View>
         <View style={styles.divideBox}>
           <View style={styles.divide} />
-          <Text style={styles.divideText}>또는 이메일로 가입하기</Text>
+          <Text style={styles.divideText}>또는 이메일로 로그인하기</Text>
           <View style={styles.divide} />
         </View>
         <View style={styles.inputContainer}>
@@ -47,36 +49,16 @@ const Login = ({ navigation }: Props) => {
             secureTextEntry
           />
         </View>
-        <View style={styles.agreeContainer}>
-          <View style={[styles.AgreeBox, styles.allAgreeBox]}>
-            <Pressable style={styles.agreeButton}>
-              <View style={styles.checkBox} />
-              <Text style={[styles.checkBoxText, styles.allAgreeText]}>
-                전체 동의
-              </Text>
-            </Pressable>
-          </View>
-          <View>
-            <View style={styles.AgreeBox}>
-              <Pressable style={styles.agreeButton}>
-                <View style={styles.checkBox} />
-                <Text style={styles.checkBoxText}>서비스 이용약관 동의</Text>
-              </Pressable>
-            </View>
-            <View style={styles.AgreeBox}>
-              <Pressable style={styles.agreeButton}>
-                <View style={styles.checkBox} />
-                <Text style={styles.checkBoxText}>개인정보 처리방침 동의</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
         <Pressable style={styles.signUpButton}>
-          <Text style={styles.signUpButtonText}>가입하기</Text>
+          <Text style={styles.signUpButtonText}>로그인하기</Text>
         </Pressable>
         <View style={styles.loginButton}>
           <Pressable onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.loginButtonText}>회원가입하기</Text>
+            <Text style={styles.loginButtonText}>비밀번호 찾기</Text>
+          </Pressable>
+          <View style={styles.divideCol} />
+          <Pressable onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.loginButtonText}>회원가입</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -178,6 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingVertical: 22,
     alignItems: 'center',
+    marginTop: 18,
   },
   signUpButtonText: {
     color: theme.color.white,
@@ -188,10 +171,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 26,
     paddingBottom: 90,
+    flexDirection: 'row',
+    position: 'relative',
   },
   loginButtonText: {
     color: theme.color.black1,
+    width: (windowWidth - 36) / 2,
+    textAlign: 'center',
     fontWeight: '400',
     fontSize: 16,
+  },
+  divideCol: {
+    height: 16,
+    borderRightWidth: 1,
+    borderColor: theme.color.gray1,
+    top: 2,
   },
 });
