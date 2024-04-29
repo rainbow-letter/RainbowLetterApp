@@ -6,6 +6,7 @@ const PASSWORD_ERROR_CODE = [
   '비밀번호는 영문, 숫자를 조합하여 8글자 이상으로 입력해주세요.',
   '이메일 및 비밀번호를 확인 해주세요.',
   '탈퇴된 계정입니다.',
+  '항목을 입력해주세요.',
 ];
 
 const validateEmail = (email: string) => {

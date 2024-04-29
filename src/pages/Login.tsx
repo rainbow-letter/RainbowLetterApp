@@ -131,7 +131,7 @@ const Login = ({ navigation }: Props) => {
           <Text style={styles.LoginButtonText}>로그인하기</Text>
         </Pressable>
         <View style={styles.subButton}>
-          <Pressable onPress={() => navigation.navigate('SignUp')}>
+          <Pressable onPress={() => navigation.navigate('Email')}>
             <Text style={styles.subButtonText}>비밀번호 찾기</Text>
           </Pressable>
           <View style={styles.divideCol} />
