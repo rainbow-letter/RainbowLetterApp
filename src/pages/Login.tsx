@@ -8,19 +8,73 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
+import axios from 'axios';
 
 import { RootStackParamList } from '../../Appinner';
 import naver from '../assets/login_naver_icon.png';
 import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
+import { handleErrorData } from '../utils/validate';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+
 const windowWidth = Dimensions.get('window').width;
 
+type ErrorData = {
+  category: string;
+  message: string;
+};
+
 const Login = ({ navigation }: Props) => {
+  const [profile, setProfile] = useState({
+    email: '',
+    password: '',
+  });
+  const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
+    null,
+  );
+  const emailRef = useRef<TextInput | null>(null);
+  const passwordRef = useRef<TextInput | null>(null);
+
+  useEffect(() => {
+    setErrorData(null);
+  }, [profile]);
+
+  const onChangeEmail = useCallback(
+    (email: string) => {
+      setProfile({ ...profile, email: email });
+    },
+    [profile],
+  );
+
+  const onChangePassword = useCallback(
+    (password: string) => {
+      setProfile({ ...profile, password: password });
+    },
+    [profile],
+  );
+
+  const onClickLoginButton = useCallback(async () => {
+    try {
+      const { data } = await axios.post(
+        'https://rainbowletter.handwoong.com/api/members/login',
+        profile,
+      );
+      console.log(data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const data = handleErrorData(error.response && error.response.data);
+        setErrorData(data);
+      }
+      console.log(error);
+    }
+  }, [profile]);
+
+  const canClick = profile.email && profile.password && !errorData;
+
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
       <ScrollView style={styles.container}>
@@ -42,23 +96,47 @@ const Login = ({ navigation }: Props) => {
           <View style={styles.divide} />
         </View>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="이메일을 입력해주세요" style={styles.input} />
+          <TextInput
+            placeholder="이메일을 입력해주세요"
+            style={styles.input}
+            autoCapitalize="none"
+            ref={emailRef}
+            keyboardType="email-address"
+            value={profile.email}
+            onChangeText={onChangeEmail}
+            onSubmitEditing={() => {
+              passwordRef.current?.focus();
+            }}
+          />
           <TextInput
             placeholder="비밀번호를 입력해주세요"
             style={styles.input}
+            value={profile.password}
+            autoCapitalize="none"
             secureTextEntry
+            onChangeText={onChangePassword}
+            ref={passwordRef}
           />
+          <Text style={styles.errorMessage}>
+            {errorData?.message && errorData.message}
+          </Text>
         </View>
-        <Pressable style={styles.signUpButton}>
-          <Text style={styles.signUpButtonText}>로그인하기</Text>
+        <Pressable
+          style={
+            !canClick
+              ? styles.LoginButton
+              : [styles.LoginButton, styles.LoginButtonActive]
+          }
+          onPress={onClickLoginButton}>
+          <Text style={styles.LoginButtonText}>로그인하기</Text>
         </Pressable>
-        <View style={styles.loginButton}>
+        <View style={styles.subButton}>
           <Pressable onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.loginButtonText}>비밀번호 찾기</Text>
+            <Text style={styles.subButtonText}>비밀번호 찾기</Text>
           </Pressable>
           <View style={styles.divideCol} />
           <Pressable onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.loginButtonText}>회원가입</Text>
+            <Text style={styles.subButtonText}>회원가입</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -112,8 +190,7 @@ const styles = StyleSheet.create({
     borderColor: theme.color.gray1,
   },
   inputContainer: {
-    paddingVertical: 14,
-    gap: 12,
+    paddingVertical: 4,
   },
   input: {
     fontSize: 14,
@@ -122,59 +199,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: theme.color.gray2,
     borderRadius: 15,
+    marginTop: 10,
   },
-  agreeContainer: {
-    paddingTop: 20,
-    paddingBottom: 25,
-  },
-  AgreeBox: {
-    paddingHorizontal: 23,
-    borderRadius: 15,
-    marginTop: 13,
-  },
-  allAgreeBox: {
-    backgroundColor: theme.color.gray2,
-    paddingVertical: 15,
-  },
-  allAgreeText: {
-    fontWeight: '500',
-  },
-  agreeButton: {
-    flexDirection: 'row',
-    gap: 15,
-    alignItems: 'center',
-  },
-  checkBox: {
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    borderColor: theme.color.orange,
-    backgroundColor: 'white',
-  },
-  checkBoxText: {
-    color: theme.color.black1,
-  },
-  signUpButton: {
-    backgroundColor: theme.color.orange,
+  LoginButton: {
+    backgroundColor: theme.color.gray1,
     borderRadius: 15,
     paddingVertical: 22,
     alignItems: 'center',
     marginTop: 18,
   },
-  signUpButtonText: {
+  LoginButtonActive: {
+    backgroundColor: theme.color.orange,
+  },
+  LoginButtonText: {
     color: theme.color.white,
     fontSize: 20,
     fontWeight: '700',
   },
-  loginButton: {
+  subButton: {
     alignItems: 'center',
     marginTop: 26,
     paddingBottom: 90,
     flexDirection: 'row',
     position: 'relative',
   },
-  loginButtonText: {
+  subButtonText: {
     color: theme.color.black1,
     width: (windowWidth - 36) / 2,
     textAlign: 'center',
@@ -186,5 +235,11 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: theme.color.gray1,
     top: 2,
+  },
+  errorMessage: {
+    fontSize: 14,
+    paddingLeft: 10,
+    marginTop: 8,
+    color: theme.color.red,
   },
 });
