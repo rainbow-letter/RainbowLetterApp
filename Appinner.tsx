@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from './src/pages/SignUp';
 import Login from './src/pages/Login';
 import Home from './src/pages/Home';
-import goBackImg from './src/assets/header_goBack.png';
 import GoBack from './src/components/GoBack';
 
 export type RootStackParamList = {
@@ -30,7 +29,7 @@ const Appinner = () => {
           component={SignUp}
           options={{
             headerTitle: '회원가입',
-            headerLeft: () => <GoBack src={goBackImg} />,
+            headerLeft: () => <GoBack />,
             headerBackTitleVisible: false,
             headerShadowVisible: false,
             headerTitleAlign: 'center',
