@@ -13,7 +13,7 @@ export type RootStackParamList = {
   Login: undefined;
 };
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Appinner = () => {
   return (

@@ -7,18 +7,56 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
+import axios from 'axios';
 
 import { RootStackParamList } from '../../Appinner';
 import naver from '../assets/login_naver_icon.png';
 import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
+import { validateEmail, validatePassword } from '../utils/validate';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUp = ({ navigation }: Props) => {
+  const emailRef = useRef<TextInput | null>(null);
+  const passwordRef = useRef<TextInput | null>(null);
+  const [profile, setProfile] = useState({
+    email: '',
+    password: '',
+  });
+
+  const onChangeEmail = useCallback(
+    (value: string) => {
+      setProfile({ ...profile, email: value });
+    },
+    [profile],
+  );
+
+  const onChangePassword = useCallback(
+    (value: string) => {
+      setProfile({ ...profile, password: value });
+    },
+    [profile],
+  );
+
+  const onClickSignUpButton = useCallback(async () => {
+    try {
+      const { email, password } = profile;
+      if (!validateEmail(email)) {
+        return new Error('이메일이 다릅니다.');
+      }
+      if (!validatePassword(password)) {
+        return new Error('비밀번호가 다릅니다.');
+      }
+      await axios.post('http://localhost:3015/api/members', profile);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [profile]);
+
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
       <ScrollView style={styles.container}>
@@ -40,11 +78,23 @@ const SignUp = ({ navigation }: Props) => {
           <View style={styles.divide} />
         </View>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="이메일을 입력해주세요" style={styles.input} />
+          <TextInput
+            placeholder="이메일을 입력해주세요"
+            style={styles.input}
+            onChangeText={onChangeEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            ref={emailRef}
+            onSubmitEditing={() => {
+              passwordRef.current?.focus();
+            }}
+          />
           <TextInput
             placeholder="비밀번호를 입력해주세요"
             style={styles.input}
             secureTextEntry
+            onChangeText={onChangePassword}
+            ref={passwordRef}
           />
         </View>
         <View style={styles.agreeContainer}>
@@ -71,7 +121,7 @@ const SignUp = ({ navigation }: Props) => {
             </View>
           </View>
         </View>
-        <Pressable style={styles.signUpButton}>
+        <Pressable style={styles.signUpButton} onPress={onClickSignUpButton}>
           <Text style={styles.signUpButtonText}>가입하기</Text>
         </Pressable>
         <View style={styles.loginButton}>
