@@ -229,7 +229,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
   },
-
   loginButton: {
     alignItems: 'center',
     marginTop: 26,
