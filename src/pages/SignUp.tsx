@@ -6,19 +6,65 @@ import {
   Pressable,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
-import React from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
+import axios from 'axios';
 
 import { RootStackParamList } from '../../Appinner';
 import naver from '../assets/login_naver_icon.png';
 import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
+import { validateEmail, validatePassword } from '../utils/validate';
+import CheckBox from '../components/CheckBox';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUp = ({ navigation }: Props) => {
+  const emailRef = useRef<TextInput | null>(null);
+  const passwordRef = useRef<TextInput | null>(null);
+  const [profile, setProfile] = useState({
+    email: '',
+    password: '',
+  });
+  const [isChecked, setIsChecked] = useState(false);
+
+  const onChangeEmail = useCallback(
+    (value: string) => {
+      setProfile({ ...profile, email: value });
+    },
+    [profile],
+  );
+
+  const onChangePassword = useCallback(
+    (value: string) => {
+      setProfile({ ...profile, password: value });
+    },
+    [profile],
+  );
+
+  const onClickSignUpButton = useCallback(async () => {
+    try {
+      const { email, password } = profile;
+      if (!validateEmail(email)) {
+        return new Error('이메일이 다릅니다.');
+      }
+      if (!validatePassword(password)) {
+        return new Error('비밀번호가 다릅니다.');
+      }
+      if (!isChecked) {
+        return Alert.alert(
+          '서비스 이용약관 및 개인정보 처리방침 동의를 해주세요.',
+        );
+      }
+      await axios.post('http://localhost:3015/api/members', profile);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [profile, isChecked]);
+
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
       <ScrollView style={styles.container}>
@@ -26,10 +72,10 @@ const SignUp = ({ navigation }: Props) => {
           <Text style={styles.title}>무료로 편지를 써보세요!</Text>
           <Text style={styles.subTitle}>SNS로 간편 가입하기</Text>
           <View style={styles.iconBox}>
-            <Pressable>
+            <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
               <Image source={google} style={styles.icon} />
             </Pressable>
-            <Pressable>
+            <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
               <Image source={naver} style={styles.icon} />
             </Pressable>
           </View>
@@ -40,38 +86,27 @@ const SignUp = ({ navigation }: Props) => {
           <View style={styles.divide} />
         </View>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="이메일을 입력해주세요" style={styles.input} />
+          <TextInput
+            placeholder="이메일을 입력해주세요"
+            style={styles.input}
+            onChangeText={onChangeEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            ref={emailRef}
+            onSubmitEditing={() => {
+              passwordRef.current?.focus();
+            }}
+          />
           <TextInput
             placeholder="비밀번호를 입력해주세요"
             style={styles.input}
             secureTextEntry
+            onChangeText={onChangePassword}
+            ref={passwordRef}
           />
         </View>
-        <View style={styles.agreeContainer}>
-          <View style={[styles.AgreeBox, styles.allAgreeBox]}>
-            <Pressable style={styles.agreeButton}>
-              <View style={styles.checkBox} />
-              <Text style={[styles.checkBoxText, styles.allAgreeText]}>
-                전체 동의
-              </Text>
-            </Pressable>
-          </View>
-          <View>
-            <View style={styles.AgreeBox}>
-              <Pressable style={styles.agreeButton}>
-                <View style={styles.checkBox} />
-                <Text style={styles.checkBoxText}>서비스 이용약관 동의</Text>
-              </Pressable>
-            </View>
-            <View style={styles.AgreeBox}>
-              <Pressable style={styles.agreeButton}>
-                <View style={styles.checkBox} />
-                <Text style={styles.checkBoxText}>개인정보 처리방침 동의</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-        <Pressable style={styles.signUpButton}>
+        <CheckBox setIsChecked={setIsChecked} />
+        <Pressable style={styles.signUpButton} onPress={onClickSignUpButton}>
           <Text style={styles.signUpButtonText}>가입하기</Text>
         </Pressable>
         <View style={styles.loginButton}>
@@ -140,38 +175,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: theme.color.gray2,
     borderRadius: 15,
-  },
-  agreeContainer: {
-    paddingTop: 20,
-    paddingBottom: 25,
-  },
-  AgreeBox: {
-    paddingHorizontal: 23,
-    borderRadius: 15,
-    marginTop: 13,
-  },
-  allAgreeBox: {
-    backgroundColor: theme.color.gray2,
-    paddingVertical: 15,
-  },
-  allAgreeText: {
-    fontWeight: '500',
-  },
-  agreeButton: {
-    flexDirection: 'row',
-    gap: 15,
-    alignItems: 'center',
-  },
-  checkBox: {
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    borderColor: theme.color.orange,
-    backgroundColor: 'white',
-  },
-  checkBoxText: {
-    color: theme.color.black1,
   },
   signUpButton: {
     backgroundColor: theme.color.orange,
