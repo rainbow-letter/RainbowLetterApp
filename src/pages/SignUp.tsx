@@ -8,7 +8,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
 import axios from 'axios';
@@ -17,10 +17,15 @@ import { RootStackParamList } from '../../Appinner';
 import naver from '../assets/login_naver_icon.png';
 import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
-import { validateEmail, validatePassword } from '../utils/validate';
+import { handleErrorData } from '../utils/validate';
 import Agree from '../components/Agree';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+
+type ErrorData = {
+  category: string;
+  message: string;
+};
 
 const SignUp = ({ navigation }: Props) => {
   const emailRef = useRef<TextInput | null>(null);
@@ -30,6 +35,15 @@ const SignUp = ({ navigation }: Props) => {
     password: '',
   });
   const [isChecked, setIsChecked] = useState(false);
+  const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
+    null,
+  );
+
+  const canClick = profile.email && profile.password && isChecked && !errorData;
+
+  useEffect(() => {
+    setErrorData(null);
+  }, [profile]);
 
   const onChangeEmail = useCallback(
     (value: string) => {
@@ -47,23 +61,24 @@ const SignUp = ({ navigation }: Props) => {
 
   const onClickSignUpButton = useCallback(async () => {
     try {
-      const { email, password } = profile;
-      if (!validateEmail(email)) {
-        return new Error('이메일이 다릅니다.');
-      }
-      if (!validatePassword(password)) {
-        return new Error('비밀번호가 다릅니다.');
-      }
       if (!isChecked) {
         return Alert.alert(
           '서비스 이용약관 및 개인정보 처리방침 동의를 해주세요.',
         );
       }
-      await axios.post('http://localhost:3015/api/members', profile);
+      await axios.post(
+        'https://rainbowletter.handwoong.com/api/members',
+        profile,
+      );
+      navigation.push('Home');
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const data = handleErrorData(error.response && error.response.data);
+        setErrorData(data);
+      }
       console.log(error);
     }
-  }, [profile, isChecked]);
+  }, [profile, isChecked, navigation]);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
@@ -89,6 +104,7 @@ const SignUp = ({ navigation }: Props) => {
           <TextInput
             placeholder="이메일을 입력해주세요"
             style={styles.input}
+            value={profile.email}
             onChangeText={onChangeEmail}
             autoCapitalize="none"
             keyboardType="email-address"
@@ -97,16 +113,39 @@ const SignUp = ({ navigation }: Props) => {
               passwordRef.current?.focus();
             }}
           />
+          <Text
+            style={
+              errorData?.category === 'email'
+                ? styles.errorMessage
+                : [styles.errorMessage, styles.none]
+            }>
+            {errorData?.category === 'email' && errorData.message}
+          </Text>
           <TextInput
             placeholder="비밀번호를 입력해주세요"
             style={styles.input}
+            value={profile.password}
             secureTextEntry
             onChangeText={onChangePassword}
             ref={passwordRef}
           />
+          <Text
+            style={
+              errorData?.category === 'password'
+                ? styles.errorMessage
+                : [styles.errorMessage, styles.none]
+            }>
+            {errorData?.category === 'password' && errorData.message}
+          </Text>
         </View>
         <Agree isChecked={isChecked} setIsChecked={setIsChecked} />
-        <Pressable style={styles.signUpButton} onPress={onClickSignUpButton}>
+        <Pressable
+          style={
+            !canClick
+              ? styles.signUpButton
+              : [styles.signUpButton, styles.signUpButtonActive]
+          }
+          onPress={onClickSignUpButton}>
           <Text style={styles.signUpButtonText}>가입하기</Text>
         </Pressable>
         <View style={styles.loginButton}>
@@ -165,8 +204,7 @@ const styles = StyleSheet.create({
     borderColor: theme.color.gray1,
   },
   inputContainer: {
-    paddingVertical: 14,
-    gap: 12,
+    paddingVertical: 4,
   },
   input: {
     fontSize: 14,
@@ -175,18 +213,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: theme.color.gray2,
     borderRadius: 15,
+    marginTop: 10,
   },
   signUpButton: {
-    backgroundColor: theme.color.orange,
+    backgroundColor: theme.color.gray1,
     borderRadius: 15,
     paddingVertical: 22,
     alignItems: 'center',
+  },
+  signUpButtonActive: {
+    backgroundColor: theme.color.orange,
   },
   signUpButtonText: {
     color: theme.color.white,
     fontSize: 20,
     fontWeight: '700',
   },
+
   loginButton: {
     alignItems: 'center',
     marginTop: 26,
@@ -196,5 +239,14 @@ const styles = StyleSheet.create({
     color: theme.color.black1,
     fontWeight: '400',
     fontSize: 16,
+  },
+  errorMessage: {
+    fontSize: 14,
+    paddingLeft: 10,
+    marginTop: 8,
+    color: theme.color.red,
+  },
+  none: {
+    display: 'none',
   },
 });
