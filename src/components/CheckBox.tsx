@@ -1,81 +1,34 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 
-import Check from '../assets/signUp_check.svg';
 import { theme } from '../constants/theme';
+import Check from '../assets/signUp_check.svg';
 
 type Props = {
-  setIsChecked: (isChecked: boolean) => void;
+  item: string[];
+  text: string;
+  onClick: (text: string) => void;
 };
 
-type CheckListType = {
-  id: number;
-  name: string;
-};
-
-const CHECK_LIST: CheckListType[] = [
-  { id: 0, name: '서비스 이용약관 동의' },
-  { id: 1, name: '개인정보 처리방침 동의' },
-];
-
-const CheckBox = ({ setIsChecked }: Props) => {
-  const [checkItems, setCheckItems] = useState<string[]>([]);
-
-  const handleAllCheck = useCallback(() => {
-    setCheckItems(CHECK_LIST.map(item => item.name));
-  }, []);
-
-  console.log(checkItems);
+const CheckBox = ({ item, text, onClick }: Props) => {
   return (
-    <View style={styles.agreeContainer}>
-      <View style={[styles.AgreeBox, styles.allAgreeBox]}>
-        <Pressable style={styles.agreeButton} onPress={handleAllCheck}>
-          <View style={styles.checkBox} />
-          <Check style={styles.check} />
-          <Text style={[styles.checkBoxText, styles.allAgreeText]}>
-            전체 동의
-          </Text>
-        </Pressable>
-      </View>
-      <View>
-        <View style={styles.AgreeBox}>
-          <Pressable style={styles.agreeButton}>
-            <View style={styles.checkBox} />
-            <Check style={styles.check} />
-            <Text style={styles.checkBoxText}>서비스 이용약관 동의</Text>
-          </Pressable>
-        </View>
-        <View style={styles.AgreeBox}>
-          <Pressable style={styles.agreeButton}>
-            <View style={styles.checkBox} />
-            <Check style={styles.check} />
-            <Text style={styles.checkBoxText}>개인정보 처리방침 동의</Text>
-          </Pressable>
-        </View>
-      </View>
-    </View>
+    <Pressable style={styles.agreeButton} onPress={() => onClick(text)}>
+      <View
+        style={
+          !item.includes(text)
+            ? styles.checkBox
+            : [styles.checkBox, styles.checkedBox]
+        }
+      />
+      <Check style={styles.check} />
+      <Text style={styles.checkBoxText}>{text}</Text>
+    </Pressable>
   );
 };
 
 export default CheckBox;
 
 const styles = StyleSheet.create({
-  agreeContainer: {
-    paddingTop: 20,
-    paddingBottom: 25,
-  },
-  AgreeBox: {
-    paddingHorizontal: 23,
-    borderRadius: 15,
-    marginTop: 13,
-  },
-  allAgreeBox: {
-    backgroundColor: theme.color.gray2,
-    paddingVertical: 15,
-  },
-  allAgreeText: {
-    fontWeight: '500',
-  },
   agreeButton: {
     flexDirection: 'row',
     gap: 15,
@@ -93,6 +46,9 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderColor: theme.color.orange,
+    backgroundColor: 'white',
+  },
+  checkedBox: {
     backgroundColor: theme.color.orange,
   },
   checkBoxText: {

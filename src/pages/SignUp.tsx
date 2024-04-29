@@ -18,7 +18,7 @@ import naver from '../assets/login_naver_icon.png';
 import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 import { validateEmail, validatePassword } from '../utils/validate';
-import CheckBox from '../components/CheckBox';
+import Agree from '../components/Agree';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -105,7 +105,7 @@ const SignUp = ({ navigation }: Props) => {
             ref={passwordRef}
           />
         </View>
-        <CheckBox setIsChecked={setIsChecked} />
+        <Agree isChecked={isChecked} setIsChecked={setIsChecked} />
         <Pressable style={styles.signUpButton} onPress={onClickSignUpButton}>
           <Text style={styles.signUpButtonText}>가입하기</Text>
         </Pressable>
