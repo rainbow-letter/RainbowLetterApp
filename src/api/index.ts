@@ -17,6 +17,7 @@ const apiRequest = {
   get: (url: string, request?: any) => baseInstance.get(url, request),
   post: (url: string, data: any, config?: any) =>
     baseInstance.post(url, data, config),
+  put: (url: string, data: any) => baseInstance.put(url, data),
   delete: (url: string, requset?: any) => baseInstance.delete(url, requset),
 };
 

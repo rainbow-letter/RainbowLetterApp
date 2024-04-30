@@ -7,12 +7,14 @@ import Login from './src/pages/Login';
 import Home from './src/pages/Home';
 import GoBack from './src/components/GoBack';
 import Email from './src/pages/Email';
+import Reset from './src/pages/Reset';
 
 export type RootStackParamList = {
   Home: undefined;
   SignUp: undefined;
   Login: undefined;
   Email: undefined;
+  Reset: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -59,6 +61,20 @@ const Appinner = () => {
           component={Email}
           options={{
             headerTitle: '비밀번호 찾기',
+            headerLeft: () => <GoBack />,
+            headerBackTitleVisible: false,
+            headerShadowVisible: false,
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Reset"
+          component={Reset}
+          options={{
+            headerTitle: '비밀번호 변경',
             headerLeft: () => <GoBack />,
             headerBackTitleVisible: false,
             headerShadowVisible: false,

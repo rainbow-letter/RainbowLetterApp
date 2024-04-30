@@ -20,8 +20,10 @@ import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
 import Agree from '../components/Agree';
-import { trySignUp } from '../api/account';
+import { tryLogin, trySignUp } from '../api/account';
 import DismissKeyboardView from '../hooks/DismissKeyboardView';
+import accountSlice from '../slices/account';
+import { useAppDispatch } from '../store';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -31,6 +33,7 @@ type ErrorData = {
 };
 
 const SignUp = ({ navigation }: Props) => {
+  const dispatch = useAppDispatch();
   const emailRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
   const [profile, setProfile] = useState({
@@ -38,10 +41,10 @@ const SignUp = ({ navigation }: Props) => {
     password: '',
   });
   const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
-  const [isLoading, setIsLoading] = useState(false);
 
   const canClick =
     profile.email && profile.password && isChecked && !errorData && !isLoading;
@@ -73,17 +76,22 @@ const SignUp = ({ navigation }: Props) => {
         );
       }
       await trySignUp(profile);
-      navigation.push('Home');
+      const { token } = await tryLogin(profile);
+      dispatch(
+        accountSlice.actions.setToken({
+          token: token,
+        }),
+      );
+      navigation.navigate('Home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const data = handleErrorData(error.response && error.response.data);
         setErrorData(data);
       }
-      console.log(error);
     } finally {
       setIsLoading(false);
     }
-  }, [profile, isChecked, navigation]);
+  }, [profile, isChecked, dispatch, navigation]);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>

@@ -12,6 +12,9 @@ const Home = ({ navigation }: any) => {
       <Pressable onPress={() => navigation.push('Login')}>
         <Text>로그인</Text>
       </Pressable>
+      <Pressable onPress={() => navigation.push('Reset')}>
+        <Text>비밀번호 변경</Text>
+      </Pressable>
     </SafeAreaView>
   );
 };

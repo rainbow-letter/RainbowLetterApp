@@ -21,6 +21,8 @@ import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
 import { tryLogin } from '../api/account';
 import DismissKeyboardView from '../hooks/DismissKeyboardView';
+import accountSlice from '../slices/account';
+import { useAppDispatch } from '../store';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -32,8 +34,10 @@ type ErrorData = {
 };
 
 const Login = ({ navigation }: Props) => {
+  const dispatch = useAppDispatch();
   const emailRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [profile, setProfile] = useState({
     email: '',
     password: '',
@@ -41,7 +45,6 @@ const Login = ({ navigation }: Props) => {
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setErrorData(null);
@@ -64,8 +67,13 @@ const Login = ({ navigation }: Props) => {
   const onClickLoginButton = useCallback(async () => {
     try {
       setIsLoading(true);
-      const { data } = await tryLogin(profile);
-      console.log(data);
+      const { token } = await tryLogin(profile);
+      dispatch(
+        accountSlice.actions.setToken({
+          token: token,
+        }),
+      );
+      navigation.navigate('Home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const data = handleErrorData(error.response && error.response.data);
@@ -74,7 +82,7 @@ const Login = ({ navigation }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, [profile]);
+  }, [profile, dispatch, navigation]);
 
   const canClick =
     profile.email && profile.password && !errorData && !isLoading;

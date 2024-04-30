@@ -51,7 +51,6 @@ const Email = () => {
         const data = handleErrorData(error.response && error.response.data);
         setErrorData(data);
       }
-      console.log(error);
     } finally {
       setIsLoading(false);
     }
