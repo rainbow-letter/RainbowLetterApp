@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
@@ -19,6 +20,7 @@ import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
 import Agree from '../components/Agree';
+import { trySignUp } from '../api/account';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -38,8 +40,10 @@ const SignUp = ({ navigation }: Props) => {
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
+  const [isLoading, setIsLoading] = useState(false);
 
-  const canClick = profile.email && profile.password && isChecked && !errorData;
+  const canClick =
+    profile.email && profile.password && isChecked && !errorData && !isLoading;
 
   useEffect(() => {
     setErrorData(null);
@@ -61,15 +65,13 @@ const SignUp = ({ navigation }: Props) => {
 
   const onClickSignUpButton = useCallback(async () => {
     try {
+      setIsLoading(true);
       if (!isChecked) {
         return Alert.alert(
           '서비스 이용약관 및 개인정보 처리방침 동의를 해주세요.',
         );
       }
-      await axios.post(
-        'https://rainbowletter.handwoong.com/api/members',
-        profile,
-      );
+      await trySignUp(profile);
       navigation.push('Home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -77,6 +79,8 @@ const SignUp = ({ navigation }: Props) => {
         setErrorData(data);
       }
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }, [profile, isChecked, navigation]);
 
@@ -103,7 +107,11 @@ const SignUp = ({ navigation }: Props) => {
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="이메일을 입력해주세요"
-            style={styles.input}
+            style={
+              errorData?.category === 'email'
+                ? [styles.input, styles.errorInput]
+                : styles.input
+            }
             value={profile.email}
             onChangeText={onChangeEmail}
             autoCapitalize="none"
@@ -123,7 +131,11 @@ const SignUp = ({ navigation }: Props) => {
           </Text>
           <TextInput
             placeholder="비밀번호를 입력해주세요"
-            style={styles.input}
+            style={
+              errorData?.category === 'password'
+                ? [styles.input, styles.errorInput]
+                : styles.input
+            }
             value={profile.password}
             secureTextEntry
             onChangeText={onChangePassword}
@@ -140,13 +152,18 @@ const SignUp = ({ navigation }: Props) => {
         </View>
         <Agree isChecked={isChecked} setIsChecked={setIsChecked} />
         <Pressable
+          disabled={!canClick}
           style={
             !canClick
               ? styles.signUpButton
               : [styles.signUpButton, styles.signUpButtonActive]
           }
           onPress={onClickSignUpButton}>
-          <Text style={styles.signUpButtonText}>가입하기</Text>
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.signUpButtonText}>가입하기</Text>
+          )}
         </Pressable>
         <View style={styles.loginButton}>
           <Pressable onPress={() => navigation.navigate('Login')}>
@@ -247,5 +264,9 @@ const styles = StyleSheet.create({
   },
   none: {
     display: 'none',
+  },
+  errorInput: {
+    borderWidth: 1,
+    borderColor: theme.color.red,
   },
 });

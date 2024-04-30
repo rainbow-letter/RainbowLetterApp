@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   Linking,
   Pressable,
@@ -13,6 +14,7 @@ import axios from 'axios';
 
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
+import { submitEmail } from '../api/account';
 
 type ErrorData = {
   category: string;
@@ -26,6 +28,7 @@ const Email = () => {
   const [errorData, setErrorData] = useState<ErrorData | undefined | null>(
     null,
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setErrorData(null);
@@ -40,10 +43,8 @@ const Email = () => {
 
   const onSubmitButtonClick = useCallback(async () => {
     try {
-      await axios.post(
-        'https://rainbowletter.handwoong.com/api/members/password/find',
-        profile,
-      );
+      setIsLoading(true);
+      await submitEmail(profile);
       Alert.alert('비밀번호 변경 메일이 발송됐어요!');
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -51,6 +52,8 @@ const Email = () => {
         setErrorData(data);
       }
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }, [profile]);
 
@@ -74,8 +77,15 @@ const Email = () => {
           <Text style={styles.errorMessage}>
             {errorData?.message && errorData.message}
           </Text>
-          <Pressable style={styles.submitButton} onPress={onSubmitButtonClick}>
-            <Text style={styles.submitButtonText}>제출하기</Text>
+          <Pressable
+            disabled={isLoading}
+            style={styles.submitButton}
+            onPress={onSubmitButtonClick}>
+            {isLoading ? (
+              <ActivityIndicator />
+            ) : (
+              <Text style={styles.submitButtonText}>제출하기</Text>
+            )}
           </Pressable>
         </View>
         <View style={styles.noticeContainer}>

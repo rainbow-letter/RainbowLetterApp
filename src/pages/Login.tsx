@@ -7,19 +7,19 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
-  Platform,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
 import axios from 'axios';
-import Config from 'react-native-config';
 
 import { RootStackParamList } from '../../Appinner';
 import naver from '../assets/login_naver_icon.png';
 import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
+import { tryLogin } from '../api/account';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -31,6 +31,8 @@ type ErrorData = {
 };
 
 const Login = ({ navigation }: Props) => {
+  const emailRef = useRef<TextInput | null>(null);
+  const passwordRef = useRef<TextInput | null>(null);
   const [profile, setProfile] = useState({
     email: '',
     password: '',
@@ -38,8 +40,7 @@ const Login = ({ navigation }: Props) => {
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
-  const emailRef = useRef<TextInput | null>(null);
-  const passwordRef = useRef<TextInput | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setErrorData(null);
@@ -61,22 +62,21 @@ const Login = ({ navigation }: Props) => {
 
   const onClickLoginButton = useCallback(async () => {
     try {
-      const { data } = await axios.post(
-        `${
-          Platform.OS === 'ios' ? Config.API_URL : Config.API_URL + '/'
-        }api/members/login`,
-        profile,
-      );
+      setIsLoading(true);
+      const { data } = await tryLogin(profile);
       console.log(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const data = handleErrorData(error.response && error.response.data);
         setErrorData(data);
       }
+    } finally {
+      setIsLoading(false);
     }
   }, [profile]);
 
-  const canClick = profile.email && profile.password && !errorData;
+  const canClick =
+    profile.email && profile.password && !errorData && !isLoading;
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
@@ -101,7 +101,11 @@ const Login = ({ navigation }: Props) => {
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="이메일을 입력해주세요"
-            style={styles.input}
+            style={
+              !errorData?.message
+                ? styles.input
+                : [styles.input, styles.errorInput]
+            }
             autoCapitalize="none"
             ref={emailRef}
             keyboardType="email-address"
@@ -113,7 +117,11 @@ const Login = ({ navigation }: Props) => {
           />
           <TextInput
             placeholder="비밀번호를 입력해주세요"
-            style={styles.input}
+            style={
+              !errorData?.message
+                ? styles.input
+                : [styles.input, styles.errorInput]
+            }
             value={profile.password}
             autoCapitalize="none"
             secureTextEntry
@@ -125,13 +133,18 @@ const Login = ({ navigation }: Props) => {
           </Text>
         </View>
         <Pressable
+          disabled={!canClick}
           style={
             !canClick
               ? styles.LoginButton
               : [styles.LoginButton, styles.LoginButtonActive]
           }
           onPress={onClickLoginButton}>
-          <Text style={styles.LoginButtonText}>로그인하기</Text>
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.LoginButtonText}>로그인하기</Text>
+          )}
         </Pressable>
         <View style={styles.subButton}>
           <Pressable onPress={() => navigation.navigate('Email')}>
@@ -244,5 +257,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginTop: 8,
     color: theme.color.red,
+  },
+  errorInput: {
+    borderWidth: 1,
+    borderColor: theme.color.red,
   },
 });
