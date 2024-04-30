@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
@@ -30,6 +31,8 @@ type ErrorData = {
 };
 
 const Login = ({ navigation }: Props) => {
+  const emailRef = useRef<TextInput | null>(null);
+  const passwordRef = useRef<TextInput | null>(null);
   const [profile, setProfile] = useState({
     email: '',
     password: '',
@@ -37,8 +40,7 @@ const Login = ({ navigation }: Props) => {
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
-  const emailRef = useRef<TextInput | null>(null);
-  const passwordRef = useRef<TextInput | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setErrorData(null);
@@ -60,6 +62,7 @@ const Login = ({ navigation }: Props) => {
 
   const onClickLoginButton = useCallback(async () => {
     try {
+      setIsLoading(true);
       const { data } = await tryLogin(profile);
       console.log(data);
     } catch (error) {
@@ -67,10 +70,13 @@ const Login = ({ navigation }: Props) => {
         const data = handleErrorData(error.response && error.response.data);
         setErrorData(data);
       }
+    } finally {
+      setIsLoading(false);
     }
   }, [profile]);
 
-  const canClick = profile.email && profile.password && !errorData;
+  const canClick =
+    profile.email && profile.password && !errorData && !isLoading;
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
@@ -119,13 +125,18 @@ const Login = ({ navigation }: Props) => {
           </Text>
         </View>
         <Pressable
+          disabled={!canClick}
           style={
             !canClick
               ? styles.LoginButton
               : [styles.LoginButton, styles.LoginButtonActive]
           }
           onPress={onClickLoginButton}>
-          <Text style={styles.LoginButtonText}>로그인하기</Text>
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.LoginButtonText}>로그인하기</Text>
+          )}
         </Pressable>
         <View style={styles.subButton}>
           <Pressable onPress={() => navigation.navigate('Email')}>

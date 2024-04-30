@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   Linking,
   Pressable,
@@ -27,6 +28,7 @@ const Email = () => {
   const [errorData, setErrorData] = useState<ErrorData | undefined | null>(
     null,
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setErrorData(null);
@@ -41,6 +43,7 @@ const Email = () => {
 
   const onSubmitButtonClick = useCallback(async () => {
     try {
+      setIsLoading(true);
       await submitEmail(profile);
       Alert.alert('비밀번호 변경 메일이 발송됐어요!');
     } catch (error) {
@@ -49,6 +52,8 @@ const Email = () => {
         setErrorData(data);
       }
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }, [profile]);
 
@@ -72,8 +77,15 @@ const Email = () => {
           <Text style={styles.errorMessage}>
             {errorData?.message && errorData.message}
           </Text>
-          <Pressable style={styles.submitButton} onPress={onSubmitButtonClick}>
-            <Text style={styles.submitButtonText}>제출하기</Text>
+          <Pressable
+            disabled={isLoading}
+            style={styles.submitButton}
+            onPress={onSubmitButtonClick}>
+            {isLoading ? (
+              <ActivityIndicator />
+            ) : (
+              <Text style={styles.submitButtonText}>제출하기</Text>
+            )}
           </Pressable>
         </View>
         <View style={styles.noticeContainer}>

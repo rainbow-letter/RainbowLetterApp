@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
@@ -39,8 +40,10 @@ const SignUp = ({ navigation }: Props) => {
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
+  const [isLoading, setIsLoading] = useState(false);
 
-  const canClick = profile.email && profile.password && isChecked && !errorData;
+  const canClick =
+    profile.email && profile.password && isChecked && !errorData && !isLoading;
 
   useEffect(() => {
     setErrorData(null);
@@ -62,6 +65,7 @@ const SignUp = ({ navigation }: Props) => {
 
   const onClickSignUpButton = useCallback(async () => {
     try {
+      setIsLoading(true);
       if (!isChecked) {
         return Alert.alert(
           '서비스 이용약관 및 개인정보 처리방침 동의를 해주세요.',
@@ -75,6 +79,8 @@ const SignUp = ({ navigation }: Props) => {
         setErrorData(data);
       }
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }, [profile, isChecked, navigation]);
 
@@ -138,13 +144,18 @@ const SignUp = ({ navigation }: Props) => {
         </View>
         <Agree isChecked={isChecked} setIsChecked={setIsChecked} />
         <Pressable
+          disabled={!canClick}
           style={
             !canClick
               ? styles.signUpButton
               : [styles.signUpButton, styles.signUpButtonActive]
           }
           onPress={onClickSignUpButton}>
-          <Text style={styles.signUpButtonText}>가입하기</Text>
+          {isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.signUpButtonText}>가입하기</Text>
+          )}
         </Pressable>
         <View style={styles.loginButton}>
           <Pressable onPress={() => navigation.navigate('Login')}>
