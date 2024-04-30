@@ -107,7 +107,11 @@ const SignUp = ({ navigation }: Props) => {
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="이메일을 입력해주세요"
-            style={styles.input}
+            style={
+              errorData?.category === 'email'
+                ? [styles.input, styles.errorInput]
+                : styles.input
+            }
             value={profile.email}
             onChangeText={onChangeEmail}
             autoCapitalize="none"
@@ -127,7 +131,11 @@ const SignUp = ({ navigation }: Props) => {
           </Text>
           <TextInput
             placeholder="비밀번호를 입력해주세요"
-            style={styles.input}
+            style={
+              errorData?.category === 'password'
+                ? [styles.input, styles.errorInput]
+                : styles.input
+            }
             value={profile.password}
             secureTextEntry
             onChangeText={onChangePassword}
@@ -256,5 +264,9 @@ const styles = StyleSheet.create({
   },
   none: {
     display: 'none',
+  },
+  errorInput: {
+    borderWidth: 1,
+    borderColor: theme.color.red,
   },
 });

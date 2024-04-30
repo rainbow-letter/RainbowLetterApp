@@ -101,7 +101,11 @@ const Login = ({ navigation }: Props) => {
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="이메일을 입력해주세요"
-            style={styles.input}
+            style={
+              !errorData?.message
+                ? styles.input
+                : [styles.input, styles.errorInput]
+            }
             autoCapitalize="none"
             ref={emailRef}
             keyboardType="email-address"
@@ -113,7 +117,11 @@ const Login = ({ navigation }: Props) => {
           />
           <TextInput
             placeholder="비밀번호를 입력해주세요"
-            style={styles.input}
+            style={
+              !errorData?.message
+                ? styles.input
+                : [styles.input, styles.errorInput]
+            }
             value={profile.password}
             autoCapitalize="none"
             secureTextEntry
@@ -249,5 +257,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginTop: 8,
     color: theme.color.red,
+  },
+  errorInput: {
+    borderWidth: 1,
+    borderColor: theme.color.red,
   },
 });
