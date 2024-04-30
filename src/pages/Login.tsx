@@ -7,19 +7,18 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
-  Platform,
 } from 'react-native';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
 import axios from 'axios';
-import Config from 'react-native-config';
 
 import { RootStackParamList } from '../../Appinner';
 import naver from '../assets/login_naver_icon.png';
 import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
+import { tryLogin } from '../api/account';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -61,12 +60,7 @@ const Login = ({ navigation }: Props) => {
 
   const onClickLoginButton = useCallback(async () => {
     try {
-      const { data } = await axios.post(
-        `${
-          Platform.OS === 'ios' ? Config.API_URL : Config.API_URL + '/'
-        }api/members/login`,
-        profile,
-      );
+      const { data } = await tryLogin(profile);
       console.log(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {

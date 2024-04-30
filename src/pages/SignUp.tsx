@@ -19,6 +19,7 @@ import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
 import Agree from '../components/Agree';
+import { trySignUp } from '../api/account';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -66,10 +67,7 @@ const SignUp = ({ navigation }: Props) => {
           '서비스 이용약관 및 개인정보 처리방침 동의를 해주세요.',
         );
       }
-      await axios.post(
-        'https://rainbowletter.handwoong.com/api/members',
-        profile,
-      );
+      await trySignUp(profile);
       navigation.push('Home');
     } catch (error) {
       if (axios.isAxiosError(error)) {

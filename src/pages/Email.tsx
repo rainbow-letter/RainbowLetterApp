@@ -13,6 +13,7 @@ import axios from 'axios';
 
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
+import { submitEmail } from '../api/account';
 
 type ErrorData = {
   category: string;
@@ -40,10 +41,7 @@ const Email = () => {
 
   const onSubmitButtonClick = useCallback(async () => {
     try {
-      await axios.post(
-        'https://rainbowletter.handwoong.com/api/members/password/find',
-        profile,
-      );
+      await submitEmail(profile);
       Alert.alert('비밀번호 변경 메일이 발송됐어요!');
     } catch (error) {
       if (axios.isAxiosError(error)) {
