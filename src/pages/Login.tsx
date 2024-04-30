@@ -7,11 +7,13 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
+  Platform,
 } from 'react-native';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
 import axios from 'axios';
+import Config from 'react-native-config';
 
 import { RootStackParamList } from '../../Appinner';
 import naver from '../assets/login_naver_icon.png';
@@ -60,7 +62,9 @@ const Login = ({ navigation }: Props) => {
   const onClickLoginButton = useCallback(async () => {
     try {
       const { data } = await axios.post(
-        'https://rainbowletter.handwoong.com/api/members/login',
+        `${
+          Platform.OS === 'ios' ? Config.API_URL : Config.API_URL + '/'
+        }api/members/login`,
         profile,
       );
       console.log(data);
@@ -69,7 +73,6 @@ const Login = ({ navigation }: Props) => {
         const data = handleErrorData(error.response && error.response.data);
         setErrorData(data);
       }
-      console.log(error);
     }
   }, [profile]);
 
