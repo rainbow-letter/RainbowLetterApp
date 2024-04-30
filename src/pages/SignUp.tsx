@@ -20,7 +20,10 @@ import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
 import Agree from '../components/Agree';
-import { trySignUp } from '../api/account';
+import { tryLogin, trySignUp } from '../api/account';
+import DismissKeyboardView from '../hooks/DismissKeyboardView';
+import accountSlice from '../slices/account';
+import { useAppDispatch } from '../store';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -30,6 +33,7 @@ type ErrorData = {
 };
 
 const SignUp = ({ navigation }: Props) => {
+  const dispatch = useAppDispatch();
   const emailRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
   const [profile, setProfile] = useState({
@@ -37,10 +41,10 @@ const SignUp = ({ navigation }: Props) => {
     password: '',
   });
   const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
-  const [isLoading, setIsLoading] = useState(false);
 
   const canClick =
     profile.email && profile.password && isChecked && !errorData && !isLoading;
@@ -72,105 +76,112 @@ const SignUp = ({ navigation }: Props) => {
         );
       }
       await trySignUp(profile);
-      navigation.push('Home');
+      const { token } = await tryLogin(profile);
+      dispatch(
+        accountSlice.actions.setToken({
+          token: token,
+        }),
+      );
+      navigation.navigate('Home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const data = handleErrorData(error.response && error.response.data);
         setErrorData(data);
       }
-      console.log(error);
     } finally {
       setIsLoading(false);
     }
-  }, [profile, isChecked, navigation]);
+  }, [profile, isChecked, dispatch, navigation]);
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
-      <ScrollView style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.title}>무료로 편지를 써보세요!</Text>
-          <Text style={styles.subTitle}>SNS로 간편 가입하기</Text>
-          <View style={styles.iconBox}>
-            <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
-              <Image source={google} style={styles.icon} />
-            </Pressable>
-            <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
-              <Image source={naver} style={styles.icon} />
+      <DismissKeyboardView>
+        <ScrollView style={styles.container}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.title}>무료로 편지를 써보세요!</Text>
+            <Text style={styles.subTitle}>SNS로 간편 가입하기</Text>
+            <View style={styles.iconBox}>
+              <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
+                <Image source={google} style={styles.icon} />
+              </Pressable>
+              <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
+                <Image source={naver} style={styles.icon} />
+              </Pressable>
+            </View>
+          </View>
+          <View style={styles.divideBox}>
+            <View style={styles.divide} />
+            <Text style={styles.divideText}>또는 이메일로 가입하기</Text>
+            <View style={styles.divide} />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="이메일을 입력해주세요"
+              style={
+                errorData?.category === 'email'
+                  ? [styles.input, styles.errorInput]
+                  : styles.input
+              }
+              value={profile.email}
+              onChangeText={onChangeEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              ref={emailRef}
+              onSubmitEditing={() => {
+                passwordRef.current?.focus();
+              }}
+            />
+            <Text
+              style={
+                errorData?.category === 'email'
+                  ? styles.errorMessage
+                  : [styles.errorMessage, styles.none]
+              }>
+              {errorData?.category === 'email' && errorData.message}
+            </Text>
+            <TextInput
+              placeholder="비밀번호를 입력해주세요"
+              style={
+                errorData?.category === 'password'
+                  ? [styles.input, styles.errorInput]
+                  : styles.input
+              }
+              value={profile.password}
+              secureTextEntry
+              onChangeText={onChangePassword}
+              ref={passwordRef}
+            />
+            <Text
+              style={
+                errorData?.category === 'password'
+                  ? styles.errorMessage
+                  : [styles.errorMessage, styles.none]
+              }>
+              {errorData?.category === 'password' && errorData.message}
+            </Text>
+          </View>
+          <Agree isChecked={isChecked} setIsChecked={setIsChecked} />
+          <Pressable
+            disabled={!canClick}
+            style={
+              !canClick
+                ? styles.signUpButton
+                : [styles.signUpButton, styles.signUpButtonActive]
+            }
+            onPress={onClickSignUpButton}>
+            {isLoading ? (
+              <ActivityIndicator />
+            ) : (
+              <Text style={styles.signUpButtonText}>가입하기</Text>
+            )}
+          </Pressable>
+          <View style={styles.loginButton}>
+            <Pressable onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.loginButtonText}>로그인하기</Text>
             </Pressable>
           </View>
-        </View>
-        <View style={styles.divideBox}>
-          <View style={styles.divide} />
-          <Text style={styles.divideText}>또는 이메일로 가입하기</Text>
-          <View style={styles.divide} />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="이메일을 입력해주세요"
-            style={
-              errorData?.category === 'email'
-                ? [styles.input, styles.errorInput]
-                : styles.input
-            }
-            value={profile.email}
-            onChangeText={onChangeEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            ref={emailRef}
-            onSubmitEditing={() => {
-              passwordRef.current?.focus();
-            }}
-          />
-          <Text
-            style={
-              errorData?.category === 'email'
-                ? styles.errorMessage
-                : [styles.errorMessage, styles.none]
-            }>
-            {errorData?.category === 'email' && errorData.message}
-          </Text>
-          <TextInput
-            placeholder="비밀번호를 입력해주세요"
-            style={
-              errorData?.category === 'password'
-                ? [styles.input, styles.errorInput]
-                : styles.input
-            }
-            value={profile.password}
-            secureTextEntry
-            onChangeText={onChangePassword}
-            ref={passwordRef}
-          />
-          <Text
-            style={
-              errorData?.category === 'password'
-                ? styles.errorMessage
-                : [styles.errorMessage, styles.none]
-            }>
-            {errorData?.category === 'password' && errorData.message}
-          </Text>
-        </View>
-        <Agree isChecked={isChecked} setIsChecked={setIsChecked} />
-        <Pressable
-          disabled={!canClick}
-          style={
-            !canClick
-              ? styles.signUpButton
-              : [styles.signUpButton, styles.signUpButtonActive]
-          }
-          onPress={onClickSignUpButton}>
-          {isLoading ? (
-            <ActivityIndicator />
-          ) : (
-            <Text style={styles.signUpButtonText}>가입하기</Text>
-          )}
-        </Pressable>
-        <View style={styles.loginButton}>
-          <Pressable onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.loginButtonText}>로그인하기</Text>
-          </Pressable>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </DismissKeyboardView>
     </SafeAreaView>
   );
 };
