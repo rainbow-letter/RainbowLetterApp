@@ -20,10 +20,7 @@ const validatePassword = (password: string) => {
 };
 
 const handleErrorData = (error: any) => {
-  if (
-    EMAIL_ERROR_CODE.includes(error.message) &&
-    error.message.includes('이메일')
-  ) {
+  if (EMAIL_ERROR_CODE.includes(error.message)) {
     return { category: 'email', message: error.message };
   }
 
