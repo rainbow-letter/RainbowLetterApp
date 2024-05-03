@@ -76,10 +76,10 @@ const SignUp = ({ navigation }: Props) => {
         );
       }
       await trySignUp(profile);
-      const { token } = await tryLogin(profile);
+      const { data } = await tryLogin(profile);
       dispatch(
         accountSlice.actions.setToken({
-          token: token,
+          token: data.token,
         }),
       );
       navigation.navigate('Home');

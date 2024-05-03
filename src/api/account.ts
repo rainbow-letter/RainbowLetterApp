@@ -1,34 +1,30 @@
-import apiRequest from '.';
+import { ApiResponse } from '../model/Api.model';
+import { AxiosRequest } from './config';
+import { createRequestURL } from './config/requestConfig';
+import {
+  LoginResponse,
+  LoginRequest,
+  SignUpResponse,
+} from '../model/account.model';
 
-type Profile = {
-  email: string;
-  password?: string;
+const accountUrl = createRequestURL('api');
+
+export const tryLogin = (data: LoginRequest): ApiResponse<LoginResponse> => {
+  const config = {
+    url: accountUrl('/members/login'),
+    method: 'POST',
+    data,
+  };
+
+  return AxiosRequest(config);
 };
 
-type ResetPassword = {
-  newPassword: string;
-};
+export const trySignUp = (data: LoginRequest): ApiResponse<SignUpResponse> => {
+  const config = {
+    url: accountUrl('/members'),
+    method: 'POST',
+    data,
+  };
 
-export const tryLogin = async (data: Profile) => {
-  const response = await apiRequest.post('api/members/login', data);
-
-  return response.data;
-};
-
-export const trySignUp = async (data: Profile) => {
-  const response = await apiRequest.post('api/members', data);
-
-  return response.data;
-};
-
-export const submitEmail = async (data: Profile) => {
-  const response = await apiRequest.post('api/members/password/find', data);
-
-  return response.data;
-};
-
-export const updatePassword = async (data: ResetPassword) => {
-  const response = await apiRequest.put('api/members/password/reset', data);
-
-  return response.data;
+  return AxiosRequest(config);
 };
