@@ -8,6 +8,7 @@ import Home from './src/pages/Home';
 import GoBack from './src/components/GoBack';
 import Email from './src/pages/Email';
 import Reset from './src/pages/Reset';
+import MyPage from './src/pages/MyPage/MyPage';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -15,6 +16,8 @@ export type RootStackParamList = {
   Login: undefined;
   Email: undefined;
   Reset: undefined;
+  MyPage: undefined;
+  layout: any;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -22,7 +25,16 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const Appinner = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerLeft: () => <GoBack />,
+          headerBackTitleVisible: false,
+          headerShadowVisible: false,
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
         <Stack.Screen
           name="Home"
           component={Home}
@@ -31,58 +43,27 @@ const Appinner = () => {
         <Stack.Screen
           name="SignUp"
           component={SignUp}
-          options={{
-            headerTitle: '회원가입',
-            headerLeft: () => <GoBack />,
-            headerBackTitleVisible: false,
-            headerShadowVisible: false,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
+          options={{ title: '회원가입' }}
         />
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{
-            headerTitle: '로그인',
-            headerLeft: () => <GoBack />,
-            headerBackTitleVisible: false,
-            headerShadowVisible: false,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
+          options={{ title: '로그인' }}
         />
         <Stack.Screen
           name="Email"
           component={Email}
-          options={{
-            headerTitle: '비밀번호 찾기',
-            headerLeft: () => <GoBack />,
-            headerBackTitleVisible: false,
-            headerShadowVisible: false,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
+          options={{ title: '비밀번호 찾기' }}
         />
         <Stack.Screen
           name="Reset"
           component={Reset}
-          options={{
-            headerTitle: '비밀번호 변경',
-            headerLeft: () => <GoBack />,
-            headerBackTitleVisible: false,
-            headerShadowVisible: false,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
+          options={{ title: '비밀번호 찾기' }}
+        />
+        <Stack.Screen
+          name="MyPage"
+          component={MyPage}
+          options={{ title: '마이페이지' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

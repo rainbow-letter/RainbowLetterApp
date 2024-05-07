@@ -11,3 +11,18 @@ export interface LoginRequest {
 export interface SignUpResponse {
   email: string;
 }
+
+export interface EmailRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  newPassword: string;
+}
+
+export interface UserInfoResponse {
+  id: number;
+  email: string;
+  phoneNumber: string;
+  role: string;
+}

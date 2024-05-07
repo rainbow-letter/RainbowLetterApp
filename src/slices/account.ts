@@ -11,6 +11,9 @@ const accountSlice = createSlice({
     setToken(state, action) {
       state.token = action.payload.token;
     },
+    removeToken(state) {
+      state.token = '';
+    },
   },
 });
 
