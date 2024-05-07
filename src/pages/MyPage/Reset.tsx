@@ -10,9 +10,9 @@ import React, { useState, useRef, useCallback } from 'react';
 import { SafeAreaView } from 'react-native';
 import axios from 'axios';
 
-import { theme } from '../constants/theme';
-import DismissKeyboardView from '../hooks/DismissKeyboardView';
-import { updatePassword } from '../api/account';
+import { theme } from '../../constants/theme';
+import DismissKeyboardView from '../../hooks/DismissKeyboardView';
+import { updatePassword } from '../../api/account';
 
 const Reset = () => {
   const passwordRef = useRef<TextInput | null>(null);

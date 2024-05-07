@@ -8,6 +8,7 @@ import {
   EmailRequest,
   ResetPasswordRequest,
   UserInfoResponse,
+  PhoneNumberRequest,
 } from '../model/account.model';
 
 const accountUrl = createRequestURL('api');
@@ -45,7 +46,7 @@ export const submitEmail = (data: EmailRequest) => {
 export const updatePassword = (data: ResetPasswordRequest) => {
   const config = {
     url: accountUrl('/members/password'),
-    mathod: 'PUT',
+    method: 'PUT',
     data,
   };
 
@@ -55,7 +56,20 @@ export const updatePassword = (data: ResetPasswordRequest) => {
 export const getUserInfo = (token: string): ApiResponse<UserInfoResponse> => {
   const config = {
     url: accountUrl('/members/info'),
-    mathod: 'GET',
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return AxiosRequest(config);
+};
+
+export const updatePhoneNumber = (data: PhoneNumberRequest, token: string) => {
+  const config = {
+    url: accountUrl('/members/phoneNumber'),
+    method: 'PUT',
+    data,
     headers: {
       Authorization: `Bearer ${token}`,
     },

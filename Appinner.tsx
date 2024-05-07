@@ -7,8 +7,10 @@ import Login from './src/pages/Login';
 import Home from './src/pages/Home';
 import GoBack from './src/components/GoBack';
 import Email from './src/pages/Email';
-import Reset from './src/pages/Reset';
+import Reset from './src/pages/MyPage/Reset';
 import MyPage from './src/pages/MyPage/MyPage';
+import QnA from './src/pages/MyPage/QnA';
+import Secession from './src/pages/MyPage/Secession';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -17,7 +19,8 @@ export type RootStackParamList = {
   Email: undefined;
   Reset: undefined;
   MyPage: undefined;
-  layout: any;
+  QnA: undefined;
+  Secession: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -64,6 +67,16 @@ const Appinner = () => {
           name="MyPage"
           component={MyPage}
           options={{ title: '마이페이지' }}
+        />
+        <Stack.Screen
+          name="QnA"
+          component={QnA}
+          options={{ title: '자주 묻는 질문' }}
+        />
+        <Stack.Screen
+          name="Secession"
+          component={Secession}
+          options={{ title: '탈퇴하기' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

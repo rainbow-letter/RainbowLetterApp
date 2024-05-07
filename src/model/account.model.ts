@@ -26,3 +26,7 @@ export interface UserInfoResponse {
   phoneNumber: string;
   role: string;
 }
+
+export interface PhoneNumberRequest {
+  phoneNumber: string | undefined;
+}
