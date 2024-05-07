@@ -5,6 +5,9 @@ import {
   LoginResponse,
   LoginRequest,
   SignUpResponse,
+  EmailRequest,
+  ResetPasswordRequest,
+  UserInfoResponse,
 } from '../model/account.model';
 
 const accountUrl = createRequestURL('api');
@@ -25,6 +28,39 @@ export const trySignUp = (data: LoginRequest): ApiResponse<SignUpResponse> => {
     method: 'POST',
     data,
   };
+
+  return AxiosRequest(config);
+};
+
+export const submitEmail = (data: EmailRequest) => {
+  const config = {
+    url: accountUrl('/members/password/find'),
+    method: 'POST',
+    data,
+  };
+
+  return AxiosRequest(config);
+};
+
+export const updatePassword = (data: ResetPasswordRequest) => {
+  const config = {
+    url: accountUrl('/members/password'),
+    mathod: 'PUT',
+    data,
+  };
+
+  return AxiosRequest(config);
+};
+
+export const getUserInfo = (token: string): ApiResponse<UserInfoResponse> => {
+  const config = {
+    url: accountUrl('/members/info'),
+    mathod: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  console.log(config);
 
   return AxiosRequest(config);
 };
