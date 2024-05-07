@@ -18,11 +18,15 @@ import { RootState } from '../../store/reducer';
 import { useAppDispatch } from '../../store';
 import accountSlice from '../../slices/account';
 import { RootStackParamList } from '../../../Appinner';
+import { UserInfoResponse } from '../../model/account.model';
+import { updatePhoneNumber } from '../../api/account';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MyPage'>;
 
 const MyPage = ({ navigation }: Props) => {
   const [isCheck, setIsCheck] = useState(false);
+  const [userInfo, setUserInfo] = useState<UserInfoResponse>();
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const dispatch = useAppDispatch();
   const token = useSelector((state: RootState) => state.account.token);
 
@@ -30,7 +34,7 @@ const MyPage = ({ navigation }: Props) => {
     const getUser = async () => {
       try {
         const { data } = await getUserInfo(token);
-        console.log(data.email);
+        setUserInfo(data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log(error);
@@ -45,6 +49,23 @@ const MyPage = ({ navigation }: Props) => {
     navigation.push('Home');
   }, [dispatch, navigation]);
 
+  const onChangePhoneNumber = useCallback((value: string) => {
+    setPhoneNumber(value);
+  }, []);
+
+  const onClickPhoneNumberUpdateButton = useCallback(async () => {
+    setIsCheck(!isCheck);
+    if (isCheck) {
+      try {
+        await updatePhoneNumber({ phoneNumber: phoneNumber }, token);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log(error);
+        }
+      }
+    }
+  }, [isCheck, phoneNumber, token]);
+
   return (
     <SafeAreaView style={{ height: '100%', backgroundColor: 'white' }}>
       <View style={styles.container}>
@@ -52,45 +73,64 @@ const MyPage = ({ navigation }: Props) => {
           <Text style={styles.title}>내 정보</Text>
           <View style={styles.subContainer}>
             <Text style={styles.subTitle}>이메일</Text>
-            <Text style={styles.text}>example@gmail.com</Text>
+            <Text style={styles.text}>{userInfo?.email}</Text>
           </View>
         </View>
         <View style={[styles.subContainer, styles.phoneBox]}>
           <Text style={[styles.subTitle, styles.phone]}>휴대폰 번호</Text>
           <View style={styles.phoneNumber}>
             {isCheck ? (
-              <TextInput placeholder="전화번호" />
+              <TextInput
+                placeholder={
+                  userInfo?.phoneNumber || '-를 제외한 숫자만 입력해주세요.'
+                }
+                keyboardType="numeric"
+                style={styles.input}
+                maxLength={11}
+                value={phoneNumber && phoneNumber}
+                onChangeText={onChangePhoneNumber}
+              />
             ) : (
-              <Text style={styles.text}>01022903261</Text>
+              <Text style={[styles.text, styles.phoneUpdateText]}>
+                {userInfo?.phoneNumber ||
+                  '답장 알림을 문자로 받고 싶다면 등록해보세요'}
+              </Text>
             )}
-
             <Pressable
               style={styles.updateButton}
-              onPress={() => setIsCheck(!isCheck)}>
+              onPress={onClickPhoneNumberUpdateButton}>
               <Text style={styles.updateButtonText}>
-                {isCheck ? '완료' : '수정'}
+                {isCheck ? '확인' : '수정'}
               </Text>
             </Pressable>
           </View>
         </View>
         <View>
-          <View style={styles.arrowBox}>
+          <Pressable
+            style={styles.arrowBox}
+            onPress={() => navigation.push('Reset')}>
             <Text style={styles.subTitle}>비밀번호 변경하기</Text>
             <NextImg />
-          </View>
+          </Pressable>
           <View style={styles.divideBox}>
             <View style={styles.divide} />
           </View>
-          <View style={styles.arrowBox}>
+          <Pressable
+            style={styles.arrowBox}
+            onPress={() => navigation.push('QnA')}>
             <Text style={styles.subTitle}>자주 묻는 질문</Text>
             <NextImg />
-          </View>
-          <View style={styles.arrowBox}>
+          </Pressable>
+          <Pressable
+            style={styles.arrowBox}
+            onPress={() => navigation.push('Secession')}>
             <Text style={styles.subTitle}>탈퇴하기</Text>
             <NextImg />
-          </View>
+          </Pressable>
           <Pressable style={styles.arrowBox} onPress={onClickLogOutButton}>
-            <Text style={styles.subTitle}>로그아웃</Text>
+            <Text style={[styles.subTitle, styles.logOutButtonText]}>
+              로그아웃
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -157,5 +197,21 @@ const styles = StyleSheet.create({
     color: theme.color.white,
     fontSize: 12,
     fontWeight: '700',
+  },
+  logOutButtonText: {
+    color: theme.color.red,
+  },
+  input: {
+    backgroundColor: theme.color.gray2,
+    color: theme.color.gray1,
+    paddingVertical: 18,
+    paddingLeft: 18,
+    fontSize: 14,
+    borderRadius: 15,
+    width: 284,
+  },
+  phoneUpdateText: {
+    color: theme.color.gray1,
+    fontSize: 14,
   },
 });
