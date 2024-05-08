@@ -74,7 +74,6 @@ export const updatePhoneNumber = (data: PhoneNumberRequest, token: string) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log(config);
 
   return AxiosRequest(config);
 };

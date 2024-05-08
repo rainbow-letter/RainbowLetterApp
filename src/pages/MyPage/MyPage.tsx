@@ -20,6 +20,8 @@ import accountSlice from '../../slices/account';
 import { RootStackParamList } from '../../../Appinner';
 import { UserInfoResponse } from '../../model/account.model';
 import { updatePhoneNumber } from '../../api/account';
+import { handleErrorData } from '../../utils/validate';
+import { ErrorData } from '../../model/account.model';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MyPage'>;
 
@@ -27,14 +29,21 @@ const MyPage = ({ navigation }: Props) => {
   const [isCheck, setIsCheck] = useState(false);
   const [userInfo, setUserInfo] = useState<UserInfoResponse>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
+    null,
+  );
   const dispatch = useAppDispatch();
   const token = useSelector((state: RootState) => state.account.token);
+  const newPhoneNumber = useSelector(
+    (state: RootState) => state.account.phoneNumber,
+  );
 
   useEffect(() => {
     const getUser = async () => {
       try {
         const { data } = await getUserInfo(token);
         setUserInfo(data);
+        dispatch(accountSlice.actions.setPhoneNumber(data.phoneNumber));
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log(error);
@@ -42,7 +51,7 @@ const MyPage = ({ navigation }: Props) => {
       }
     };
     getUser();
-  }, [token]);
+  }, [token, dispatch]);
 
   const onClickLogOutButton = useCallback(() => {
     dispatch(accountSlice.actions.removeToken());
@@ -54,17 +63,23 @@ const MyPage = ({ navigation }: Props) => {
   }, []);
 
   const onClickPhoneNumberUpdateButton = useCallback(async () => {
-    setIsCheck(!isCheck);
+    if (!isCheck) {
+      return setIsCheck(!isCheck);
+    }
     if (isCheck) {
       try {
         await updatePhoneNumber({ phoneNumber: phoneNumber }, token);
+        setErrorData(null);
+        dispatch(accountSlice.actions.setPhoneNumber(phoneNumber));
+        setIsCheck(!isCheck);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.log(error);
+          const data = handleErrorData(error.response && error.response.data);
+          setErrorData(data);
         }
       }
     }
-  }, [isCheck, phoneNumber, token]);
+  }, [isCheck, phoneNumber, token, dispatch]);
 
   return (
     <SafeAreaView style={{ height: '100%', backgroundColor: 'white' }}>
@@ -85,14 +100,18 @@ const MyPage = ({ navigation }: Props) => {
                   userInfo?.phoneNumber || '-를 제외한 숫자만 입력해주세요.'
                 }
                 keyboardType="numeric"
-                style={styles.input}
+                style={
+                  errorData?.category === 'phoneNumber'
+                    ? [styles.input, styles.errorInput]
+                    : styles.input
+                }
                 maxLength={11}
                 value={phoneNumber && phoneNumber}
                 onChangeText={onChangePhoneNumber}
               />
             ) : (
-              <Text style={[styles.text, styles.phoneUpdateText]}>
-                {userInfo?.phoneNumber ||
+              <Text style={styles.text}>
+                {newPhoneNumber ||
                   '답장 알림을 문자로 받고 싶다면 등록해보세요'}
               </Text>
             )}
@@ -104,6 +123,14 @@ const MyPage = ({ navigation }: Props) => {
               </Text>
             </Pressable>
           </View>
+          <Text
+            style={
+              errorData?.category === 'phoneNumber'
+                ? styles.errorMessage
+                : [styles.errorMessage, styles.none]
+            }>
+            {errorData?.category === 'phoneNumber' && errorData.message}
+          </Text>
         </View>
         <View>
           <Pressable
@@ -213,5 +240,17 @@ const styles = StyleSheet.create({
   phoneUpdateText: {
     color: theme.color.gray1,
     fontSize: 14,
+  },
+  errorMessage: {
+    fontSize: 14,
+    marginTop: 8,
+    color: theme.color.red,
+  },
+  none: {
+    display: 'none',
+  },
+  errorInput: {
+    borderWidth: 1,
+    borderColor: theme.color.red,
   },
 });
