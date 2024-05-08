@@ -9,7 +9,7 @@ import {
   ResetPasswordRequest,
   UserInfoResponse,
   PhoneNumberRequest,
-} from '../model/account.model';
+} from '../model/Account.model';
 
 const accountUrl = createRequestURL('api');
 
@@ -73,6 +73,18 @@ export const updatePhoneNumber = (data: PhoneNumberRequest, token: string) => {
     url: accountUrl('/members/phoneNumber'),
     method: 'PUT',
     data,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return AxiosRequest(config);
+};
+
+export const deleteUserInfo = (token: string) => {
+  const config = {
+    url: accountUrl('/members/leave'),
+    method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`,
     },

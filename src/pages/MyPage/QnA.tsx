@@ -1,9 +1,9 @@
 import { StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import React, { useCallback } from 'react';
 import { theme } from '../../constants/theme';
-import QNA from '../../constants/qna';
-import QuestionItem from '../../components/QuestionItem';
-import Question from '../../model/question.model';
+import QNA from '../../constants/MyPage/Qna';
+import QuestionItem from '../../components/myPage/QuestionItem';
+import Question from '../../model/Question.model';
 
 const QnA = () => {
   const renderItems = useCallback(({ item }: { item: Question }) => {
@@ -16,7 +16,7 @@ const QnA = () => {
       <FlatList
         data={QNA}
         renderItem={renderItems}
-        keyExtractor={item => item.question}
+        keyExtractor={item => item.id}
         style={styles.container}
       />
     </SafeAreaView>

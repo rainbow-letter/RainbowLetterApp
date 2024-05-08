@@ -14,7 +14,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { theme } from '../../constants/theme';
 import DismissKeyboardView from '../../hooks/DismissKeyboardView';
 import { updatePassword } from '../../api/account';
-import { ErrorData } from '../../model/account.model';
+import { ErrorData } from '../../model/Account.model';
 import { handleErrorData } from '../../utils/validate';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';

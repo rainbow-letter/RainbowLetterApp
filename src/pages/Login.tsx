@@ -23,7 +23,7 @@ import { tryLogin } from '../api/account';
 import DismissKeyboardView from '../hooks/DismissKeyboardView';
 import accountSlice from '../slices/account';
 import { useAppDispatch } from '../store';
-import { ErrorData } from '../model/account.model';
+import { ErrorData } from '../model/Account.model';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 

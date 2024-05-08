@@ -1,4 +1,4 @@
-import Question from '../model/question.model';
+import Question from '../../model/Question.model';
 
 const QNA: Question[] = [
   {

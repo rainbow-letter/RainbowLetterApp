@@ -2,8 +2,8 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React, { useState, useCallback, useEffect } from 'react';
 
 import CheckBox from './CheckBox';
-import Check from '../assets/signUp_check.svg';
-import { theme } from '../constants/theme';
+import Check from '../../assets/signUp_check.svg';
+import { theme } from '../../constants/theme';
 
 type Props = {
   isChecked: boolean;

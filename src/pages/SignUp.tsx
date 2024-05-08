@@ -19,12 +19,12 @@ import naver from '../assets/login_naver_icon.png';
 import google from '../assets/login_google_icon.png';
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
-import Agree from '../components/Agree';
+import Agree from '../components/account/Agree';
 import { tryLogin, trySignUp } from '../api/account';
 import DismissKeyboardView from '../hooks/DismissKeyboardView';
 import accountSlice from '../slices/account';
 import { useAppDispatch } from '../store';
-import { ErrorData } from '../model/account.model';
+import { ErrorData } from '../model/Account.model';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 

@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-import QuestionType from '../model/question.model';
-import { theme } from '../constants/theme';
+import QuestionType from '../../model/Question.model';
+import { theme } from '../../constants/theme';
 
 const QuestionItem = ({ item }: { item: QuestionType }) => {
   return (

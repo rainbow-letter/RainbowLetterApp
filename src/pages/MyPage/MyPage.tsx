@@ -18,10 +18,10 @@ import { RootState } from '../../store/reducer';
 import { useAppDispatch } from '../../store';
 import accountSlice from '../../slices/account';
 import { RootStackParamList } from '../../../Appinner';
-import { UserInfoResponse } from '../../model/account.model';
+import { UserInfoResponse } from '../../model/Account.model';
 import { updatePhoneNumber } from '../../api/account';
 import { handleErrorData } from '../../utils/validate';
-import { ErrorData } from '../../model/account.model';
+import { ErrorData } from '../../model/Account.model';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MyPage'>;
 

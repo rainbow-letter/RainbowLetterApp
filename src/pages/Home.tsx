@@ -28,6 +28,9 @@ const Home = ({ navigation }: any) => {
           </Pressable>
         </View>
       )}
+      <Pressable onPress={() => navigation.push('Secession')}>
+        <Text>탈퇴하기</Text>
+      </Pressable>
     </SafeAreaView>
   );
 };
