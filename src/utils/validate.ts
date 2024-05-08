@@ -15,6 +15,8 @@ const PHONENUMBER_ERROR_CODE = [
   '유효하지 않은 휴대폰 번호 형식입니다.',
 ];
 
+const REPASSWORD_ERROR_CODE = ['비밀번호를 다시 확인해주세요.'];
+
 const validateEmail = (email: string) => {
   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return regex.test(email);
@@ -36,6 +38,10 @@ const handleErrorData = (error: any) => {
 
   if (PHONENUMBER_ERROR_CODE.includes(error.message)) {
     return { category: 'phoneNumber', message: error.message };
+  }
+
+  if (REPASSWORD_ERROR_CODE.includes(error.message)) {
+    return { category: 'newPassword', message: error.message };
   }
 };
 

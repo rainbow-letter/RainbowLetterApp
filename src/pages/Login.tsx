@@ -23,15 +23,11 @@ import { tryLogin } from '../api/account';
 import DismissKeyboardView from '../hooks/DismissKeyboardView';
 import accountSlice from '../slices/account';
 import { useAppDispatch } from '../store';
+import { ErrorData } from '../model/Account.model';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const windowWidth = Dimensions.get('window').width;
-
-type ErrorData = {
-  category: string;
-  message: string;
-};
 
 const Login = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();

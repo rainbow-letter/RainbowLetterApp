@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignUp from './src/pages/SignUp';
 import Login from './src/pages/Login';
 import Home from './src/pages/Home';
-import GoBack from './src/components/GoBack';
+import GoBack from './src/components/common/GoBack';
 import Email from './src/pages/Email';
 import Reset from './src/pages/MyPage/Reset';
 import MyPage from './src/pages/MyPage/MyPage';
@@ -76,7 +76,7 @@ const Appinner = () => {
         <Stack.Screen
           name="Secession"
           component={Secession}
-          options={{ title: '탈퇴하기' }}
+          options={{ title: '회원 탈퇴' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
