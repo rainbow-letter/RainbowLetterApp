@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   token: '',
+  phoneNumber: '',
 };
 
 const accountSlice = createSlice({
@@ -13,6 +14,9 @@ const accountSlice = createSlice({
     },
     removeToken(state) {
       state.token = '';
+    },
+    setPhoneNumber(state, action) {
+      state.phoneNumber = action.payload;
     },
   },
 });

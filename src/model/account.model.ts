@@ -1,3 +1,8 @@
+export type ErrorData = {
+  category: string;
+  message: string;
+};
+
 export interface LoginResponse {
   grantType: string;
   token: string;
