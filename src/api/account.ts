@@ -43,11 +43,14 @@ export const submitEmail = (data: EmailRequest) => {
   return AxiosRequest(config);
 };
 
-export const updatePassword = (data: ResetPasswordRequest) => {
+export const updatePassword = (data: ResetPasswordRequest, token: string) => {
   const config = {
-    url: accountUrl('/members/password'),
+    url: accountUrl('/members/password/reset'),
     method: 'PUT',
     data,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   };
 
   return AxiosRequest(config);

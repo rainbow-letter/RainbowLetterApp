@@ -9,19 +9,22 @@ const Home = ({ navigation }: any) => {
 
   return (
     <SafeAreaView>
-      <Pressable onPress={() => navigation.push('SignUp')}>
-        <Text>회원가입</Text>
-      </Pressable>
-      <Pressable onPress={() => navigation.push('Login')}>
-        <Text>로그인</Text>
-      </Pressable>
-      {token && (
+      {token ? (
         <View>
           <Pressable onPress={() => navigation.push('Reset')}>
             <Text>비밀번호 변경</Text>
           </Pressable>
           <Pressable onPress={() => navigation.push('MyPage')}>
             <Text>마이페이지</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <View>
+          <Pressable onPress={() => navigation.push('SignUp')}>
+            <Text>회원가입</Text>
+          </Pressable>
+          <Pressable onPress={() => navigation.push('Login')}>
+            <Text>로그인</Text>
           </Pressable>
         </View>
       )}

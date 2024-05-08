@@ -24,13 +24,9 @@ import { tryLogin, trySignUp } from '../api/account';
 import DismissKeyboardView from '../hooks/DismissKeyboardView';
 import accountSlice from '../slices/account';
 import { useAppDispatch } from '../store';
+import { ErrorData } from '../model/account.model';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
-
-type ErrorData = {
-  category: string;
-  message: string;
-};
 
 const SignUp = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();
