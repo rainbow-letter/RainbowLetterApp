@@ -68,9 +68,12 @@ const MyPage = ({ navigation }: Props) => {
     }
     if (isCheck) {
       try {
+        if (!phoneNumber) {
+          return setIsCheck(!isCheck);
+        }
         await updatePhoneNumber({ phoneNumber: phoneNumber }, token);
-        setErrorData(null);
         dispatch(accountSlice.actions.setPhoneNumber(phoneNumber));
+        setErrorData(null);
         setIsCheck(!isCheck);
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -119,7 +122,7 @@ const MyPage = ({ navigation }: Props) => {
               style={styles.updateButton}
               onPress={onClickPhoneNumberUpdateButton}>
               <Text style={styles.updateButtonText}>
-                {isCheck ? '확인' : '수정'}
+                {isCheck ? '등록' : '수정'}
               </Text>
             </Pressable>
           </View>
