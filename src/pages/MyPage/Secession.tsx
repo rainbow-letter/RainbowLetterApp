@@ -4,10 +4,12 @@ import {
   SafeAreaView,
   StyleSheet,
   FlatList,
-  Pressable,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useState, useCallback } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 import { theme } from '../../constants/theme';
 import ACCOUNT_SECESSTION_GUIDELINES from '../../constants/MyPage/AccountSecesstion';
@@ -15,12 +17,11 @@ import SecesstionItem from '../../components/myPage/SecesstionItem';
 import Secesstion from '../../model/Secesstion.model';
 import CheckBox from '../../components/myPage/CheckBox';
 import { deleteUserInfo } from '../../api/account';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
-import axios from 'axios';
 import { useAppDispatch } from '../../store';
 import accountSlice from '../../slices/account';
 import { RootStackParamList } from '../../../Appinner';
+import Button from '../../components/common/Button';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Secession'>;
 
@@ -28,12 +29,14 @@ const Secession = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();
   const token = useSelector((state: RootState) => state.account.token);
   const [isCheck, setIsCheck] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onClickSecesstionButton = useCallback(async () => {
     try {
       if (!isCheck) {
         return;
       }
+      setIsLoading(true);
       await deleteUserInfo(token);
       dispatch(accountSlice.actions.removeToken());
       navigation.push('Home');
@@ -41,6 +44,8 @@ const Secession = ({ navigation }: Props) => {
       if (axios.isAxiosError(error)) {
         console.log(error);
       }
+    } finally {
+      setIsLoading(false);
     }
   }, [dispatch, navigation, isCheck, token]);
 
@@ -62,11 +67,9 @@ const Secession = ({ navigation }: Props) => {
         <View style={styles.checkbox}>
           <CheckBox isCheck={isCheck} setIsCheck={setIsCheck} />
         </View>
-        <Pressable
-          style={isCheck ? [styles.button, styles.buttonActive] : styles.button}
-          onPress={onClickSecesstionButton}>
-          <Text style={styles.buttonText}>탈퇴하기</Text>
-        </Pressable>
+        <Button isCheck={isCheck} onPress={onClickSecesstionButton}>
+          {isLoading ? <ActivityIndicator /> : '탈퇴하기'}
+        </Button>
       </View>
     </SafeAreaView>
   );
@@ -94,21 +97,6 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     marginTop: 160,
-  },
-  button: {
-    width: '100%',
-    backgroundColor: theme.color.gray1,
-    paddingVertical: 22,
-    alignItems: 'center',
-    borderRadius: 15,
-    marginTop: 24,
-  },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: theme.color.white,
-  },
-  buttonActive: {
-    backgroundColor: theme.color.orange,
+    marginBottom: 24,
   },
 });
