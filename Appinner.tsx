@@ -11,6 +11,7 @@ import Reset from './src/pages/MyPage/Reset';
 import MyPage from './src/pages/MyPage/MyPage';
 import QnA from './src/pages/MyPage/QnA';
 import Secession from './src/pages/MyPage/Secession';
+import BottomTabScreen from './src/components/bottomTab/BottomTabScreen';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -21,6 +22,7 @@ export type RootStackParamList = {
   MyPage: undefined;
   QnA: undefined;
   Secession: undefined;
+  BottomTabScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -38,6 +40,11 @@ const Appinner = () => {
             fontWeight: 'bold',
           },
         }}>
+        <Stack.Screen
+          name="BottomTabScreen"
+          component={BottomTabScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Home"
           component={Home}
