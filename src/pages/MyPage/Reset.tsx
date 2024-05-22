@@ -1,6 +1,5 @@
 import {
   ActivityIndicator,
-  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -10,15 +9,16 @@ import React, { useState, useRef, useCallback } from 'react';
 import { SafeAreaView } from 'react-native';
 import axios from 'axios';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
 
 import { theme } from '../../constants/theme';
 import DismissKeyboardView from '../../hooks/DismissKeyboardView';
 import { updatePassword } from '../../api/account';
 import { ErrorData } from '../../model/Account.model';
 import { handleErrorData } from '../../utils/validate';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
 import { RootStackParamList } from '../../../Appinner';
+import Button from '../../components/common/Button';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Reset'>;
 
@@ -137,20 +137,9 @@ const Reset = ({ navigation }: Props) => {
               </Text>
             </View>
           </View>
-          <Pressable
-            disabled={!canClick}
-            style={
-              !canClick
-                ? styles.updateButton
-                : [styles.updateButton, styles.updateButtonActive]
-            }
-            onPress={onClickUpdateButtonClick}>
-            {isLoading ? (
-              <ActivityIndicator />
-            ) : (
-              <Text style={styles.updateButtonText}>변경하기</Text>
-            )}
-          </Pressable>
+          <Button isCheck={canClick} onPress={onClickUpdateButtonClick}>
+            {isLoading ? <ActivityIndicator /> : '변경하기'}
+          </Button>
         </View>
       </DismissKeyboardView>
     </SafeAreaView>
@@ -195,21 +184,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.color.gray2,
     marginTop: 16,
     borderRadius: 15,
-  },
-  updateButtonActive: {
-    backgroundColor: theme.color.orange,
-  },
-  updateButton: {
-    backgroundColor: theme.color.gray1,
-    paddingVertical: 22,
-    alignItems: 'center',
-    borderRadius: 15,
-    marginTop: 12,
-  },
-  updateButtonText: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: theme.color.white,
   },
   errorMessage: {
     fontSize: 14,

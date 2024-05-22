@@ -24,6 +24,7 @@ import DismissKeyboardView from '../hooks/DismissKeyboardView';
 import accountSlice from '../slices/account';
 import { useAppDispatch } from '../store';
 import { ErrorData } from '../model/Account.model';
+import Button from '../components/common/Button';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -138,20 +139,9 @@ const Login = ({ navigation }: Props) => {
               {errorData?.message && errorData.message}
             </Text>
           </View>
-          <Pressable
-            disabled={!canClick}
-            style={
-              !canClick
-                ? styles.LoginButton
-                : [styles.LoginButton, styles.LoginButtonActive]
-            }
-            onPress={onClickLoginButton}>
-            {isLoading ? (
-              <ActivityIndicator />
-            ) : (
-              <Text style={styles.LoginButtonText}>로그인하기</Text>
-            )}
-          </Pressable>
+          <Button isCheck={canClick} onPress={onClickLoginButton}>
+            {isLoading ? <ActivityIndicator /> : '로그인하기'}
+          </Button>
           <View style={styles.subButton}>
             <Pressable onPress={() => navigation.navigate('Email')}>
               <Text style={styles.subButtonText}>비밀번호 찾기</Text>
@@ -223,21 +213,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.color.gray2,
     borderRadius: 15,
     marginTop: 10,
-  },
-  LoginButton: {
-    backgroundColor: theme.color.gray1,
-    borderRadius: 15,
-    paddingVertical: 22,
-    alignItems: 'center',
-    marginTop: 18,
-  },
-  LoginButtonActive: {
-    backgroundColor: theme.color.orange,
-  },
-  LoginButtonText: {
-    color: theme.color.white,
-    fontSize: 20,
-    fontWeight: '700',
   },
   subButton: {
     alignItems: 'center',

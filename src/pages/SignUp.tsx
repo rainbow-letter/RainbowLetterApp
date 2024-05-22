@@ -25,6 +25,7 @@ import DismissKeyboardView from '../hooks/DismissKeyboardView';
 import accountSlice from '../slices/account';
 import { useAppDispatch } from '../store';
 import { ErrorData } from '../model/Account.model';
+import Button from '../components/common/Button';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -157,20 +158,9 @@ const SignUp = ({ navigation }: Props) => {
             </Text>
           </View>
           <Agree isChecked={isChecked} setIsChecked={setIsChecked} />
-          <Pressable
-            disabled={!canClick}
-            style={
-              !canClick
-                ? styles.signUpButton
-                : [styles.signUpButton, styles.signUpButtonActive]
-            }
-            onPress={onClickSignUpButton}>
-            {isLoading ? (
-              <ActivityIndicator />
-            ) : (
-              <Text style={styles.signUpButtonText}>가입하기</Text>
-            )}
-          </Pressable>
+          <Button isCheck={canClick} onPress={onClickSignUpButton}>
+            {isLoading ? <ActivityIndicator /> : '가입하기'}
+          </Button>
           <View style={styles.loginButton}>
             <Pressable onPress={() => navigation.navigate('Login')}>
               <Text style={styles.loginButtonText}>로그인하기</Text>
@@ -238,20 +228,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.color.gray2,
     borderRadius: 15,
     marginTop: 10,
-  },
-  signUpButton: {
-    backgroundColor: theme.color.gray1,
-    borderRadius: 15,
-    paddingVertical: 22,
-    alignItems: 'center',
-  },
-  signUpButtonActive: {
-    backgroundColor: theme.color.orange,
-  },
-  signUpButtonText: {
-    color: theme.color.white,
-    fontSize: 20,
-    fontWeight: '700',
   },
   loginButton: {
     alignItems: 'center',
