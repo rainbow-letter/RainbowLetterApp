@@ -13,6 +13,7 @@ import MainImage from '../assets/im_home_main.png';
 import { THEME } from '../constants/theme';
 import AccountBox from '../components/home/AccountBox';
 import PetBox from '../components/home/PetBox';
+import ContentsSection from '../components/home/ContentsSection';
 
 const Home = () => {
   const token = useSelector((state: RootState) => state.account.token);
@@ -24,6 +25,8 @@ const Home = () => {
           <Image source={MainImage} style={styles.mainImage} />
         </View>
         <View>{token ? <PetBox /> : <AccountBox />}</View>
+        <View style={styles.divider} />
+        <ContentsSection />
       </ScrollView>
     </SafeAreaView>
   );
@@ -38,5 +41,9 @@ const styles = StyleSheet.create({
   },
   mainImage: {
     width: '100%',
+  },
+  divider: {
+    height: 10,
+    backgroundColor: THEME.COLOR.GRAY_2,
   },
 });
