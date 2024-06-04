@@ -1,4 +1,4 @@
-import Secesstion from '../../model/Secesstion.model';
+import { Secesstion } from '../../model/MyPage.model';
 
 const ACCOUNT_SECESSTION_GUIDELINES: Secesstion[] = [
   {

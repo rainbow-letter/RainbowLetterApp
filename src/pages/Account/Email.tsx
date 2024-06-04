@@ -12,9 +12,9 @@ import {
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-import { THEME } from '../constants/theme';
-import { handleErrorData } from '../utils/validate';
-import { submitEmail } from '../api/account';
+import { THEME } from '../../constants/theme';
+import { handleErrorData } from '../../utils/validate';
+import { submitEmail } from '../../api/account';
 
 type ErrorData = {
   category: string;
