@@ -3,13 +3,13 @@ import React from 'react';
 import RenderHTML from 'react-native-render-html';
 
 import Secesstion from '../../model/Secesstion.model';
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 
 const SecesstionItem = ({ item }: { item: Secesstion }) => {
   const { width } = useWindowDimensions();
   const tagsStyles = {
     p: {
-      color: theme.color.black1,
+      color: THEME.COLOR.BLACK_1,
       marginTop: 6,
       fontSize: 16,
     },

@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../store/reducer';
 import MainImage from '../assets/im_home_main.png';
-import { theme } from '../constants/theme';
+import { THEME } from '../constants/theme';
 import AccountBox from '../components/home/AccountBox';
 import PetBox from '../components/home/PetBox';
 
@@ -33,7 +33,7 @@ export default Home;
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: theme.color.white,
+    backgroundColor: THEME.COLOR.WHITE,
     height: '100%',
   },
   mainImage: {

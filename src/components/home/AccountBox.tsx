@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../Appinner';
 
@@ -40,13 +40,13 @@ const styles = StyleSheet.create({
   accountSection: {
     paddingHorizontal: 18,
     top: -16,
-    backgroundColor: theme.color.white,
+    backgroundColor: THEME.COLOR.WHITE,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
   accountBox: {
     borderWidth: 1,
-    borderColor: theme.color.GRAY_3,
+    borderColor: THEME.COLOR.GRAY_3,
     borderRadius: 15,
     paddingVertical: 20,
     paddingHorizontal: 16,
@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   loginDescription: {
     fontSize: 16,
     textAlign: 'center',
     marginTop: 12,
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   buttonWrap: {
     marginTop: 18,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   loginButton: {
-    backgroundColor: theme.color.orange,
+    backgroundColor: THEME.COLOR.ORANGE_1,
     borderRadius: 15,
     paddingHorizontal: 22,
     paddingVertical: 20,
@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
   loginButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: theme.color.white,
+    color: THEME.COLOR.WHITE,
     textAlign: 'center',
   },
   signUpButton: {
-    backgroundColor: theme.color.white,
+    backgroundColor: THEME.COLOR.WHITE,
     borderRadius: 15,
     borderWidth: 2,
-    borderColor: theme.color.orange,
+    borderColor: THEME.COLOR.ORANGE_1,
     paddingHorizontal: 22,
     paddingVertical: 20,
     flex: 1,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   signUpButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: theme.color.orange,
+    color: THEME.COLOR.ORANGE_1,
     textAlign: 'center',
   },
 });
