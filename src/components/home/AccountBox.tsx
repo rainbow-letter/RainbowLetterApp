@@ -39,10 +39,8 @@ export default AccountBox;
 const styles = StyleSheet.create({
   accountSection: {
     paddingHorizontal: 18,
-    position: 'absolute',
     top: -16,
     backgroundColor: theme.color.white,
-    width: '100%',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
@@ -58,11 +56,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: theme.color.black1,
   },
   loginDescription: {
     fontSize: 16,
     textAlign: 'center',
     marginTop: 12,
+    color: theme.color.black1,
   },
   buttonWrap: {
     marginTop: 18,

@@ -18,8 +18,7 @@ const Home = () => {
   const token = useSelector((state: RootState) => state.account.token);
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: theme.color.white, height: '100%' }}>
+    <SafeAreaView style={styles.screen}>
       <ScrollView>
         <View>
           <Image source={MainImage} style={styles.mainImage} />
@@ -33,6 +32,10 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: theme.color.white,
+    height: '100%',
+  },
   mainImage: {
     width: '100%',
   },
