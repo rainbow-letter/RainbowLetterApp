@@ -5,7 +5,7 @@ import { RootState } from '../../store/reducer';
 import { useSelector } from 'react-redux';
 
 import { tabBar } from '../../constants/icons';
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 
 interface RouteType {
   key: string;
@@ -68,13 +68,13 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
             style={{
               flex: 1,
               alignItems: 'center',
-              backgroundColor: theme.color.white,
+              backgroundColor: THEME.COLOR.WHITE,
             }}>
             <LinearGradient
               colors={
                 isfloating
-                  ? [theme.color.orange, theme.color.ORANGE_2]
-                  : [theme.color.white, theme.color.white]
+                  ? [THEME.COLOR.ORANGE_1, THEME.COLOR.ORANGE_2]
+                  : [THEME.COLOR.WHITE, THEME.COLOR.WHITE]
               }
               style={
                 !isfloating
@@ -82,7 +82,7 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
                   : [styles.buttonWrap, styles.floatingWrap]
               }>
               <Icon
-                color={isFocused ? theme.color.orange : theme.color.gray1}
+                color={isFocused ? THEME.COLOR.ORANGE_1 : THEME.COLOR.GRAY_1}
               />
               <Text
                 style={
@@ -91,8 +91,8 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
                     : {
                         ...styles?.label,
                         color: isFocused
-                          ? theme.color.orange
-                          : theme.color.gray1,
+                          ? THEME.COLOR.ORANGE_1
+                          : THEME.COLOR.GRAY_1,
                       }
                 }>
                 {label}
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   floatingText: {
     fontSize: 12,
     marginTop: 4,
-    color: theme.color.white,
+    color: THEME.COLOR.WHITE,
   },
   label: {
     fontSize: 12,

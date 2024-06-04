@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../store/reducer';
 import MainImage from '../assets/im_home_main.png';
-import { theme } from '../constants/theme';
+import { THEME } from '../constants/theme';
 import AccountBox from '../components/home/AccountBox';
 import PetBox from '../components/home/PetBox';
 
@@ -18,8 +18,7 @@ const Home = () => {
   const token = useSelector((state: RootState) => state.account.token);
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: theme.color.white, height: '100%' }}>
+    <SafeAreaView style={styles.screen}>
       <ScrollView>
         <View>
           <Image source={MainImage} style={styles.mainImage} />
@@ -33,6 +32,10 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: THEME.COLOR.WHITE,
+    height: '100%',
+  },
   mainImage: {
     width: '100%',
   },

@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 
 import CheckBox from './CheckBox';
 import Check from '../../assets/ic_signUp_check.svg';
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 
 type Props = {
   isChecked: boolean;
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 13,
   },
   allAgreeBox: {
-    backgroundColor: theme.color.gray2,
+    backgroundColor: THEME.COLOR.GRAY_2,
     paddingVertical: 15,
   },
   allAgreeText: {
@@ -125,13 +125,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 20,
     height: 20,
-    borderColor: theme.color.orange,
+    borderColor: THEME.COLOR.ORANGE_1,
     backgroundColor: 'white',
   },
   checkedBox: {
-    backgroundColor: theme.color.orange,
+    backgroundColor: THEME.COLOR.ORANGE_1,
   },
   checkBoxText: {
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
 });

@@ -11,7 +11,7 @@ import axios from 'axios';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 import NextImg from '../../assets/ic_myPage_next.svg';
 import { getUserInfo } from '../../api/account';
 import { RootState } from '../../store/reducer';
@@ -85,7 +85,7 @@ const MyPage = ({ navigation }: Props) => {
   }, [isCheck, phoneNumber, token, dispatch]);
 
   return (
-    <SafeAreaView style={{ height: '100%', backgroundColor: 'white' }}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.infoContainer}>
           <Text style={styles.title}>내 정보</Text>
@@ -171,6 +171,10 @@ const MyPage = ({ navigation }: Props) => {
 export default MyPage;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
   },
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
     marginTop: 28,
   },
   title: {
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     fontSize: 20,
     fontWeight: '700',
   },
@@ -186,7 +190,7 @@ const styles = StyleSheet.create({
     marginTop: 28,
   },
   subTitle: {
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     fontSize: 18,
     fontWeight: '700',
     marginBottom: 10,
@@ -195,7 +199,7 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   text: {
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     fontSize: 16,
   },
   arrowBox: {
@@ -208,7 +212,7 @@ const styles = StyleSheet.create({
   },
   divide: {
     borderBottomWidth: 1,
-    borderColor: theme.color.whiteGray,
+    borderColor: THEME.COLOR.WHITEGRAY_1,
   },
   phoneBox: {
     marginBottom: 10,
@@ -219,21 +223,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   updateButton: {
-    backgroundColor: theme.color.orange,
+    backgroundColor: THEME.COLOR.ORANGE_1,
     padding: 10,
     borderRadius: 5,
   },
   updateButtonText: {
-    color: theme.color.white,
+    color: THEME.COLOR.WHITE,
     fontSize: 12,
     fontWeight: '700',
   },
   logOutButtonText: {
-    color: theme.color.red,
+    color: THEME.COLOR.RED_1,
   },
   input: {
-    backgroundColor: theme.color.gray2,
-    color: theme.color.gray1,
+    backgroundColor: THEME.COLOR.GRAY_2,
+    color: THEME.COLOR.GRAY_1,
     paddingVertical: 18,
     paddingLeft: 18,
     fontSize: 14,
@@ -241,19 +245,19 @@ const styles = StyleSheet.create({
     width: 284,
   },
   phoneUpdateText: {
-    color: theme.color.gray1,
+    color: THEME.COLOR.GRAY_1,
     fontSize: 14,
   },
   errorMessage: {
     fontSize: 14,
     marginTop: 8,
-    color: theme.color.red,
+    color: THEME.COLOR.RED_1,
   },
   none: {
     display: 'none',
   },
   errorInput: {
     borderWidth: 1,
-    borderColor: theme.color.red,
+    borderColor: THEME.COLOR.RED_1,
   },
 });

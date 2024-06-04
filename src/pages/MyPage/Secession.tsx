@@ -11,7 +11,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 import ACCOUNT_SECESSTION_GUIDELINES from '../../constants/MyPage/AccountSecesstion';
 import SecesstionItem from '../../components/myPage/SecesstionItem';
 import Secesstion from '../../model/Secesstion.model';
@@ -54,7 +54,7 @@ const Secession = ({ navigation }: Props) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ height: '100%', backgroundColor: 'white' }}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.secessionContainer}>
           <Text style={styles.title}>탈퇴 안내사항</Text>
@@ -78,6 +78,10 @@ const Secession = ({ navigation }: Props) => {
 export default Secession;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
   },
@@ -85,14 +89,14 @@ const styles = StyleSheet.create({
     paddingTop: 23,
     paddingHorizontal: 28,
     paddingBottom: 28,
-    backgroundColor: theme.color.gray2,
+    backgroundColor: THEME.COLOR.GRAY_2,
     marginTop: 18,
     borderRadius: 15,
   },
   title: {
     fontSize: 18,
     fontWeight: '700',
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     marginBottom: 10,
   },
   checkbox: {

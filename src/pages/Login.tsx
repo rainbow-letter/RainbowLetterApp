@@ -17,7 +17,7 @@ import axios from 'axios';
 import { RootStackParamList } from '../../Appinner';
 import naver from '../assets/ic_login_naver_icon.png';
 import google from '../assets/ic_login_google_icon.png';
-import { theme } from '../constants/theme';
+import { THEME } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
 import { tryLogin } from '../api/account';
 import DismissKeyboardView from '../hooks/DismissKeyboardView';
@@ -85,7 +85,7 @@ const Login = ({ navigation }: Props) => {
     profile.email && profile.password && !errorData && !isLoading;
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
+    <SafeAreaView style={styles.screen}>
       <DismissKeyboardView>
         <ScrollView style={styles.container}>
           <View style={styles.headerContainer}>
@@ -160,6 +160,10 @@ const Login = ({ navigation }: Props) => {
 export default Login;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
   },
@@ -171,11 +175,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   subTitle: {
     fontSize: 14,
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     fontWeight: '400',
     marginTop: 35,
   },
@@ -195,22 +199,22 @@ const styles = StyleSheet.create({
   },
   divideText: {
     padding: 10,
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   divide: {
     width: 84,
     borderBottomWidth: 1,
-    borderColor: theme.color.gray1,
+    borderColor: THEME.COLOR.GRAY_1,
   },
   inputContainer: {
     paddingVertical: 4,
   },
   input: {
     fontSize: 14,
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     paddingVertical: 20,
     paddingHorizontal: 20,
-    backgroundColor: theme.color.gray2,
+    backgroundColor: THEME.COLOR.GRAY_2,
     borderRadius: 15,
     marginTop: 10,
   },
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   subButtonText: {
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     width: (windowWidth - 36) / 2,
     textAlign: 'center',
     fontWeight: '400',
@@ -231,17 +235,17 @@ const styles = StyleSheet.create({
   divideCol: {
     height: 16,
     borderRightWidth: 1,
-    borderColor: theme.color.gray1,
+    borderColor: THEME.COLOR.GRAY_1,
     top: 2,
   },
   errorMessage: {
     fontSize: 14,
     paddingLeft: 10,
     marginTop: 8,
-    color: theme.color.red,
+    color: THEME.COLOR.RED_1,
   },
   errorInput: {
     borderWidth: 1,
-    borderColor: theme.color.red,
+    borderColor: THEME.COLOR.RED_1,
   },
 });

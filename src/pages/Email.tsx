@@ -12,7 +12,7 @@ import {
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-import { theme } from '../constants/theme';
+import { THEME } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
 import { submitEmail } from '../api/account';
 
@@ -57,7 +57,7 @@ const Email = () => {
   }, [profile]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <Text style={styles.title}>비밀번호 재설정</Text>
@@ -109,32 +109,36 @@ const Email = () => {
 export default Email;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
-    backgroundColor: theme.color.white,
+    backgroundColor: THEME.COLOR.WHITE,
   },
   headerContainer: { alignItems: 'center', marginTop: 133 },
   title: {
     fontSize: 26,
     fontWeight: '700',
     lineHeight: 46.8,
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   description: {
     fontSize: 18,
     fontWeight: '400',
     lineHeight: 29.88,
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   input: {
-    backgroundColor: theme.color.gray2,
+    backgroundColor: THEME.COLOR.GRAY_2,
     paddingVertical: 15,
     paddingLeft: 19,
     borderRadius: 15,
     marginTop: 65,
   },
   submitButton: {
-    backgroundColor: theme.color.orange,
+    backgroundColor: THEME.COLOR.ORANGE_1,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -142,7 +146,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   submitButtonText: {
-    color: theme.color.white,
+    color: THEME.COLOR.WHITE,
     fontSize: 20,
     fontWeight: '700',
   },
@@ -152,7 +156,7 @@ const styles = StyleSheet.create({
   },
   noticeText: {
     fontSize: 16,
-    color: theme.color.gray1,
+    color: THEME.COLOR.GRAY_1,
     fontWeight: '400',
   },
   notice: {
@@ -162,6 +166,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingLeft: 10,
     marginTop: 8,
-    color: theme.color.red,
+    color: THEME.COLOR.RED_1,
   },
 });

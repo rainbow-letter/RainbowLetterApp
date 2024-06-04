@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react';
 
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 import Check from '../../assets/ic_secession_check.svg';
 
 type Props = {
@@ -40,14 +40,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 24,
     height: 24,
-    borderColor: theme.color.orange,
+    borderColor: THEME.COLOR.ORANGE_1,
     backgroundColor: 'white',
   },
   checkedBox: {
-    backgroundColor: theme.color.orange,
+    backgroundColor: THEME.COLOR.ORANGE_1,
   },
   checkBoxText: {
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     fontSize: 16,
     fontWeight: '600',
   },

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, Pressable } from 'react-native';
 import React from 'react';
 
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 
 type Props = {
   children: React.ReactNode;
@@ -26,17 +26,17 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     width: '100%',
-    backgroundColor: theme.color.gray1,
+    backgroundColor: THEME.COLOR.GRAY_1,
     paddingVertical: 22,
     alignItems: 'center',
     borderRadius: 15,
   },
   buttonActive: {
-    backgroundColor: theme.color.orange,
+    backgroundColor: THEME.COLOR.ORANGE_1,
   },
   buttonText: {
     fontSize: 20,
     fontWeight: '700',
-    color: theme.color.white,
+    color: THEME.COLOR.WHITE,
   },
 });

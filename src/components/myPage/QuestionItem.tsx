@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 import QuestionType from '../../model/Question.model';
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 
 const QuestionItem = ({ item }: { item: QuestionType }) => {
   return (
@@ -30,16 +30,16 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 18,
     fontWeight: '700',
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   prefix: {
-    color: theme.color.orange,
+    color: THEME.COLOR.ORANGE_1,
   },
   answerBox: {
     marginTop: 18,
     paddingHorizontal: 18,
     paddingVertical: 21,
-    backgroundColor: theme.color.gray2,
+    backgroundColor: THEME.COLOR.GRAY_2,
     borderRadius: 15,
   },
   answer: {

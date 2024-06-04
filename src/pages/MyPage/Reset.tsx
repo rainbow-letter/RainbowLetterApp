@@ -78,7 +78,7 @@ const Reset = ({ navigation }: Props) => {
   const canClick = account.password && account.newPassword && !isLoading;
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
+    <SafeAreaView style={styles.screen}>
       <DismissKeyboardView>
         <View style={styles.container}>
           <View style={styles.headerContainer}>
@@ -149,6 +149,10 @@ const Reset = ({ navigation }: Props) => {
 export default Reset;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
     backgroundColor: theme.color.white,
