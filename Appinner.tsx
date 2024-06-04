@@ -2,8 +2,8 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import SignUp from './src/pages/SignUp';
-import Login from './src/pages/Login';
+import SignUp from './src/pages/Account/SignUp';
+import Login from './src/pages/Account/Login';
 import StackGoBack from './src/components/common/StackGoBack';
 import BottomTabScreen from './src/components/bottomTab/BottomTabScreen';
 

@@ -6,64 +6,73 @@ import {
   Pressable,
   TextInput,
   ScrollView,
-  Dimensions,
+  Alert,
   ActivityIndicator,
 } from 'react-native';
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
 import axios from 'axios';
 
-import { RootStackParamList } from '../../Appinner';
-import naver from '../assets/ic_login_naver_icon.png';
-import google from '../assets/ic_login_google_icon.png';
-import { THEME } from '../constants/theme';
-import { handleErrorData } from '../utils/validate';
-import { tryLogin } from '../api/account';
-import DismissKeyboardView from '../hooks/DismissKeyboardView';
-import accountSlice from '../slices/account';
-import { useAppDispatch } from '../store';
-import { ErrorData } from '../model/Account.model';
-import Button from '../components/common/Button';
+import { RootStackParamList } from '../../../Appinner';
+import naver from '../../assets/ic_login_naver_icon.png';
+import google from '../../assets/ic_login_google_icon.png';
+import { THEME } from '../../constants/theme';
+import { handleErrorData } from '../../utils/validate';
+import Agree from '../../components/account/Agree';
+import { tryLogin, trySignUp } from '../../api/account';
+import DismissKeyboardView from '../../hooks/DismissKeyboardView';
+import accountSlice from '../../slices/account';
+import { useAppDispatch } from '../../store';
+import { ErrorData } from '../../model/Account.model';
+import Button from '../../components/common/Button';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
-const windowWidth = Dimensions.get('window').width;
-
-const Login = ({ navigation }: Props) => {
+const SignUp = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();
   const emailRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [profile, setProfile] = useState({
     email: '',
     password: '',
   });
+  const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
+
+  const canClick =
+    profile.email && profile.password && isChecked && !errorData && !isLoading;
 
   useEffect(() => {
     setErrorData(null);
   }, [profile]);
 
   const onChangeEmail = useCallback(
-    (email: string) => {
-      setProfile({ ...profile, email: email });
+    (value: string) => {
+      setProfile({ ...profile, email: value });
     },
     [profile],
   );
 
   const onChangePassword = useCallback(
-    (password: string) => {
-      setProfile({ ...profile, password: password });
+    (value: string) => {
+      setProfile({ ...profile, password: value });
     },
     [profile],
   );
 
-  const onClickLoginButton = useCallback(async () => {
+  const onClickSignUpButton = useCallback(async () => {
     try {
       setIsLoading(true);
+      if (!isChecked) {
+        return Alert.alert(
+          '서비스 이용약관 및 개인정보 처리방침 동의를 해주세요.',
+        );
+      }
+      await trySignUp(profile);
       const { data } = await tryLogin(profile);
       dispatch(
         accountSlice.actions.setToken({
@@ -79,76 +88,82 @@ const Login = ({ navigation }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, [profile, dispatch, navigation]);
-
-  const canClick =
-    profile.email && profile.password && !errorData && !isLoading;
+  }, [profile, isChecked, dispatch, navigation]);
 
   return (
     <SafeAreaView style={styles.screen}>
       <DismissKeyboardView>
         <ScrollView style={styles.container}>
           <View style={styles.headerContainer}>
-            <Text style={styles.title}>다시 와주셨네요!</Text>
-            <Text style={styles.subTitle}>SNS로 간편 로그인하기</Text>
+            <Text style={styles.title}>무료로 편지를 써보세요!</Text>
+            <Text style={styles.subTitle}>SNS로 간편 가입하기</Text>
             <View style={styles.iconBox}>
-              <Pressable>
+              <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
                 <Image source={google} style={styles.icon} />
               </Pressable>
-              <Pressable>
+              <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
                 <Image source={naver} style={styles.icon} />
               </Pressable>
             </View>
           </View>
           <View style={styles.divideBox}>
             <View style={styles.divide} />
-            <Text style={styles.divideText}>또는 이메일로 로그인하기</Text>
+            <Text style={styles.divideText}>또는 이메일로 가입하기</Text>
             <View style={styles.divide} />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="이메일을 입력해주세요"
               style={
-                !errorData?.message
-                  ? styles.input
-                  : [styles.input, styles.errorInput]
+                errorData?.category === 'email'
+                  ? [styles.input, styles.errorInput]
+                  : styles.input
               }
-              autoCapitalize="none"
-              ref={emailRef}
-              keyboardType="email-address"
               value={profile.email}
               onChangeText={onChangeEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              ref={emailRef}
               onSubmitEditing={() => {
                 passwordRef.current?.focus();
               }}
             />
+            <Text
+              style={
+                errorData?.category === 'email'
+                  ? styles.errorMessage
+                  : [styles.errorMessage, styles.none]
+              }>
+              {errorData?.category === 'email' && errorData.message}
+            </Text>
             <TextInput
               placeholder="비밀번호를 입력해주세요"
               style={
-                !errorData?.message
-                  ? styles.input
-                  : [styles.input, styles.errorInput]
+                errorData?.category === 'password'
+                  ? [styles.input, styles.errorInput]
+                  : styles.input
               }
               value={profile.password}
-              autoCapitalize="none"
               secureTextEntry
               onChangeText={onChangePassword}
               ref={passwordRef}
             />
-            <Text style={styles.errorMessage}>
-              {errorData?.message && errorData.message}
+            <Text
+              style={
+                errorData?.category === 'password'
+                  ? styles.errorMessage
+                  : [styles.errorMessage, styles.none]
+              }>
+              {errorData?.category === 'password' && errorData.message}
             </Text>
           </View>
-          <Button isCheck={canClick} onPress={onClickLoginButton}>
-            {isLoading ? <ActivityIndicator /> : '로그인하기'}
+          <Agree isChecked={isChecked} setIsChecked={setIsChecked} />
+          <Button isCheck={canClick} onPress={onClickSignUpButton}>
+            {isLoading ? <ActivityIndicator /> : '가입하기'}
           </Button>
-          <View style={styles.subButton}>
-            <Pressable onPress={() => navigation.navigate('Email')}>
-              <Text style={styles.subButtonText}>비밀번호 찾기</Text>
-            </Pressable>
-            <View style={styles.divideCol} />
-            <Pressable onPress={() => navigation.navigate('SignUp')}>
-              <Text style={styles.subButtonText}>회원가입</Text>
+          <View style={styles.loginButton}>
+            <Pressable onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.loginButtonText}>로그인하기</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -157,11 +172,11 @@ const Login = ({ navigation }: Props) => {
   );
 };
 
-export default Login;
+export default SignUp;
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: 'white',
+    backgroundColor: THEME.COLOR.WHITE,
     height: '100%',
   },
   container: {
@@ -218,31 +233,24 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 10,
   },
-  subButton: {
+  loginButton: {
     alignItems: 'center',
     marginTop: 26,
     paddingBottom: 90,
-    flexDirection: 'row',
-    position: 'relative',
   },
-  subButtonText: {
+  loginButtonText: {
     color: THEME.COLOR.BLACK_1,
-    width: (windowWidth - 36) / 2,
-    textAlign: 'center',
     fontWeight: '400',
     fontSize: 16,
-  },
-  divideCol: {
-    height: 16,
-    borderRightWidth: 1,
-    borderColor: THEME.COLOR.GRAY_1,
-    top: 2,
   },
   errorMessage: {
     fontSize: 14,
     paddingLeft: 10,
     marginTop: 8,
     color: THEME.COLOR.RED_1,
+  },
+  none: {
+    display: 'none',
   },
   errorInput: {
     borderWidth: 1,
