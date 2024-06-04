@@ -12,7 +12,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 
 import { theme } from '../../constants/theme';
-import NextImg from '../../assets/myPage_next.svg';
+import NextImg from '../../assets/ic_myPage_next.svg';
 import { getUserInfo } from '../../api/account';
 import { RootState } from '../../store/reducer';
 import { useAppDispatch } from '../../store';
@@ -55,7 +55,7 @@ const MyPage = ({ navigation }: Props) => {
 
   const onClickLogOutButton = useCallback(() => {
     dispatch(accountSlice.actions.removeToken());
-    navigation.push('Home');
+    navigation.navigate('Home');
   }, [dispatch, navigation]);
 
   const onChangePhoneNumber = useCallback((value: string) => {

@@ -7,7 +7,7 @@ import WriteLetter from '../../pages/Letter/WriteLetter';
 import MyPet from '../../pages/Pet/MyPet';
 import MyPage from '../../pages/MyPage/MyPage';
 import TabBar from './TabBar';
-import GoBack from '../common/GoBack';
+import TabGoBack from '../common/TabGoBack';
 
 export type RootBottomTabParamList = {
   Home: undefined;
@@ -23,7 +23,7 @@ const BottomTabScreen = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerLeft: () => <GoBack />,
+        headerLeft: () => <TabGoBack />,
         headerShadowVisible: false,
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -46,7 +46,11 @@ const BottomTabScreen = () => {
         component={WriteLetter}
         options={{ title: '편지쓰기' }}
       />
-      <Tab.Screen name="MyPet" component={MyPet} options={{ title: '아이' }} />
+      <Tab.Screen
+        name="MyPet"
+        component={MyPet}
+        options={{ title: '아이정보' }}
+      />
       <Tab.Screen
         name="MyPage"
         component={MyPage}
