@@ -85,7 +85,7 @@ const Login = ({ navigation }: Props) => {
     profile.email && profile.password && !errorData && !isLoading;
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }}>
+    <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
       <DismissKeyboardView>
         <ScrollView style={styles.container}>
           <View style={styles.headerContainer}>

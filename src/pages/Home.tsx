@@ -1,25 +1,39 @@
-import { Pressable, Text, View, SafeAreaView } from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Image,
+} from 'react-native';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../store/reducer';
+import MainImage from '../assets/im_home_main.png';
+import { theme } from '../constants/theme';
+import AccountBox from '../components/home/AccountBox';
+import PetBox from '../components/home/PetBox';
 
-const Home = ({ navigation }: any) => {
+const Home = () => {
   const token = useSelector((state: RootState) => state.account.token);
 
   return (
-    <SafeAreaView>
-      <View>
-        <Text>{token ? '토큰 있음' : '토큰 없음'}</Text>
-        <Pressable onPress={() => navigation.push('SignUp')}>
-          <Text>회원가입</Text>
-        </Pressable>
-        <Pressable onPress={() => navigation.push('Login')}>
-          <Text>로그인</Text>
-        </Pressable>
-      </View>
+    <SafeAreaView
+      style={{ backgroundColor: theme.color.white, height: '100%' }}>
+      <ScrollView>
+        <View>
+          <Image source={MainImage} style={styles.mainImage} />
+        </View>
+        <View>{token ? <PetBox /> : <AccountBox />}</View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  mainImage: {
+    width: '100%',
+  },
+});
