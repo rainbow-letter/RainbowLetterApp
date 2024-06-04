@@ -1,8 +1,8 @@
-import HomeTab from '../assets/tab_home.svg';
-import LetterTab from '../assets/tab_letter.svg';
-import PetTab from '../assets/tab_pet.svg';
-import AccountTab from '../assets/tab_account.svg';
-import WritingTab from '../assets/tab_writing.svg';
+import HomeTab from '../assets/ic_tab_home.svg';
+import LetterTab from '../assets/ic_tab_letter.svg';
+import PetTab from '../assets/ic_tab_pet.svg';
+import AccountTab from '../assets/ic_tab_account.svg';
+import WritingTab from '../assets/ic_tab_writing.svg';
 
 type TabBarType = {
   [id: string]: any;

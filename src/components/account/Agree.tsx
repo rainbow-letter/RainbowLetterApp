@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React, { useState, useCallback, useEffect } from 'react';
 
 import CheckBox from './CheckBox';
-import Check from '../../assets/signUp_check.svg';
+import Check from '../../assets/ic_signUp_check.svg';
 import { theme } from '../../constants/theme';
 
 type Props = {
@@ -53,7 +53,10 @@ const Agree = ({ isChecked, setIsChecked }: Props) => {
   return (
     <View style={styles.agreeContainer}>
       <View style={[styles.AgreeBox, styles.allAgreeBox]}>
-        <Pressable style={styles.agreeButton} onPress={handleAllCheck}>
+        <Pressable
+          hitSlop={2}
+          style={styles.agreeButton}
+          onPress={handleAllCheck}>
           <View
             style={
               !isChecked

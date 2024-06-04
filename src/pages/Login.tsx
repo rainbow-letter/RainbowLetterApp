@@ -15,8 +15,8 @@ import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/nati
 import axios from 'axios';
 
 import { RootStackParamList } from '../../Appinner';
-import naver from '../assets/login_naver_icon.png';
-import google from '../assets/login_google_icon.png';
+import naver from '../assets/ic_login_naver_icon.png';
+import google from '../assets/ic_login_google_icon.png';
 import { theme } from '../constants/theme';
 import { handleErrorData } from '../utils/validate';
 import { tryLogin } from '../api/account';

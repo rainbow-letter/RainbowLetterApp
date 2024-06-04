@@ -1,6 +1,7 @@
 import { View, useWindowDimensions } from 'react-native';
 import React from 'react';
 import RenderHTML from 'react-native-render-html';
+
 import Secesstion from '../../model/Secesstion.model';
 import { theme } from '../../constants/theme';
 

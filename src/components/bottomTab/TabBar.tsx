@@ -1,5 +1,9 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import React from 'react';
+import LinearGradient from 'react-native-linear-gradient';
+import { RootState } from '../../store/reducer';
+import { useSelector } from 'react-redux';
+
 import { tabBar } from '../../constants/icons';
 import { theme } from '../../constants/theme';
 
@@ -12,6 +16,8 @@ interface RouteType {
 const FLOATING_SIZE = 72;
 
 const TabBar = ({ state, descriptors, navigation }: any) => {
+  const token = useSelector((state: RootState) => state.account.token);
+
   return (
     <View style={styles.container}>
       {state.routes.map((route: RouteType, index: number) => {
@@ -28,6 +34,10 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
         const isfloating = route.name === 'WriteLetter';
 
         const onPress = () => {
+          if (!token) {
+            return navigation.navigate('Login');
+          }
+
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
@@ -58,26 +68,36 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
             style={{
               flex: 1,
               alignItems: 'center',
+              backgroundColor: theme.color.white,
             }}>
-            <View
+            <LinearGradient
+              colors={
+                isfloating
+                  ? [theme.color.orange, theme.color.ORANGE_2]
+                  : [theme.color.white, theme.color.white]
+              }
               style={
                 !isfloating
                   ? styles.buttonWrap
                   : [styles.buttonWrap, styles.floatingWrap]
               }>
-              <Icon color={isFocused ? '#FFB74D' : '#BDBDBD'} />
+              <Icon
+                color={isFocused ? theme.color.orange : theme.color.gray1}
+              />
               <Text
                 style={
                   isfloating
                     ? styles?.floatingText
                     : {
                         ...styles?.label,
-                        color: isFocused ? '#FFB74D' : '#BDBDBD',
+                        color: isFocused
+                          ? theme.color.orange
+                          : theme.color.gray1,
                       }
                 }>
                 {label}
               </Text>
-            </View>
+            </LinearGradient>
           </Pressable>
         );
       })}
@@ -90,19 +110,18 @@ export default TabBar;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    paddingVertical: 8,
   },
   buttonWrap: {
-    padding: 10,
+    padding: 12,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   floatingWrap: {
-    position: 'absolute',
-    bottom: 4,
+    bottom: 12,
     width: FLOATING_SIZE,
     height: FLOATING_SIZE,
     alignItems: 'center',
-    backgroundColor: '#FFB74D',
+    justifyContent: 'center',
     borderRadius: FLOATING_SIZE / 2,
   },
   floatingText: {

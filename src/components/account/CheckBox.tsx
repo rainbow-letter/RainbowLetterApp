@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react';
 
 import { theme } from '../../constants/theme';
-import Check from '../../assets/signUp_check.svg';
+import Check from '../../assets/ic_signUp_check.svg';
 
 type Props = {
   item: string[];
