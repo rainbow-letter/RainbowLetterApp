@@ -85,7 +85,7 @@ const Login = ({ navigation }: Props) => {
     profile.email && profile.password && !errorData && !isLoading;
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
+    <SafeAreaView style={styles.screen}>
       <DismissKeyboardView>
         <ScrollView style={styles.container}>
           <View style={styles.headerContainer}>
@@ -160,6 +160,10 @@ const Login = ({ navigation }: Props) => {
 export default Login;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
   },

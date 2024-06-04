@@ -54,7 +54,7 @@ const Secession = ({ navigation }: Props) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ height: '100%', backgroundColor: 'white' }}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.secessionContainer}>
           <Text style={styles.title}>탈퇴 안내사항</Text>
@@ -78,6 +78,10 @@ const Secession = ({ navigation }: Props) => {
 export default Secession;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
   },

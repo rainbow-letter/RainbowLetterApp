@@ -85,7 +85,7 @@ const MyPage = ({ navigation }: Props) => {
   }, [isCheck, phoneNumber, token, dispatch]);
 
   return (
-    <SafeAreaView style={{ height: '100%', backgroundColor: 'white' }}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.infoContainer}>
           <Text style={styles.title}>내 정보</Text>
@@ -171,6 +171,10 @@ const MyPage = ({ navigation }: Props) => {
 export default MyPage;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
   },

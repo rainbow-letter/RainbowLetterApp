@@ -57,7 +57,7 @@ const Email = () => {
   }, [profile]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', height: '100%' }}>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <Text style={styles.title}>비밀번호 재설정</Text>
@@ -109,6 +109,10 @@ const Email = () => {
 export default Email;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
     backgroundColor: theme.color.white,

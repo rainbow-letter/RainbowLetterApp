@@ -91,7 +91,7 @@ const SignUp = ({ navigation }: Props) => {
   }, [profile, isChecked, dispatch, navigation]);
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }}>
+    <SafeAreaView style={styles.screen}>
       <DismissKeyboardView>
         <ScrollView style={styles.container}>
           <View style={styles.headerContainer}>
@@ -175,6 +175,10 @@ const SignUp = ({ navigation }: Props) => {
 export default SignUp;
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: theme.color.white,
+    height: '100%',
+  },
   container: {
     paddingHorizontal: 18,
   },
