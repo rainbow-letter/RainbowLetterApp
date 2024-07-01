@@ -39,10 +39,10 @@ export default AccountBox;
 const styles = StyleSheet.create({
   accountSection: {
     paddingHorizontal: 18,
-    top: -16,
     backgroundColor: THEME.COLOR.WHITE,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
+    top: -16,
   },
   accountBox: {
     borderWidth: 1,

@@ -1,32 +1,31 @@
-import {
-  View,
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  Image,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '../store/reducer';
-import MainImage from '../assets/im_home_main.png';
 import { THEME } from '../constants/theme';
-import AccountBox from '../components/home/AccountBox';
-import PetBox from '../components/home/PetBox';
+import MainBanner from '../components/home/MainBanner';
+import PetsSection from '../components/home/PetsSection';
+import ThickDivider from '../components/home/ThickDivider';
+import LetterShowCase from '../components/home/LetterShowCase';
+import LetterShowCaseButton from '../components/home/LetterShowCaseButton';
 import ContentsSection from '../components/home/ContentsSection';
+import ContactSection from '../components/home/ContactSection';
+import ThinDivider from '../components/home/ThinDivider';
+import Footer from '../components/home/Footer';
 
 const Home = () => {
-  const token = useSelector((state: RootState) => state.account.token);
-
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView>
-        <View>
-          <Image source={MainImage} style={styles.mainImage} />
-        </View>
-        <View>{token ? <PetBox /> : <AccountBox />}</View>
-        <View style={styles.divider} />
+        <MainBanner />
+        <PetsSection />
+        <ThickDivider />
+        <LetterShowCase />
+        <LetterShowCaseButton />
+        <ThickDivider />
         <ContentsSection />
+        <ContactSection />
+        <ThinDivider />
+        <Footer />
       </ScrollView>
     </SafeAreaView>
   );
@@ -41,9 +40,5 @@ const styles = StyleSheet.create({
   },
   mainImage: {
     width: '100%',
-  },
-  divider: {
-    height: 10,
-    backgroundColor: THEME.COLOR.GRAY_2,
   },
 });
