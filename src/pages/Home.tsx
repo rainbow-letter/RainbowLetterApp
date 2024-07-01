@@ -1,14 +1,8 @@
-import {
-  View,
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  Image,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
 
-import MainImage from '../assets/im_home_main.png';
 import { THEME } from '../constants/theme';
+import MainBanner from '../components/home/MainBanner';
 import PetsSection from '../components/home/PetsSection';
 import ThickDivider from '../components/home/ThickDivider';
 import ContentsSection from '../components/home/ContentsSection';
@@ -20,9 +14,7 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView>
-        <View>
-          <Image source={MainImage} style={styles.mainImage} />
-        </View>
+        <MainBanner />
         <PetsSection />
         <ThickDivider />
         <ContentsSection />
