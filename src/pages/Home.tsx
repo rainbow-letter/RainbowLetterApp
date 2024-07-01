@@ -15,6 +15,8 @@ import AccountBox from '../components/home/AccountBox';
 import PetBox from '../components/home/PetBox';
 import ContentsSection from '../components/home/ContentsSection';
 import ContactSection from '../components/home/ContactSection';
+import ThinDivider from '../components/home/ThinDivider';
+import Footer from '../components/home/Footer';
 
 const Home = () => {
   const token = useSelector((state: RootState) => state.account.token);
@@ -29,6 +31,8 @@ const Home = () => {
         <View style={styles.divider} />
         <ContentsSection />
         <ContactSection />
+        <ThinDivider />
+        <Footer />
       </ScrollView>
     </SafeAreaView>
   );
