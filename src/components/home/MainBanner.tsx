@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 import Banner from './Banner';
-import bannerList from './constants';
+import { bannerList } from './constants';
 import { THEME } from '../../constants/theme';
 
 const MainBanner = () => {
