@@ -14,6 +14,7 @@ import { THEME } from '../constants/theme';
 import AccountBox from '../components/home/AccountBox';
 import PetBox from '../components/home/PetBox';
 import ContentsSection from '../components/home/ContentsSection';
+import ContactSection from '../components/home/ContactSection';
 
 const Home = () => {
   const token = useSelector((state: RootState) => state.account.token);
@@ -27,6 +28,7 @@ const Home = () => {
         <View>{token ? <PetBox /> : <AccountBox />}</View>
         <View style={styles.divider} />
         <ContentsSection />
+        <ContactSection />
       </ScrollView>
     </SafeAreaView>
   );
