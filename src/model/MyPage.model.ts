@@ -5,7 +5,7 @@ export interface Question {
   answer: string;
 }
 
-export interface Secesstion {
+export interface SecessionItem {
   id: number;
   contents: string;
 }
