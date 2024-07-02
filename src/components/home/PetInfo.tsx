@@ -1,12 +1,16 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '../../store/reducer';
 import { PetDashBoard } from '../../model/Home.model';
+import { calculateDDay } from '../../utils/date';
+import { getPetImage } from '../../api/image';
 import { THEME } from '../../constants/theme';
-import example from '../../assets/im_example.png';
+import DefaultImage from '../../assets/im_default.png';
 import Letter from '../../assets/ic_home_letter.svg';
 import Heart from '../../assets/ic_home_heart.svg';
 import Arrow from '../../assets/ic_home_dashborad_arrow.svg';
-import { calculateDDay } from '../../utils/date';
 
 type Props = {
   pet: PetDashBoard | undefined;
@@ -14,12 +18,28 @@ type Props = {
 };
 
 const PetInfo = ({ pet, letterCount }: Props) => {
+  const [petImage, setPetImage] = useState<any>();
+  const token = useSelector((state: RootState) => state.account.token);
+
   const deathAnniversaryDDay =
     pet?.deathAnniversary && calculateDDay(pet?.deathAnniversary);
 
+  useEffect(() => {
+    const getImage = async () => {
+      if (pet?.image.objectKey) {
+        const { request } = await getPetImage(token, pet?.image.objectKey);
+        return setPetImage({ uri: request.responseURL });
+      }
+
+      setPetImage(DefaultImage);
+    };
+
+    getImage();
+  }, [pet, token]);
+
   return (
     <View style={styles.infoBox}>
-      <Image source={example} style={styles.image} alt="아이 사진" />
+      <Image source={petImage} style={styles.image} alt="아이 사진" />
       <View style={styles.info}>
         <View style={styles.nameWrap}>
           <Text style={styles.name}>{pet?.name}</Text>
