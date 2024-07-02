@@ -11,7 +11,7 @@ import axios from 'axios';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 
-import { theme } from '../../constants/theme';
+import { THEME } from '../../constants/theme';
 import DismissKeyboardView from '../../hooks/DismissKeyboardView';
 import { updatePassword } from '../../api/account';
 import { ErrorData } from '../../model/Account.model';
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 18,
-    backgroundColor: theme.color.white,
+    backgroundColor: THEME.COLOR.WHITE,
   },
   headerContainer: {
     alignItems: 'center',
@@ -164,12 +164,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: '700',
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   description: {
     fontSize: 16,
     fontWeight: '400',
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
     marginTop: 18,
   },
   inputContainer: {
@@ -180,19 +180,19 @@ const styles = StyleSheet.create({
   },
   inputText: {
     fontSize: 14,
-    color: theme.color.black1,
+    color: THEME.COLOR.BLACK_1,
   },
   input: {
     paddingVertical: 18,
     paddingLeft: 18,
-    backgroundColor: theme.color.gray2,
+    backgroundColor: THEME.COLOR.GRAY_2,
     marginTop: 16,
     borderRadius: 15,
   },
   errorMessage: {
     fontSize: 14,
     marginTop: 8,
-    color: theme.color.red,
+    color: THEME.COLOR.RED_1,
     paddingLeft: 10,
   },
   none: {
@@ -200,6 +200,6 @@ const styles = StyleSheet.create({
   },
   errorInput: {
     borderWidth: 1,
-    borderColor: theme.color.red,
+    borderColor: THEME.COLOR.RED_1,
   },
 });

@@ -6,6 +6,10 @@ import SignUp from './src/pages/Account/SignUp';
 import Login from './src/pages/Account/Login';
 import StackGoBack from './src/components/common/StackGoBack';
 import BottomTabScreen from './src/components/bottomTab/BottomTabScreen';
+import Reset from './src/pages/MyPage/Reset';
+import Secession from './src/pages/MyPage/Secession';
+import QnA from './src/pages/MyPage/QnA';
+import Register from './src/pages/Pets/Register';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -16,6 +20,7 @@ export type RootStackParamList = {
   MyPage: undefined;
   QnA: undefined;
   Secession: undefined;
+  Register: undefined;
   BottomTabScreen: undefined;
 };
 
@@ -48,6 +53,26 @@ const Appinner = () => {
           name="Login"
           component={Login}
           options={{ title: '로그인' }}
+        />
+        <Stack.Screen
+          name="Reset"
+          component={Reset}
+          options={{ title: '비밀번호 변경하기' }}
+        />
+        <Stack.Screen
+          name="Secession"
+          component={Secession}
+          options={{ title: '탈퇴하기' }}
+        />
+        <Stack.Screen
+          name="QnA"
+          component={QnA}
+          options={{ title: '자주 묻는 질문' }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ title: '등록하기' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

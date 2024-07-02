@@ -1,6 +1,6 @@
-import { Secesstion } from '../../model/MyPage.model';
+import { SecessionItem } from '../../model/MyPage.model';
 
-const ACCOUNT_SECESSTION_GUIDELINES: Secesstion[] = [
+const ACCOUNT_SECESSTION_GUIDELINES: SecessionItem[] = [
   {
     id: 1,
     contents: `<p>\u2022 탈퇴 시 <strong>편지는 모두 삭제</strong>됩니다.</p>`,

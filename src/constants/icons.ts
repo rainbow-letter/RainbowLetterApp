@@ -11,6 +11,6 @@ export const tabBar: TabBarType = {
   Home: HomeTab,
   LetterBox: LetterTab,
   WriteLetter: WritingTab,
-  MyPet: PetTab,
+  Contents: PetTab,
   MyPage: AccountTab,
 };

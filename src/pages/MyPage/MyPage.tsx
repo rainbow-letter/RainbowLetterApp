@@ -8,8 +8,9 @@ import {
 } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import { THEME } from '../../constants/theme';
 import NextImg from '../../assets/ic_myPage_next.svg';
@@ -23,9 +24,7 @@ import { updatePhoneNumber } from '../../api/account';
 import { handleErrorData } from '../../utils/validate';
 import { ErrorData } from '../../model/Account.model';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'MyPage'>;
-
-const MyPage = ({ navigation }: Props) => {
+const MyPage = () => {
   const [isCheck, setIsCheck] = useState(false);
   const [userInfo, setUserInfo] = useState<UserInfoResponse>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
@@ -37,6 +36,9 @@ const MyPage = ({ navigation }: Props) => {
   const newPhoneNumber = useSelector(
     (state: RootState) => state.account.phoneNumber,
   );
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const getUser = async () => {
@@ -138,7 +140,7 @@ const MyPage = ({ navigation }: Props) => {
         <View>
           <Pressable
             style={styles.arrowBox}
-            onPress={() => navigation.push('Reset')}>
+            onPress={() => navigation.navigate('Reset')}>
             <Text style={styles.subTitle}>비밀번호 변경하기</Text>
             <NextImg />
           </Pressable>
@@ -147,13 +149,13 @@ const MyPage = ({ navigation }: Props) => {
           </View>
           <Pressable
             style={styles.arrowBox}
-            onPress={() => navigation.push('QnA')}>
+            onPress={() => navigation.navigate('QnA')}>
             <Text style={styles.subTitle}>자주 묻는 질문</Text>
             <NextImg />
           </Pressable>
           <Pressable
             style={styles.arrowBox}
-            onPress={() => navigation.push('Secession')}>
+            onPress={() => navigation.navigate('Secession')}>
             <Text style={styles.subTitle}>탈퇴하기</Text>
             <NextImg />
           </Pressable>

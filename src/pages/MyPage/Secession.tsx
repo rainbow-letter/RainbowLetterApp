@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { THEME } from '../../constants/theme';
 import ACCOUNT_SECESSTION_GUIDELINES from '../../constants/MyPage/AccountSecesstion';
 import SecesstionItem from '../../components/myPage/SecesstionItem';
-import Secesstion from '../../model/Secesstion.model';
+import { SecessionItem } from '../../model/MyPage.model';
 import CheckBox from '../../components/myPage/CheckBox';
 import { deleteUserInfo } from '../../api/account';
 import { RootState } from '../../store/reducer';
@@ -49,7 +49,7 @@ const Secession = ({ navigation }: Props) => {
     }
   }, [dispatch, navigation, isCheck, token]);
 
-  const renderItems = useCallback(({ item }: { item: Secesstion }) => {
+  const renderItems = useCallback(({ item }: { item: SecessionItem }) => {
     return <SecesstionItem item={item} />;
   }, []);
 
