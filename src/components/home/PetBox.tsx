@@ -7,6 +7,8 @@ import { RootState } from '../../store/reducer';
 import { PetDashBoard } from '../../model/Home.model';
 import NameSection from './NameSection';
 import PetInfo from './PetInfo';
+import NoPets from '../common/NoPets';
+import { THEME } from '../../constants/theme';
 
 const PetBox = () => {
   const [petsList, setPetsList] = useState<PetDashBoard[]>([]);
@@ -31,12 +33,20 @@ const PetBox = () => {
   return (
     <View style={styles.section}>
       <Text style={styles.title}>우리 아이</Text>
-      <NameSection
-        petsNames={petsNames}
-        onClick={setSelectedPet}
-        selectedPet={selectedPet}
-      />
-      <PetInfo pet={filteredPet} letterCount={filteredPet?.letterCount} />
+      {petsList.length < 1 ? (
+        <View style={styles.noPetBox}>
+          <NoPets />
+        </View>
+      ) : (
+        <>
+          <NameSection
+            petsNames={petsNames}
+            onClick={setSelectedPet}
+            selectedPet={selectedPet}
+          />
+          <PetInfo pet={filteredPet} letterCount={filteredPet?.letterCount} />
+        </>
+      )}
     </View>
   );
 };
@@ -54,5 +64,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     paddingLeft: 6,
+  },
+  noPetBox: {
+    borderWidth: 1,
+    borderRadius: 15,
+    borderColor: THEME.COLOR.GRAY_1,
+    paddingTop: 30,
+    paddingBottom: 15,
+    paddingHorizontal: 15,
   },
 });
