@@ -4,7 +4,7 @@ import React from 'react';
 import { THEME } from '../../constants/theme';
 import { CONTENTS_ITEMS } from '../../constants/Home/ContentsSection';
 import ContentsBox from './ContentsBox';
-import Contents from '../../model/Home.model';
+import { Contents } from '../../model/Home.model';
 
 const ContentsSection = () => {
   return (
