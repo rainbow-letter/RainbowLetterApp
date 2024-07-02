@@ -6,6 +6,7 @@ import example from '../../assets/im_example.png';
 import Letter from '../../assets/ic_home_letter.svg';
 import Heart from '../../assets/ic_home_heart.svg';
 import Arrow from '../../assets/ic_home_dashborad_arrow.svg';
+import { calculateDDay } from '../../utils/date';
 
 type Props = {
   pet: PetDashBoard | undefined;
@@ -13,13 +14,16 @@ type Props = {
 };
 
 const PetInfo = ({ pet, letterCount }: Props) => {
+  const deathAnniversaryDDay =
+    pet?.deathAnniversary && calculateDDay(pet?.deathAnniversary);
+
   return (
     <View style={styles.infoBox}>
       <Image source={example} style={styles.image} alt="아이 사진" />
       <View style={styles.info}>
         <View style={styles.nameWrap}>
           <Text style={styles.name}>{pet?.name}</Text>
-          <Text style={styles.dday}>D+345</Text>
+          <Text style={styles.dday}>{deathAnniversaryDDay}</Text>
         </View>
         <View style={styles.content}>
           <View style={styles.letter}>
