@@ -10,11 +10,15 @@ type Props = {
   style?: any;
 };
 
-const Button = ({ children, isCheck, onPress }: Props) => {
+const Button = ({ children, isCheck, onPress, style }: Props) => {
   return (
     <Pressable
       disabled={!isCheck}
-      style={isCheck ? [styles.button, styles.buttonActive] : styles.button}
+      style={
+        isCheck
+          ? [style, styles.button, styles.buttonActive]
+          : [style, styles.button]
+      }
       onPress={onPress}>
       <Text style={styles.buttonText}>{children}</Text>
     </Pressable>

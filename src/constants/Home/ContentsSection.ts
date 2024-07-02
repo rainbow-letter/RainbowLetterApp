@@ -2,7 +2,7 @@ import Letter from '../../assets/im_home_letter.jpeg';
 import Comment from '../../assets/im_home_comment.png';
 import Type from '../../assets/im_home_type.jpeg';
 import InterView from '../../assets/im_home_interview.jpeg';
-import Contents from '../../model/Home.model';
+import { Contents } from '../../model/Home.model';
 
 export const CONTENTS_ITEMS: Contents[] = [
   {

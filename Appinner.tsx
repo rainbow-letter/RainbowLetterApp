@@ -9,6 +9,7 @@ import BottomTabScreen from './src/components/bottomTab/BottomTabScreen';
 import Reset from './src/pages/MyPage/Reset';
 import Secession from './src/pages/MyPage/Secession';
 import QnA from './src/pages/MyPage/QnA';
+import Register from './src/pages/Pets/Register';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -19,6 +20,7 @@ export type RootStackParamList = {
   MyPage: undefined;
   QnA: undefined;
   Secession: undefined;
+  Register: undefined;
   BottomTabScreen: undefined;
 };
 
@@ -66,6 +68,11 @@ const Appinner = () => {
           name="QnA"
           component={QnA}
           options={{ title: '자주 묻는 질문' }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ title: '등록하기' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
