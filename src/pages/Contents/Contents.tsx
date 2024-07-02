@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 
-const MyPet = () => {
+const Contents = () => {
   return (
     <View>
-      <Text>MyPet</Text>
+      <Text>Contents</Text>
     </View>
   );
 };
 
-export default MyPet;
+export default Contents;

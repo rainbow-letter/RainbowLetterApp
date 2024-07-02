@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../../pages/Home';
 import LetterBox from '../../pages/Letter/LetterBox';
 import WriteLetter from '../../pages/Letter/WriteLetter';
-import MyPet from '../../pages/Pet/MyPet';
+import Contents from '../../pages/Contents/Contents';
 import MyPage from '../../pages/MyPage/MyPage';
 import TabBar from './TabBar';
 import TabGoBack from '../common/TabGoBack';
@@ -13,7 +13,7 @@ export type RootBottomTabParamList = {
   Home: undefined;
   LetterBox: undefined;
   WriteLetter: undefined;
-  MyPet: undefined;
+  Contents: undefined;
   MyPage: undefined;
 };
 
@@ -47,9 +47,9 @@ const BottomTabScreen = () => {
         options={{ title: '편지쓰기' }}
       />
       <Tab.Screen
-        name="MyPet"
-        component={MyPet}
-        options={{ title: '아이정보' }}
+        name="Contents"
+        component={Contents}
+        options={{ title: '콘텐츠' }}
       />
       <Tab.Screen
         name="MyPage"
