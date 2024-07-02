@@ -17,6 +17,9 @@ const PetBox = () => {
     const getPetList = async () => {
       const { data } = await getDashBoardPets(token);
       setPetsList(data.pets || []);
+      if (data.pets.length > 0) {
+        setSelectedPet(data.pets[0].name || '');
+      }
     };
 
     getPetList();
