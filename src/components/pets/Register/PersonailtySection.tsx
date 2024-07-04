@@ -1,12 +1,42 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { StyledPetRegisterTitle } from '../../../model/Pet.model';
 import { PETS_PERSONALITY } from '../../../constants/Pet/Register';
 import Chip from '../../common/Chip';
 import { THEME } from '../../../constants/theme';
+import { useDispatch, useSelector } from 'react-redux';
+import PetRegisterSlice from '../../../slices/pets';
+import { RootState } from '../../../store/reducer';
 
 const PersonailtySection = ({ titleStyle }: StyledPetRegisterTitle) => {
+  const dispatch = useDispatch();
+  const { personalities } = useSelector(
+    (state: RootState) => state.petRegister,
+  );
+
+  const handleCheckPersonailty = useCallback(
+    (personality: string) => {
+      if (personalities.includes(personality)) {
+        const updateList = personalities.filter(item => item !== personality);
+        const action = PetRegisterSlice.actions.setPetInfo({
+          personalities: updateList,
+        });
+        return dispatch(action);
+      }
+      if (personalities.length >= 3) {
+        return;
+      }
+
+      const updateList = [...personalities, personality];
+      const action = PetRegisterSlice.actions.setPetInfo({
+        personalities: updateList,
+      });
+      dispatch(action);
+    },
+    [dispatch, personalities],
+  );
+
   return (
     <View style={styles.section}>
       <View style={styles.titleWrap}>
@@ -18,8 +48,8 @@ const PersonailtySection = ({ titleStyle }: StyledPetRegisterTitle) => {
           <Chip
             key={`pets-personailty-${personailty}`}
             value={personailty}
-            isSelected={false}
-            onClick={() => console.log('s')}
+            isSelected={personalities.includes(personailty)}
+            onClick={() => handleCheckPersonailty(personailty)}
           />
         ))}
       </View>

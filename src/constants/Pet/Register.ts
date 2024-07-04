@@ -1,5 +1,5 @@
 export const PETS_TYPE = ['강아지', '고양이', '햄스터', '앵무새'];
-export const PETS_MASTER = [
+export const PETS_OWNERS = [
   '엄마',
   '언니',
   '누나',

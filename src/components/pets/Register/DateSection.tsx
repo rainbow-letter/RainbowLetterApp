@@ -1,11 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { StyledPetRegisterTitle } from '../../../model/Pet.model';
 import DateInput from '../../common/DateInput';
 import Chip from '../../common/Chip';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducer';
+import PetRegisterSlice from '../../../slices/pets';
 
 const DateSection = ({ titleStyle }: StyledPetRegisterTitle) => {
+  const dispatch = useDispatch();
+  const { deathAnniversary } = useSelector(
+    (state: RootState) => state.petRegister,
+  );
+
+  const handleCheckUnknownDate = useCallback(() => {
+    const action = PetRegisterSlice.actions.setPetInfo({
+      deathAnniversary: null,
+    });
+    dispatch(action);
+  }, [dispatch]);
+
   return (
     <View style={styles.section}>
       <View>
@@ -21,8 +36,8 @@ const DateSection = ({ titleStyle }: StyledPetRegisterTitle) => {
           </View>
           <Chip
             value="몰라요"
-            isSelected={false}
-            onClick={() => console.log('s')}
+            isSelected={deathAnniversary === null}
+            onClick={handleCheckUnknownDate}
           />
         </View>
       </View>

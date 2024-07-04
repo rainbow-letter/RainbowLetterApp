@@ -13,11 +13,12 @@ const initialState: Pet = {
 };
 
 const PetRegisterSlice = createSlice({
-  name: 'account',
+  name: 'PetRegister',
   initialState,
   reducers: {
     setPetInfo(state, action: PayloadAction<Partial<Pet>>) {
       state = { ...state, ...action.payload };
+      return state;
     },
   },
 });
