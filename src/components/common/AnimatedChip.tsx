@@ -1,5 +1,12 @@
-import { Animated, Text, TextInput, StyleSheet, Pressable } from 'react-native';
-import React, { useEffect, useRef, useCallback } from 'react';
+import {
+  View,
+  Animated,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { THEME } from '../../constants/theme';
 
@@ -11,6 +18,7 @@ type Props = {
 
 const AnimatedChip = ({ isCheck, onClick, onChange }: Props) => {
   const widthAnim = useRef(new Animated.Value(0)).current;
+  const [isFoucs, setIsFocus] = useState(false);
 
   const handleFocus = useCallback(() => {
     Animated.timing(widthAnim, {
@@ -37,24 +45,33 @@ const AnimatedChip = ({ isCheck, onClick, onChange }: Props) => {
   }, [isCheck, handleBlur, handleFocus]);
 
   return (
-    <Pressable
-      style={
-        !isCheck ? styles.container : [styles.container, styles.selectedChip]
-      }
-      onPress={onClick}>
-      <Text
+    <View>
+      <Pressable
         style={
-          !isCheck
-            ? styles.chipText
-            : [styles.chipText, styles.selectedChipText]
-        }>
-        기타
-      </Text>
-      {isCheck && <Text style={styles.divide}>:</Text>}
-      <Animated.View style={{ width: widthAnim }}>
-        <TextInput onChangeText={onChange} />
-      </Animated.View>
-    </Pressable>
+          !isCheck ? styles.container : [styles.container, styles.selectedChip]
+        }
+        onPress={onClick}>
+        <Text
+          style={
+            !isCheck
+              ? styles.chipText
+              : [styles.chipText, styles.selectedChipText]
+          }>
+          기타
+        </Text>
+        {isCheck && <Text style={styles.divide}>:</Text>}
+        <Animated.View style={{ width: widthAnim }}>
+          <TextInput
+            onChangeText={onChange}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+          />
+        </Animated.View>
+      </Pressable>
+      {isFoucs && isCheck && (
+        <Text style={styles.alarmText}>10글자 이내로 입력해주세요.</Text>
+      )}
+    </View>
   );
 };
 
@@ -83,6 +100,12 @@ const styles = StyleSheet.create({
   },
   chipText: {
     color: THEME.COLOR.BLACK_1,
+    fontSize: 14,
+  },
+  alarmText: {
+    color: THEME.COLOR.RED_1,
+    paddingHorizontal: 10,
+    paddingTop: 10,
     fontSize: 14,
   },
 });

@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { StyledPetRegisterTitle } from '../../../model/Pet.model';
 import { THEME } from '../../../constants/theme';
 import PetRegisterSlice from '../../../slices/pets';
+import { RootState } from '../../../store/reducer';
 
 const NameSection = ({ titleStyle }: StyledPetRegisterTitle) => {
+  const { name } = useSelector((state: RootState) => state.petRegister);
   const dispatch = useDispatch();
 
   const handleInputName = useCallback(
@@ -29,6 +31,9 @@ const NameSection = ({ titleStyle }: StyledPetRegisterTitle) => {
           style={styles.input}
           onChangeText={handleInputName}
         />
+        {name && (
+          <Text style={styles.alarmText}>이름은 나중에 수정할 수 없어요.</Text>
+        )}
       </View>
     </View>
   );
@@ -46,5 +51,11 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     borderRadius: 15,
     backgroundColor: THEME.COLOR.GRAY_2,
+  },
+  alarmText: {
+    color: THEME.COLOR.RED_1,
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    fontSize: 14,
   },
 });
