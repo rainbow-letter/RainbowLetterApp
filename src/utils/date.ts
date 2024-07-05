@@ -12,3 +12,9 @@ export const calculateDDay = (deathAnniversary: string) => {
     ? `D-${Math.ceil(differenceInDays)}`
     : `D+${Math.abs(Math.ceil(differenceInDays))}`;
 };
+
+export const filterNumericValue = (value: string) => {
+  const numericValue = value.replace(/[^0-9]/g, '');
+
+  return numericValue;
+};

@@ -1,5 +1,6 @@
 import { StyleSheet, SafeAreaView } from 'react-native';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import DismissKeyboardView from '../../hooks/DismissKeyboardView';
 import NameSection from '../../components/pets/Register/NameSection';
@@ -10,7 +11,6 @@ import PersonailtySection from '../../components/pets/Register/PersonailtySectio
 import ImageUploadSection from '../../components/pets/Register/ImageUploadSection';
 import Button from '../../components/common/Button';
 import { THEME } from '../../constants/theme';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
 
 const titleStyle = {
@@ -23,6 +23,10 @@ const titleStyle = {
 const Register = () => {
   const petInfo = useSelector((state: RootState) => state.petRegister);
 
+  const onClickPetRegisterButton = useCallback(() => {
+    console.log(petInfo);
+  }, [petInfo]);
+
   return (
     <SafeAreaView style={styles.screen}>
       <DismissKeyboardView>
@@ -34,7 +38,7 @@ const Register = () => {
         <ImageUploadSection titleStyle={titleStyle} />
         <Button
           isCheck
-          onPress={() => console.log(petInfo)}
+          onPress={onClickPetRegisterButton}
           style={{ marginBottom: 48 }}>
           등록하기
         </Button>

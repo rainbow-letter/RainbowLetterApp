@@ -7,6 +7,9 @@ export interface Pet {
   personalities: string[];
   deathAnniversary: string | null;
   image: any;
+  year?: string;
+  month?: string;
+  day?: string;
 }
 
 export interface StyledPetRegisterTitle {
