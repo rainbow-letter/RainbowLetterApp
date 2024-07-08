@@ -5,8 +5,11 @@ export interface Pet {
   species: string;
   owner: string;
   personalities: string[];
-  deathAnniversary: string;
+  deathAnniversary: string | null;
   image: any;
+  year?: string;
+  month?: string;
+  day?: string;
 }
 
 export interface StyledPetRegisterTitle {

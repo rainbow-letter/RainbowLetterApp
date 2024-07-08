@@ -12,3 +12,23 @@ export const calculateDDay = (deathAnniversary: string) => {
     ? `D-${Math.ceil(differenceInDays)}`
     : `D+${Math.abs(Math.ceil(differenceInDays))}`;
 };
+
+export const filterNumericValue = (value: string) => {
+  const numericValue = value.replace(/[^0-9]/g, '');
+
+  return numericValue;
+};
+
+export const isCheckFutureDate = (date: string | null): boolean => {
+  if (date === null) {
+    return false;
+  }
+
+  const inputDate = new Date(date);
+  const currentDate = new Date();
+  if (inputDate > currentDate) {
+    return true;
+  }
+
+  return false;
+};

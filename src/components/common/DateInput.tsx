@@ -6,14 +6,18 @@ import { THEME } from '../../constants/theme';
 type Props = {
   placeholder: string;
   width: number;
+  onChange: (date: string) => void;
+  value?: string;
 };
 
-const DateInput = ({ placeholder, width }: Props) => {
+const DateInput = ({ placeholder, width, onChange, value }: Props) => {
   return (
     <TextInput
       placeholder={placeholder}
       style={[styles.input, { width }]}
       maxLength={placeholder.length}
+      onChangeText={onChange}
+      value={value}
     />
   );
 };

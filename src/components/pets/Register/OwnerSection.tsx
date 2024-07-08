@@ -4,22 +4,22 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { StyledPetRegisterTitle } from '../../../model/Pet.model';
 import Chip from '../../common/Chip';
-import { PETS_TYPE } from '../../../constants/Pet/Register';
-import PetRegisterSlice from '../../../slices/pets';
+import { PETS_OWNERS } from '../../../constants/Pet/Register';
 import { RootState } from '../../../store/reducer';
+import PetRegisterSlice from '../../../slices/pets';
 import AnimatedChip from '../../common/AnimatedChip';
 
-const TypeSection = ({ titleStyle }: StyledPetRegisterTitle) => {
+const OwnerSection = ({ titleStyle }: StyledPetRegisterTitle) => {
   const [isEtcCheck, setIsEtcCheck] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { species } = useSelector((state: RootState) => state.petRegister);
+  const { owner } = useSelector((state: RootState) => state.petRegister);
 
-  const handleCheckType = useCallback(
-    (species: string) => {
+  const handleCheckOwner = useCallback(
+    (owner: string) => {
       setIsEtcCheck(false);
 
       const action = PetRegisterSlice.actions.setPetInfo({
-        species,
+        owner,
       });
       dispatch(action);
     },
@@ -29,7 +29,7 @@ const TypeSection = ({ titleStyle }: StyledPetRegisterTitle) => {
   const handleEtcInput = useCallback(
     (value: string) => {
       const action = PetRegisterSlice.actions.setPetInfo({
-        species: value,
+        owner: value,
       });
       dispatch(action);
     },
@@ -38,15 +38,15 @@ const TypeSection = ({ titleStyle }: StyledPetRegisterTitle) => {
 
   return (
     <View style={styles.section}>
-      <Text style={titleStyle}>아이의 종류</Text>
+      <Text style={titleStyle}>아이에게 당신은</Text>
       <View style={styles.etcWrap}>
-        <View style={styles.typeWrap}>
-          {PETS_TYPE.map(type => (
+        <View style={styles.masterWrap}>
+          {PETS_OWNERS.map(item => (
             <Chip
-              key={`pets-type-${type}`}
-              value={type}
-              isSelected={species === type && !isEtcCheck}
-              onClick={() => handleCheckType(type)}
+              key={`pets-owner-${item}`}
+              value={item}
+              isSelected={item === owner && !isEtcCheck}
+              onClick={() => handleCheckOwner(item)}
             />
           ))}
         </View>
@@ -60,7 +60,7 @@ const TypeSection = ({ titleStyle }: StyledPetRegisterTitle) => {
   );
 };
 
-export default TypeSection;
+export default OwnerSection;
 
 const styles = StyleSheet.create({
   section: {
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     gap: 12,
   },
-  typeWrap: {
+  masterWrap: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 12,
