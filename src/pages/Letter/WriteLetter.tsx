@@ -1,6 +1,6 @@
-import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../store/reducer';
 import { getDashBoardPets } from '../../api/pets';
@@ -8,22 +8,25 @@ import WriteLetterTutorial from '../../components/writeLetter/WriteLetterTutoria
 import PetsSection from '../../components/writeLetter/PetsSection';
 import { PetDashBoard } from '../../model/Home.model';
 import { THEME } from '../../constants/theme';
+import PetSelectSlice from '../../slices/petSelect';
 
 const WriteLetter = () => {
+  const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.account.token);
   const [petsList, setPetsList] = useState<PetDashBoard[]>([]);
-  const [selectedPet, setSelectedPet] = useState<PetDashBoard>();
   const [showTutorial, setShowTutorial] = useState(true);
 
   useEffect(() => {
     const getPetList = async () => {
       const { data } = await getDashBoardPets(token);
       setPetsList(data.pets || []);
-      setSelectedPet(data.pets[0]);
+
+      const action = PetSelectSlice.actions.setPetInfo(data.pets[0]);
+      dispatch(action);
     };
 
     getPetList();
-  }, [token]);
+  }, [token, dispatch]);
 
   const handleCloseTutorial = () => {
     setShowTutorial(false);
@@ -36,12 +39,7 @@ const WriteLetter = () => {
           visible={showTutorial}
           onClose={handleCloseTutorial}
         />
-        <PetsSection
-          petsList={petsList}
-          setSelectedPet={setSelectedPet}
-          selectedPet={selectedPet}
-        />
-        <Text>Your Write Letter Page Content Here</Text>
+        <PetsSection petsList={petsList} />
       </ScrollView>
     </SafeAreaView>
   );
