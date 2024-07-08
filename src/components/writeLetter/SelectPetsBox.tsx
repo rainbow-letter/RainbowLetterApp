@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { THEME } from '../../constants/theme';
 import { PetDashBoard } from '../../model/Home.model';
@@ -9,14 +9,17 @@ import Plus from '../../assets/ic_write_blackPlus.svg';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../Appinner';
+import { useDispatch, useSelector } from 'react-redux';
+import PetSelectSlice from '../../slices/petSelect';
+import { RootState } from '../../store/reducer';
 
 type Props = {
-  setSelectedPet: (pet: PetDashBoard) => void;
-  selectedPet: PetDashBoard | undefined;
   petList: PetDashBoard[];
 };
 
-const SelectPetsBox = ({ setSelectedPet, selectedPet, petList }: Props) => {
+const SelectPetsBox = ({ petList }: Props) => {
+  const dispatch = useDispatch();
+  const { name } = useSelector((state: RootState) => state.petSelect);
   const [isShow, setIsShow] = useState<boolean>(false);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -25,15 +28,19 @@ const SelectPetsBox = ({ setSelectedPet, selectedPet, petList }: Props) => {
     setIsShow(prev => !prev);
   };
 
-  const handleSelectPet = (pet: PetDashBoard) => {
-    setSelectedPet(pet);
-    setIsShow(false);
-  };
+  const handleSelectPet = useCallback(
+    (pet: PetDashBoard) => {
+      const action = PetSelectSlice.actions.setPetInfo(pet);
+      dispatch(action);
+      setIsShow(false);
+    },
+    [dispatch],
+  );
 
   return (
     <View>
       <Pressable style={styles.section} onPress={handleShow}>
-        <Text style={styles.petText}>{selectedPet?.name}</Text>
+        <Text style={styles.petText}>{name}</Text>
         {isShow ? <UpArr /> : <DownArr />}
       </Pressable>
       <View style={styles.relative}>
@@ -68,6 +75,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderWidth: 1,
     borderColor: THEME.COLOR.ORANGE_1,
+    backgroundColor: THEME.COLOR.ORANGE_3,
     borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
