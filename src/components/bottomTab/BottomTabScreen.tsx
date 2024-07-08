@@ -44,7 +44,7 @@ const BottomTabScreen = () => {
       <Tab.Screen
         name="WriteLetter"
         component={WriteLetter}
-        options={{ title: '편지쓰기' }}
+        options={{ title: '편지 쓰기' }}
       />
       <Tab.Screen
         name="Contents"
