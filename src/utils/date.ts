@@ -18,3 +18,17 @@ export const filterNumericValue = (value: string) => {
 
   return numericValue;
 };
+
+export const isCheckFutureDate = (date: string | null): boolean => {
+  if (date === null) {
+    return false;
+  }
+
+  const inputDate = new Date(date);
+  const currentDate = new Date();
+  if (inputDate > currentDate) {
+    return true;
+  }
+
+  return false;
+};

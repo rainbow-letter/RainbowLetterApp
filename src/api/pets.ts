@@ -1,4 +1,4 @@
-import { AxiosRequest } from './config';
+import { AxiosRequest, AxiosRequestWithImage } from './config';
 import { createRequestURL } from './config/requestConfig';
 import { PetDashBoard } from '../model/Home.model';
 import { ApiResponse } from '../model/Api.model';
@@ -17,4 +17,17 @@ export const getDashBoardPets = (
   };
 
   return AxiosRequest(config);
+};
+
+export const registerPetInfo = (token: string, data: any) => {
+  const config = {
+    url: accountUrl(''),
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data,
+  };
+
+  return AxiosRequestWithImage(config);
 };

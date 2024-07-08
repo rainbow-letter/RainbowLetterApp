@@ -9,7 +9,11 @@ const initialState: Pet = {
   owner: '',
   personalities: [],
   deathAnniversary: '',
-  image: null,
+  image: {
+    uri: '',
+    name: '',
+    type: '',
+  },
   year: '',
   month: '',
   day: '',

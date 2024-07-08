@@ -1,12 +1,4 @@
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  Image,
-  Alert,
-} from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import React, { useCallback, useState } from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
@@ -15,14 +7,16 @@ import { StyledPetRegisterTitle } from '../../../model/Pet.model';
 import Plus from '../../../assets/ic_register_plus.svg';
 import Cancel from '../../../assets/ic_register_cancel.png';
 import { THEME } from '../../../constants/theme';
+import PetRegisterSlice from '../../../slices/pets';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducer';
 
 const ImageUploadSection = ({ titleStyle }: StyledPetRegisterTitle) => {
-  const [preview, setPreview] = useState<{ uri: string }>();
-  const [image, setImage] = useState<{
-    uri: string;
-    name: string;
-    type: string;
-  }>();
+  const { image } = useSelector((state: RootState) => state.petRegister);
+  const [preview, setPreview] = useState<{ uri: string } | null>(
+    { uri: image } || null,
+  );
+  const dispatch = useDispatch();
 
   const onResponse = useCallback(
     async (response: any) => {
@@ -35,15 +29,17 @@ const ImageUploadSection = ({ titleStyle }: StyledPetRegisterTitle) => {
         100,
         0,
       ).then(r => {
-        setImage({
-          uri: r.uri,
-          name: r.name,
-          type: response.mime,
+        const action = PetRegisterSlice.actions.setPetInfo({
+          image: {
+            uri: r.uri,
+            name: r.name,
+            type: response.mime,
+          },
         });
-        console.log(image);
+        dispatch(action);
       });
     },
-    [image],
+    [dispatch],
   );
 
   const onChangeFile = useCallback(() => {
@@ -55,6 +51,14 @@ const ImageUploadSection = ({ titleStyle }: StyledPetRegisterTitle) => {
       .then(onResponse)
       .catch(console.log);
   }, [onResponse]);
+
+  const handleImageDelete = useCallback(() => {
+    setPreview(null);
+    const action = PetRegisterSlice.actions.setPetInfo({
+      image: null,
+    });
+    dispatch(action);
+  }, [dispatch]);
 
   return (
     <View style={styles.section}>
@@ -70,7 +74,7 @@ const ImageUploadSection = ({ titleStyle }: StyledPetRegisterTitle) => {
           <Pressable
             style={styles.cancelButton}
             hitSlop={8}
-            onPress={() => Alert.alert('ss')}>
+            onPress={handleImageDelete}>
             <Image source={Cancel} />
           </Pressable>
         )}
@@ -96,8 +100,10 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   previewImage: {
-    height: Dimensions.get('window').height / 3,
-    resizeMode: 'contain',
+    width: 153,
+    height: 153,
+    borderRadius: 15,
+    position: 'absolute',
   },
   cancelButton: {
     width: 26,

@@ -30,6 +30,7 @@ const NameSection = ({ titleStyle }: StyledPetRegisterTitle) => {
           autoCapitalize="none"
           style={styles.input}
           onChangeText={handleInputName}
+          value={name}
         />
         {name && (
           <Text style={styles.alarmText}>이름은 나중에 수정할 수 없어요.</Text>
