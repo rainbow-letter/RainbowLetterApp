@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderWidth: 1,
     borderColor: THEME.COLOR.ORANGE_1,
+    backgroundColor: THEME.COLOR.ORANGE_3,
     borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -49,8 +49,9 @@ const WriteLetter = () => {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: THEME.COLOR.WHITE,
     height: '100%',
+    backgroundColor: THEME.COLOR.WHITE,
+    paddingHorizontal: 18,
   },
 });
 

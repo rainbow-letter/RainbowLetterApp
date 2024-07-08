@@ -33,7 +33,6 @@ export default PetsSection;
 
 const styles = StyleSheet.create({
   section: {
-    paddingHorizontal: 18,
     marginTop: 10,
     zIndex: 10,
   },
