@@ -8,6 +8,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
+import { THEME } from '../../constants/theme';
 
 const { width } = Dimensions.get('window');
 
@@ -48,14 +49,14 @@ const WriteLetterTutorial = ({ visible, onClose }: Props) => {
                 style={[
                   styles.highlight,
                   {
-                    top: 50,
-                    left: width / 2 - 25,
+                    top: 80,
+                    right: 26,
                     opacity: animatedValue,
                   },
                 ]}
               />
               <Text
-                style={[styles.tooltip, { top: 100, left: width / 2 - 75 }]}>
+                style={[styles.tooltip, { top: 130, left: width / 2 - 50 }]}>
                 편지 보낼 아이를 선택할 수 있어요!
               </Text>
             </>
@@ -100,7 +101,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: 'white',
+    borderWidth: 3,
+    borderColor: THEME.COLOR.WHITE,
   },
   tooltip: {
     position: 'absolute',
