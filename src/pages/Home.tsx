@@ -38,7 +38,4 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLOR.WHITE,
     height: '100%',
   },
-  mainImage: {
-    width: '100%',
-  },
 });

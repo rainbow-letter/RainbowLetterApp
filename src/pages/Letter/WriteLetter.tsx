@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,9 +6,11 @@ import { RootState } from '../../store/reducer';
 import { getDashBoardPets } from '../../api/pets';
 import WriteLetterTutorial from '../../components/writeLetter/WriteLetterTutorial';
 import PetsSection from '../../components/writeLetter/PetsSection';
+import WritingSection from '../../components/writeLetter/WritingSection';
 import { PetDashBoard } from '../../model/Home.model';
 import { THEME } from '../../constants/theme';
 import PetSelectSlice from '../../slices/petSelect';
+import CoverImage from '../../components/common/CoverImage';
 
 const WriteLetter = () => {
   const dispatch = useDispatch();
@@ -29,17 +31,21 @@ const WriteLetter = () => {
   }, [token, dispatch]);
 
   const handleCloseTutorial = () => {
-    setShowTutorial(false);
+    setShowTutorial(prev => !prev);
   };
 
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView>
+        <PetsSection petsList={petsList} />
+        <View style={styles.relativeLayout}>
+          <CoverImage />
+          <WritingSection />
+        </View>
         <WriteLetterTutorial
           visible={showTutorial}
           onClose={handleCloseTutorial}
         />
-        <PetsSection petsList={petsList} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -50,6 +56,10 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: THEME.COLOR.WHITE,
     paddingHorizontal: 18,
+  },
+  relativeLayout: {
+    position: 'relative',
+    marginTop: 16,
   },
 });
 
