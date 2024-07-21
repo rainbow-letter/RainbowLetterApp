@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import TipItem from './TipItem';
-import TipList from './constants';
+import TipList from '../../constants/WriteLetter/constants';
 import { THEME } from '../../constants/theme';
 import { Tip } from '../../model/Letter.model';
 import Info from '../../assets/ic_write_info.svg';

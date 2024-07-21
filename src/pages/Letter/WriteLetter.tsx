@@ -7,6 +7,7 @@ import { getDashBoardPets } from '../../api/pets';
 import WriteLetterTutorial from '../../components/writeLetter/WriteLetterTutorial';
 import PetsSection from '../../components/writeLetter/PetsSection';
 import WritingSection from '../../components/writeLetter/WritingSection';
+import ImageSection from '../../components/writeLetter/ImageSection';
 import { PetDashBoard } from '../../model/Home.model';
 import { THEME } from '../../constants/theme';
 import PetSelectSlice from '../../slices/petSelect';
@@ -46,6 +47,7 @@ const WriteLetter = () => {
           visible={showTutorial}
           onClose={handleCloseTutorial}
         />
+        <ImageSection />
       </ScrollView>
     </SafeAreaView>
   );
