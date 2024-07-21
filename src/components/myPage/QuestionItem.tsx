@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-import QuestionType from '../../model/Question.model';
+import { Question } from '../../model/MyPage.model';
 import { THEME } from '../../constants/theme';
 
-const QuestionItem = ({ item }: { item: QuestionType }) => {
+const QuestionItem = ({ item }: { item: Question }) => {
   return (
     <View key={item.id} style={styles.questionBox}>
       <View style={styles.title}>
