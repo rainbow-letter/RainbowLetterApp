@@ -6,18 +6,14 @@ import { WriteLetter } from '../model/Letter.model';
 const initialState: WriteLetter = {
   summary: '',
   content: '',
-  image: {
-    uri: '',
-    name: '',
-    type: '',
-  },
+  image: null,
 };
 
 const WriteLetterSlice = createSlice({
   name: 'WriteLetter',
   initialState,
   reducers: {
-    setPetInfo(state, action: PayloadAction<Partial<WriteLetter>>) {
+    setLetter(state, action: PayloadAction<Partial<WriteLetter>>) {
       state = { ...state, ...action.payload };
       return state;
     },

@@ -66,8 +66,7 @@ const WriteLetterTutorial = ({ visible, onClose }: Props) => {
                   style={[
                     styles.highlight,
                     {
-                      top: 80,
-                      right: 26,
+                      top: 74,
                       opacity: animatedValue,
                     },
                   ]}
@@ -121,10 +120,10 @@ const styles = StyleSheet.create({
   },
   highlight: {
     position: 'absolute',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 3,
+    width: '100%',
+    height: 64,
+    borderRadius: 15,
+    borderWidth: 2,
     borderColor: THEME.COLOR.WHITE,
   },
   tooltip: {

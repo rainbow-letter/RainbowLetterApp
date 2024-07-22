@@ -13,7 +13,7 @@ const WritingSection = () => {
 
   const handleInputLetter = useCallback(
     (value: string) => {
-      const action = WriteLetterSlice.actions.setPetInfo({
+      const action = WriteLetterSlice.actions.setLetter({
         content: value,
         summary: value.slice(0, 20),
       });
