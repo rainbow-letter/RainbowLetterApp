@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 import { THEME } from '../../constants/theme';
 import Blog from '../../assets/ic_home_blog.svg';
 
 const Footer = () => {
+  const onClickBlogButtonClick = () => {
+    Linking.openURL('https://blog.naver.com/rainbowletter');
+  };
+
   return (
     <View style={styles.footer}>
       <View style={styles.contact}>
@@ -16,7 +20,9 @@ const Footer = () => {
         <Text style={styles.center}>Copyright © 2023 무지개편지</Text>
         <Text style={styles.center}>All Rights Reserved </Text>
       </View>
-      <Blog style={styles.blog} />
+      <Pressable onPress={onClickBlogButtonClick}>
+        <Blog style={styles.blog} />
+      </Pressable>
     </View>
   );
 };

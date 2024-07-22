@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, Alert } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Linking } from 'react-native';
 import React from 'react';
 import { Shadow } from 'react-native-shadow-2';
 
@@ -7,7 +7,7 @@ import { THEME } from '../../constants/theme';
 
 const LetterShowCaseButton = () => {
   const onClickLetterUpdateButton = () => {
-    Alert.alert('아직 구현중!');
+    Linking.openURL('https://walla.my/survey/uAf0rSZH1xOIjY19UdHv');
   };
 
   return (
