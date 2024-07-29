@@ -24,7 +24,7 @@ const ImageSection = () => {
         100,
         0,
       ).then(r => {
-        const action = WriteLetterSlice.actions.setPetInfo({
+        const action = WriteLetterSlice.actions.setLetter({
           image: {
             uri: r.uri,
             name: r.name,
@@ -49,7 +49,7 @@ const ImageSection = () => {
 
   const handleImageDelete = useCallback(() => {
     setPreview(null);
-    const action = WriteLetterSlice.actions.setPetInfo({
+    const action = WriteLetterSlice.actions.setLetter({
       image: null,
     });
     dispatch(action);
