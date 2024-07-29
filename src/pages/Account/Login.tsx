@@ -8,6 +8,7 @@ import {
   ScrollView,
   Dimensions,
   ActivityIndicator,
+  Linking,
 } from 'react-native';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
@@ -15,8 +16,9 @@ import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/nati
 import axios from 'axios';
 
 import { RootStackParamList } from '../../../Appinner';
-import naver from '../../assets/ic_login_naver_icon.png';
-import google from '../../assets/ic_login_google_icon.png';
+import Naver from '../../assets/ic_login_naver_icon.png';
+import Google from '../../assets/ic_login_google_icon.png';
+import Kakao from '../../assets/ic_login_kakao.png';
 import { THEME } from '../../constants/theme';
 import { handleErrorData } from '../../utils/validate';
 import { tryLogin } from '../../api/account';
@@ -81,6 +83,12 @@ const Login = ({ navigation }: Props) => {
     }
   }, [profile, dispatch, navigation]);
 
+  const onClickKakaoLoginButton = useCallback(() => {
+    Linking.openURL(
+      'https://rainbowletter.co.kr/api/oauth2/authorization/kakao',
+    );
+  }, []);
+
   const canClick =
     profile.email && profile.password && !errorData && !isLoading;
 
@@ -93,10 +101,13 @@ const Login = ({ navigation }: Props) => {
             <Text style={styles.subTitle}>SNS로 간편 로그인하기</Text>
             <View style={styles.iconBox}>
               <Pressable>
-                <Image source={google} style={styles.icon} />
+                <Image source={Google} style={styles.icon} />
               </Pressable>
               <Pressable>
-                <Image source={naver} style={styles.icon} />
+                <Image source={Naver} style={styles.icon} />
+              </Pressable>
+              <Pressable onPress={onClickKakaoLoginButton}>
+                <Image source={Kakao} style={styles.icon} />
               </Pressable>
             </View>
           </View>

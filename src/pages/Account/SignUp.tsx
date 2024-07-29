@@ -15,8 +15,9 @@ import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/nati
 import axios from 'axios';
 
 import { RootStackParamList } from '../../../Appinner';
-import naver from '../../assets/ic_login_naver_icon.png';
-import google from '../../assets/ic_login_google_icon.png';
+import Naver from '../../assets/ic_login_naver_icon.png';
+import Google from '../../assets/ic_login_google_icon.png';
+import Kakao from '../../assets/ic_login_kakao.png';
 import { THEME } from '../../constants/theme';
 import { handleErrorData } from '../../utils/validate';
 import Agree from '../../components/account/Agree';
@@ -99,10 +100,13 @@ const SignUp = ({ navigation }: Props) => {
             <Text style={styles.subTitle}>SNS로 간편 가입하기</Text>
             <View style={styles.iconBox}>
               <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
-                <Image source={google} style={styles.icon} />
+                <Image source={Google} style={styles.icon} />
               </Pressable>
               <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
-                <Image source={naver} style={styles.icon} />
+                <Image source={Naver} style={styles.icon} />
+              </Pressable>
+              <Pressable onPress={() => Alert.alert('구현 중입니다.')}>
+                <Image source={Kakao} style={styles.icon} />
               </Pressable>
             </View>
           </View>
