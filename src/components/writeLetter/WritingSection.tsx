@@ -31,6 +31,7 @@ const WritingSection = () => {
           onChangeText={handleInputLetter}
           multiline
           value={content}
+          textAlignVertical="top"
         />
       </View>
     </View>

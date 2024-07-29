@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { Pet } from '../model/Pet.model';
+import { PetRegister } from '../model/Pet.model';
 
-const initialState: Pet = {
+const initialState: PetRegister = {
   name: '',
   species: '',
   owner: '',
@@ -23,7 +23,7 @@ const PetRegisterSlice = createSlice({
   name: 'PetRegister',
   initialState,
   reducers: {
-    setPetInfo(state, action: PayloadAction<Partial<Pet>>) {
+    setPetInfo(state, action: PayloadAction<Partial<PetRegister>>) {
       state = { ...state, ...action.payload };
       return state;
     },
