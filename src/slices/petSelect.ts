@@ -2,8 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 import { PetDashBoard } from '../model/Home.model';
+import { Pets } from '../model/Pet.model';
 
-const initialState: PetDashBoard = {
+const initialState: PetDashBoard | Pets = {
   id: 0,
   name: '',
   letterCount: 0,

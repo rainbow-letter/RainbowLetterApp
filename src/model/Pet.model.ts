@@ -1,6 +1,10 @@
 import { StyleProp } from 'react-native';
 
-export interface Pet {
+export interface StyledPetRegisterTitle {
+  titleStyle: StyleProp<any>;
+}
+
+export interface PetRegister {
   name: string;
   species: string;
   owner: string;
@@ -12,6 +16,20 @@ export interface Pet {
   day?: string;
 }
 
-export interface StyledPetRegisterTitle {
-  titleStyle: StyleProp<any>;
+export interface PetFavorite {
+  id: number;
+  total: number;
+  dayIncreaseCount: number;
+  canIncrease: boolean;
+}
+
+export interface Pets {
+  id: number;
+  name: string;
+  species: string;
+  owner: string;
+  personalities: string[];
+  deathAnniversary: string;
+  image: any;
+  favorite: PetFavorite;
 }
