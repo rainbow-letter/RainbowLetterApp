@@ -26,10 +26,14 @@ export interface PetFavorite {
 export interface Pets {
   id: number;
   name: string;
-  species: string;
-  owner: string;
-  personalities: string[];
   deathAnniversary: string;
   image: any;
-  favorite: PetFavorite;
+
+  species?: string;
+  owner?: string;
+  personalities?: string[];
+  favorite?: PetFavorite;
+
+  letterCount?: number;
+  favoriteCount?: number;
 }

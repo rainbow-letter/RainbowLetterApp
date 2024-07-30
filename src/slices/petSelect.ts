@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { PetDashBoard } from '../model/Home.model';
 import { Pets } from '../model/Pet.model';
 
-const initialState: PetDashBoard | Pets = {
+const initialState: Pets = {
   id: 0,
   name: '',
+  species: '',
+  owner: '',
   letterCount: 0,
   favoriteCount: 0,
   image: {
@@ -15,13 +16,14 @@ const initialState: PetDashBoard | Pets = {
     url: '',
   },
   deathAnniversary: '',
+  personalities: [],
 };
 
 const PetSelectSlice = createSlice({
   name: 'PetSelect',
   initialState,
   reducers: {
-    setPetInfo(state, action: PayloadAction<Partial<PetDashBoard>>) {
+    setPetInfo(state, action: PayloadAction<Partial<Pets>>) {
       state = { ...state, ...action.payload };
       return state;
     },
