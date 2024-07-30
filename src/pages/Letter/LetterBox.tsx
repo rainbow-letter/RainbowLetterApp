@@ -45,7 +45,7 @@ const LetterBox = () => {
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView>
-        <PetInfoCard />
+        <PetInfoCard petsList={petsList} />
       </ScrollView>
     </SafeAreaView>
   );
