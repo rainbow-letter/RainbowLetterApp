@@ -8,6 +8,7 @@ import store from './src/store';
 
 function App(): React.JSX.Element {
   console.log(Platform.OS);
+
   return (
     <Provider store={store}>
       <SafeAreaProvider style={styles.container}>
