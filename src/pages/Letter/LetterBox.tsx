@@ -19,7 +19,7 @@ const LetterBox = () => {
   const [letterList, setLetterList] = useState<Letters[]>([]);
   const [petsList, setPetsList] = useState<Pets[]>([]);
 
-  console.log(letterList);
+  // console.log(letterList);
 
   useEffect(() => {
     (async () => {

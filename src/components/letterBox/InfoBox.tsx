@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
   deathAnniversary: {
     color: THEME.COLOR.ORANGE_1,
     fontSize: 18,
-    fontWeight: 500,
   },
   profileUpdateButton: {
     position: 'absolute',

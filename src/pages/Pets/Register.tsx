@@ -26,6 +26,11 @@ const Register = () => {
   const petInfo = useSelector((state: RootState) => state.petRegister);
   const { token } = useSelector((state: RootState) => state.account);
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState<{
+    uri: string;
+    name: string;
+    type: string;
+  } | null>();
 
   const onClickPetRegisterButton = useCallback(async () => {
     try {
@@ -60,7 +65,7 @@ const Register = () => {
         <TypeSection titleStyle={titleStyle} />
         <OwnerSection titleStyle={titleStyle} />
         <PersonailtySection titleStyle={titleStyle} />
-        <ImageUploadSection titleStyle={titleStyle} />
+        <ImageUploadSection setImage={setImage} />
         <Button
           isCheck={canClick}
           onPress={onClickPetRegisterButton}
