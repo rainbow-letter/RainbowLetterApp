@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { Shadow } from 'react-native-shadow-2';
 
-import Contents from '../../model/Home.model';
+import { Contents } from '../../model/Home.model';
 import { THEME } from '../../constants/theme';
 
 interface Props {
