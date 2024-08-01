@@ -3,20 +3,16 @@ import React, { useCallback, useState } from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 
-import { StyledPetRegisterTitle } from '../../../model/Pet.model';
 import Plus from '../../../assets/ic_register_plus.svg';
 import Cancel from '../../../assets/ic_register_cancel.png';
 import { THEME } from '../../../constants/theme';
-import PetRegisterSlice from '../../../slices/pets';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/reducer';
 
-const ImageUploadSection = ({ titleStyle }: StyledPetRegisterTitle) => {
-  const { image } = useSelector((state: RootState) => state.petRegister);
-  const [preview, setPreview] = useState<{ uri: string } | null>(
-    { uri: image } || null,
-  );
-  const dispatch = useDispatch();
+type Props = {
+  setImage: any;
+};
+
+const ImageUploadSection = ({ setImage }: Props) => {
+  const [preview, setPreview] = useState<{ uri: string } | null>();
 
   const onResponse = useCallback(
     async (response: any) => {
@@ -29,17 +25,14 @@ const ImageUploadSection = ({ titleStyle }: StyledPetRegisterTitle) => {
         100,
         0,
       ).then(r => {
-        const action = PetRegisterSlice.actions.setPetInfo({
-          image: {
-            uri: r.uri,
-            name: r.name,
-            type: response.mime,
-          },
+        setImage({
+          uri: r.uri,
+          name: r.name,
+          type: response.mime,
         });
-        dispatch(action);
       });
     },
-    [dispatch],
+    [setImage],
   );
 
   const onChangeFile = useCallback(() => {
@@ -54,15 +47,12 @@ const ImageUploadSection = ({ titleStyle }: StyledPetRegisterTitle) => {
 
   const handleImageDelete = useCallback(() => {
     setPreview(null);
-    const action = PetRegisterSlice.actions.setPetInfo({
-      image: null,
-    });
-    dispatch(action);
-  }, [dispatch]);
+    setImage(null);
+  }, [setImage]);
 
   return (
     <View style={styles.section}>
-      <Text style={titleStyle}>프로필 사진</Text>
+      <Text style={styles.title}>프로필 사진</Text>
       <Pressable style={styles.upload} onPress={onChangeFile}>
         {preview ? (
           <Image style={styles.previewImage} source={preview} />
@@ -88,6 +78,12 @@ export default ImageUploadSection;
 const styles = StyleSheet.create({
   section: {
     marginVertical: 40,
+  },
+  title: {
+    fontWeight: 'bold',
+    color: THEME.COLOR.BLACK_1,
+    marginBottom: 20,
+    fontSize: 16,
   },
   upload: {
     padding: 50,
