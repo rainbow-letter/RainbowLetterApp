@@ -16,7 +16,7 @@ const QnA = () => {
       <FlatList
         data={QNA}
         renderItem={renderItems}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.question}
         style={styles.container}
       />
     </SafeAreaView>

@@ -38,4 +38,14 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLOR.WHITE,
     height: '100%',
   },
+  container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+    backgroundColor: 'grey',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
 });

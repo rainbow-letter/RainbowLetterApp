@@ -27,7 +27,9 @@ const InfoBox = () => {
         </Pressable>
         <View style={styles.personalityBox}>
           {personalities?.map(personailty => (
-            <Tag personailty={personailty} />
+            <View key={`pet-${personailty}`}>
+              <Tag personailty={personailty} />
+            </View>
           ))}
         </View>
         <Text style={styles.owner}>아이에게 나는 사랑하는 {owner}</Text>
