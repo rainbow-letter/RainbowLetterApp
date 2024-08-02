@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import NoPets from '../../components/common/NoPets';
 import PetInfoCard from '../../components/letterBox/PetInfoCard';
 import WeekCalendar from '../../components/letterBox/WeekCalendar';
+import LetterListSection from '../../components/letterBox/LetterListSection';
 import { getLetterList } from '../../api/letter';
 import { RootState } from '../../store/reducer';
 import { Letters } from '../../model/Letter.model';
@@ -56,6 +57,7 @@ const LetterBox = () => {
           setDate={setDate}
           letterList={mappedLetterListByDate}
         />
+        <LetterListSection date={date} letterList={letterList} />
       </ScrollView>
     </SafeAreaView>
   );
