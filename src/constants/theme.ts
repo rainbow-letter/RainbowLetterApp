@@ -17,5 +17,8 @@ export const THEME = {
     RED_2: '#FFF1EB',
     WHITEGRAY_1: '#EEEEEE',
     WHITEGRAY_2: '#EFEFEF',
+    YELLOW_1: '#FEF9ED',
+    GREEN_1: '#DDFFEB',
+    GREEN_2: '#61BA84',
   },
 };
