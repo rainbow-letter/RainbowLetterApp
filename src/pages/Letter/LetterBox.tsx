@@ -1,9 +1,11 @@
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 
 import NoPets from '../../components/common/NoPets';
 import PetInfoCard from '../../components/letterBox/PetInfoCard';
+import WeekCalendar from '../../components/letterBox/WeekCalendar';
 import { getLetterList } from '../../api/letter';
 import { RootState } from '../../store/reducer';
 import { Letters } from '../../model/Letter.model';
@@ -18,8 +20,7 @@ const LetterBox = () => {
 
   const [letterList, setLetterList] = useState<Letters[]>([]);
   const [petsList, setPetsList] = useState<Pets[]>([]);
-
-  // console.log(letterList);
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     (async () => {
@@ -38,6 +39,10 @@ const LetterBox = () => {
     })();
   }, [token, dispatch]);
 
+  const mappedLetterListByDate = letterList.map(letter =>
+    format(letter.createdAt, 'yyyy-MM-dd'),
+  );
+
   if (petsList !== null && petsList.length < 1) {
     return <NoPets />;
   }
@@ -46,6 +51,11 @@ const LetterBox = () => {
     <SafeAreaView style={styles.screen}>
       <ScrollView>
         <PetInfoCard petsList={petsList} />
+        <WeekCalendar
+          selectedDate={date}
+          setDate={setDate}
+          letterList={mappedLetterListByDate}
+        />
       </ScrollView>
     </SafeAreaView>
   );
