@@ -9,6 +9,7 @@ export const THEME = {
     GRAY_5: '#E8E8E8',
     GRAY_6: '#454545',
     GRAY_7: '#989898',
+    GRAY_8: '#F1F1F1',
     ORANGE_1: '#FFB74D',
     ORANGE_2: '#fd9700',
     ORANGE_3: '#FFF8ED',

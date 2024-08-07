@@ -1,7 +1,8 @@
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
 import { format, addDays, subDays } from 'date-fns';
 
+import MonthCalendar from './MonthCalendar';
 import useCalendar from '../../hooks/useCalendar';
 import { THEME } from '../../constants/theme';
 import Left from '../../assets/ic_letterBox_left.svg';
@@ -13,11 +14,10 @@ const DAY_OF_THE_WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 
 type Props = {
   setDate: (date: Date) => void;
-  selectedDate: Date;
   letterList: string[];
 };
 
-const WeekCalendar = ({ setDate, selectedDate, letterList }: Props) => {
+const WeekCalendar = ({ setDate, letterList }: Props) => {
   const {
     currentDate,
     setCurrentDate,
@@ -29,6 +29,7 @@ const WeekCalendar = ({ setDate, selectedDate, letterList }: Props) => {
     currentDate.getMonth() + 1
   }월`;
   const [weekCalendar, setWeekCalendar] = useState<number[]>([]);
+  const [showMonthCalendar, setShowMonthCalendar] = useState(false);
 
   useEffect(() => {
     const findIndex = weekCalendarList.findIndex((weeks: string[]) =>
@@ -56,6 +57,10 @@ const WeekCalendar = ({ setDate, selectedDate, letterList }: Props) => {
     [setCurrentDate, setDate],
   );
 
+  const onClickMonthCalendarButton = useCallback(() => {
+    setShowMonthCalendar(prev => !prev);
+  }, []);
+
   const isActiveDate = useCallback(
     (date: number) => {
       return format(currentDate, 'yyyy-MM-dd') === String(date);
@@ -77,63 +82,76 @@ const WeekCalendar = ({ setDate, selectedDate, letterList }: Props) => {
   }, []);
 
   return (
-    <View style={styles.weekCalendarWrap}>
-      <View style={styles.weekTitleWrap}>
-        <Pressable onPress={onClickPrevWeek} style={styles.weekButton}>
-          <Left />
-          <Text>이전 주</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => Alert.alert('구현 중')}
-          style={styles.weekTitleButton}>
-          <Text style={styles.weekTitle}>{yearAndMonth}</Text>
-          <DropDown />
-        </Pressable>
-        <Pressable onPress={onClickNextWeek} style={styles.weekButton}>
-          <Text>다음 주</Text>
-          <Right />
-        </Pressable>
-      </View>
-      <View style={styles.dayWrap}>
-        {DAY_OF_THE_WEEK.map(day => (
-          <Text key={`weekCalendar-${day}`} style={styles.dayText}>
-            {day}
-          </Text>
-        ))}
-      </View>
-      <View style={styles.dateWrap}>
-        {weekCalendar.map(date => (
-          <View style={styles.date}>
-            <Pressable
-              onPress={() => onClickDateButton(date)}
-              style={
-                isToday(date)
-                  ? [styles.dateButton, styles.todayButton]
-                  : !isExistWrittenLetter(date)
-                  ? styles.dateButton
-                  : [styles.dateButton, styles.writtenButton]
-              }>
-              {isExistWrittenLetter(date) && <Stamp />}
-            </Pressable>
-            <View
-              style={
-                !isActiveDate(date)
-                  ? styles.dateTextBox
-                  : [styles.dateTextBox, styles.activeDate]
-              }>
-              <Text
+    <>
+      <View style={styles.weekCalendarWrap}>
+        <View style={styles.weekTitleWrap}>
+          <Pressable onPress={onClickPrevWeek} style={styles.weekButton}>
+            <Left />
+            <Text>이전 주</Text>
+          </Pressable>
+          <Pressable
+            onPress={onClickMonthCalendarButton}
+            style={styles.weekTitleButton}>
+            <Text style={styles.weekTitle}>{yearAndMonth}</Text>
+            <DropDown />
+          </Pressable>
+          <Pressable onPress={onClickNextWeek} style={styles.weekButton}>
+            <Text>다음 주</Text>
+            <Right />
+          </Pressable>
+        </View>
+        <View style={styles.dayWrap}>
+          {DAY_OF_THE_WEEK.map(day => (
+            <Text key={`weekCalendar-${day}`} style={styles.dayText}>
+              {day}
+            </Text>
+          ))}
+        </View>
+        <View style={styles.dateWrap}>
+          {weekCalendar.map(date => (
+            <View style={styles.date}>
+              <Pressable
+                onPress={() => onClickDateButton(date)}
+                style={
+                  isToday(date)
+                    ? [styles.dateButton, styles.todayButton]
+                    : !isExistWrittenLetter(date)
+                    ? styles.dateButton
+                    : [styles.dateButton, styles.writtenButton]
+                }>
+                {isExistWrittenLetter(date) && <Stamp />}
+              </Pressable>
+              <View
                 style={
                   !isActiveDate(date)
-                    ? styles.dateText
-                    : [styles.dateText, styles.activeDateText]
+                    ? styles.dateTextBox
+                    : [styles.dateTextBox, styles.activeDate]
                 }>
-                {format(date, 'dd')}
-              </Text>
+                <Text
+                  style={
+                    !isActiveDate(date)
+                      ? styles.dateText
+                      : [styles.dateText, styles.activeDateText]
+                  }>
+                  {format(date, 'dd')}
+                </Text>
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </View>
-    </View>
+      {showMonthCalendar && (
+        <MonthCalendar
+          yearAndMonth={yearAndMonth}
+          currentDate={currentDate}
+          onClose={onClickMonthCalendarButton}
+          weekCalendarList={weekCalendarList}
+          letterList={letterList}
+          setCurrentDate={setCurrentDate}
+          setDate={setDate}
+        />
+      )}
+    </>
   );
 };
 

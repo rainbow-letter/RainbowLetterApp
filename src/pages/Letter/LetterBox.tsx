@@ -52,11 +52,7 @@ const LetterBox = () => {
     <SafeAreaView style={styles.screen}>
       <ScrollView>
         <PetInfoCard petsList={petsList} />
-        <WeekCalendar
-          selectedDate={date}
-          setDate={setDate}
-          letterList={mappedLetterListByDate}
-        />
+        <WeekCalendar setDate={setDate} letterList={mappedLetterListByDate} />
         <LetterListSection date={date} letterList={letterList} />
       </ScrollView>
     </SafeAreaView>
@@ -69,5 +65,6 @@ const styles = StyleSheet.create({
   screen: {
     height: '100%',
     backgroundColor: THEME.COLOR.WHITE,
+    position: 'relative',
   },
 });
