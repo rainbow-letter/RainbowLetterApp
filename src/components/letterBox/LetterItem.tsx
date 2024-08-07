@@ -31,8 +31,8 @@ const LetterItem = ({
       }>
       <View>
         <LetterStatus status={status} readStatus={readStatus} />
-        <Text>{summary}</Text>
-        <Text>{index}번째 편지</Text>
+        <Text style={styles.summary}>{summary}</Text>
+        <Text style={styles.index}>{index}번째 편지</Text>
       </View>
       <View>
         <Image source={Stamp} />
@@ -54,5 +54,14 @@ const styles = StyleSheet.create({
   },
   unReadLetter: {
     backgroundColor: THEME.COLOR.YELLOW_1,
+  },
+  summary: {
+    marginTop: 12,
+    color: THEME.COLOR.BLACK_2,
+  },
+  index: {
+    fontSize: 12,
+    color: THEME.COLOR.GRAY_4,
+    marginTop: 24,
   },
 });

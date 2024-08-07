@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-
   addButton: {
     flexDirection: 'row',
     gap: 8,

@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     flexDirection: 'row',
     backgroundColor: 'pink',
+    paddingHorizontal: 11,
   },
   statusText: {
     fontSize: 12,
