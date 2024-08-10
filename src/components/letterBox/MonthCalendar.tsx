@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native';
-import React, { useRef, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
 import { format, subMonths } from 'date-fns';
 import {
   BottomSheetModal,
@@ -13,6 +13,8 @@ import Left from '../../assets/ic_letterBox_left.svg';
 import Right from '../../assets/ic_letterBox_right.svg';
 import DropDown from '../../assets/ic_letterBox_dropdown.svg';
 import Stamp from '../../assets/ic_letterBox_stamp.svg';
+import Up from '../../assets/ic_letterBox_up.svg';
+import Down from '../../assets/ic_letterBox_down.svg';
 
 type Props = {
   yearAndMonth: string;
@@ -34,6 +36,9 @@ const MonthCalendar = ({
   setDate,
 }: Props) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const [year, setYear] = useState(currentDate.getFullYear());
+  const [month, setMonth] = useState(currentDate.getMonth());
 
   const onClickNextMonth = useCallback(() => {
     setCurrentDate(subMonths(currentDate, -1));
@@ -84,6 +89,37 @@ const MonthCalendar = ({
     (props: any) => <BottomSheetBackdrop {...props} pressBehavior="close" />,
     [],
   );
+
+  const handleUpYear = useCallback(() => {
+    setYear((prev: number) => prev + 1);
+  }, []);
+
+  const handleDownYear = useCallback(() => {
+    if (year <= 0) {
+      return;
+    }
+    setYear((prev: number) => prev - 1);
+  }, [year]);
+
+  const handleUpMonth = useCallback(() => {
+    if (month >= 11) {
+      return;
+    }
+    setMonth((prev: number) => prev + 1);
+  }, [month]);
+
+  const handleDownMonth = useCallback(() => {
+    if (month <= 0) {
+      return;
+    }
+    setMonth((prev: number) => prev - 1);
+  }, [month]);
+
+  const onClickConfirmButton = useCallback(() => {
+    setCurrentDate(new Date(year, month, currentDate.getDate()));
+    setDate(new Date(year, month, currentDate.getDate()));
+    bottomSheetModalRef.current?.close();
+  }, [year, month, currentDate, setCurrentDate, setDate]);
 
   return (
     <View style={styles.section}>
@@ -158,7 +194,33 @@ const MonthCalendar = ({
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}>
         <BottomSheetView style={styles.bottomSheetContent}>
-          <Text>sssss</Text>
+          <View style={styles.controller}>
+            <View style={styles.yearWrap}>
+              <Pressable hitSlop={15} onPress={handleUpYear}>
+                <Up />
+              </Pressable>
+              <Text style={styles.yearMonthText}>{year}</Text>
+              <Pressable hitSlop={15} onPress={handleDownYear}>
+                <Down />
+              </Pressable>
+            </View>
+            <Text>년</Text>
+            <View style={styles.monthWrap}>
+              <Pressable hitSlop={15} onPress={handleUpMonth}>
+                <Up />
+              </Pressable>
+              <Text style={styles.yearMonthText}>{month + 1}</Text>
+              <Pressable hitSlop={15} onPress={handleDownMonth}>
+                <Down />
+              </Pressable>
+            </View>
+            <Text>월</Text>
+          </View>
+          <Pressable
+            onPress={onClickConfirmButton}
+            style={styles.confirmButton}>
+            <Text style={styles.confirmButtonText}>확인</Text>
+          </Pressable>
         </BottomSheetView>
       </BottomSheetModal>
     </View>
@@ -269,13 +331,37 @@ const styles = StyleSheet.create({
   bottomSheetContent: {
     zIndex: 50,
     paddingTop: 70,
+    marginHorizontal: 'auto',
+    flexDirection: 'column',
   },
   confirmButton: {
     paddingHorizontal: 30,
     paddingVertical: 10,
+    marginHorizontal: 'auto',
+    marginTop: 40,
+    backgroundColor: THEME.COLOR.ORANGE_1,
+    borderRadius: 22,
   },
   confirmButtonText: {
     fontSize: 16,
     color: THEME.COLOR.WHITE,
+  },
+  controller: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  yearWrap: {
+    alignItems: 'center',
+    gap: 12,
+    marginRight: 20,
+  },
+  monthWrap: {
+    alignItems: 'center',
+    gap: 12,
+    marginRight: 20,
+    marginLeft: 30,
+  },
+  yearMonthText: {
+    fontSize: 30,
   },
 });
