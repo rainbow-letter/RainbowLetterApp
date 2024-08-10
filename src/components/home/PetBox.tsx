@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import { getDashBoardPets } from '../../api/pets';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
 import { PetDashBoard } from '../../model/Home.model';
 import NameSection from './NameSection';

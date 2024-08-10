@@ -13,6 +13,7 @@ import {
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
 import { NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
+import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 
 import { RootStackParamList } from '../../../Appinner';
@@ -72,6 +73,7 @@ const Login = ({ navigation }: Props) => {
           token: data.token,
         }),
       );
+      await EncryptedStorage.setItem('token', data.token);
       navigation.navigate('Home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
