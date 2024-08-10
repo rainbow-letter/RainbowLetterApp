@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { useDispatch } from 'react-redux';
 
 import SignUp from './src/pages/Account/SignUp';
 import Login from './src/pages/Account/Login';
@@ -10,6 +12,7 @@ import Reset from './src/pages/MyPage/Reset';
 import Secession from './src/pages/MyPage/Secession';
 import QnA from './src/pages/MyPage/QnA';
 import Register from './src/pages/Pets/Register';
+import accountSlice from './src/slices/account';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -27,6 +30,18 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Appinner = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getToken = async () => {
+      const token = await EncryptedStorage.getItem('token');
+      const action = accountSlice.actions.setToken({ token });
+      dispatch(action);
+    };
+
+    getToken();
+  }, [dispatch]);
+
   return (
     <NavigationContainer>
       <Stack.Navigator

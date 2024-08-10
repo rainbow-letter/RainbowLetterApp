@@ -11,6 +11,7 @@ import axios from 'axios';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { THEME } from '../../constants/theme';
 import NextImg from '../../assets/ic_myPage_next.svg';
@@ -57,6 +58,7 @@ const MyPage = () => {
 
   const onClickLogOutButton = useCallback(() => {
     dispatch(accountSlice.actions.removeToken());
+    EncryptedStorage.removeItem('token');
     navigation.navigate('Home');
   }, [dispatch, navigation]);
 

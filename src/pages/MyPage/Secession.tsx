@@ -10,6 +10,7 @@ import React, { useState, useCallback } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { THEME } from '../../constants/theme';
 import ACCOUNT_SECESSTION_GUIDELINES from '../../constants/MyPage/AccountSecesstion';
@@ -39,6 +40,7 @@ const Secession = ({ navigation }: Props) => {
       setIsLoading(true);
       await deleteUserInfo(token);
       dispatch(accountSlice.actions.removeToken());
+      await EncryptedStorage.removeItem('token');
       navigation.push('Home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
