@@ -84,7 +84,7 @@ const WriteLetterTutorial = ({ visible, onClose }: Props) => {
                 <FlatList
                   data={TipList}
                   renderItem={renderItems}
-                  keyExtractor={item => item.id}
+                  keyExtractor={item => item.question}
                 />
               </View>
             )}

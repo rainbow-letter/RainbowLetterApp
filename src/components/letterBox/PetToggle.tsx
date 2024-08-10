@@ -7,11 +7,11 @@ import {
 } from '@gorhom/bottom-sheet';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStackParamList } from '../../../Appinner';
 import { Pets } from '../../model/Pet.model';
 import Arrow from '../../assets/ic_letterBox_arrow.svg';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducer';
 import { THEME } from '../../constants/theme';
 import Plus from '../../assets/ic_letterBox_add.svg';

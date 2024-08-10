@@ -12,6 +12,7 @@ export interface WriteLetter {
 
 export interface Letters {
   id: number;
+  index?: number;
   summary: string;
   status: 'REQUEST' | 'RESPONSE';
   petName: string;
