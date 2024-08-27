@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 
@@ -18,10 +18,12 @@ import PetSelectSlice from '../../slices/petSelect';
 const LetterBox = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.account);
+  const calendarRef = useRef<any>(null);
 
   const [letterList, setLetterList] = useState<Letters[]>([]);
   const [petsList, setPetsList] = useState<Pets[]>([]);
   const [date, setDate] = useState(new Date());
+  const [showMonthCalendar, setShowMonthCalendar] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -40,6 +42,13 @@ const LetterBox = () => {
     })();
   }, [token, dispatch]);
 
+  const onClickMonthCalendarButton = useCallback(() => {
+    setShowMonthCalendar(prev => !prev);
+    calendarRef.current?.scrollTo({
+      y: 0,
+    });
+  }, [calendarRef]);
+
   const mappedLetterListByDate = letterList.map(letter =>
     format(letter.createdAt, 'yyyy-MM-dd'),
   );
@@ -50,9 +59,14 @@ const LetterBox = () => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <ScrollView>
+      <ScrollView ref={calendarRef}>
         <PetInfoCard petsList={petsList} />
-        <WeekCalendar setDate={setDate} letterList={mappedLetterListByDate} />
+        <WeekCalendar
+          setDate={setDate}
+          letterList={mappedLetterListByDate}
+          onClickMonthCalendarButton={onClickMonthCalendarButton}
+          showMonthCalendar={showMonthCalendar}
+        />
         <LetterListSection date={date} letterList={letterList} />
       </ScrollView>
     </SafeAreaView>

@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import React, { useState, useRef, useMemo, useCallback } from 'react';
-import { format, subMonths } from 'date-fns';
+import { addDays, lastDayOfMonth, format } from 'date-fns';
 import {
   BottomSheetModal,
   BottomSheetView,
@@ -39,16 +39,18 @@ const MonthCalendar = ({
 
   const [year, setYear] = useState(currentDate.getFullYear());
   const [month, setMonth] = useState(currentDate.getMonth());
+  const SAVE_DATE = currentDate;
 
   const onClickNextMonth = useCallback(() => {
-    setCurrentDate(subMonths(currentDate, -1));
-    setDate(subMonths(currentDate, -1));
-  }, [currentDate, setCurrentDate, setDate]);
+    const lastDay = lastDayOfMonth(currentDate);
+    setCurrentDate(addDays(lastDay, 1));
+  }, [setCurrentDate, currentDate]);
 
   const onClickPrevMonth = useCallback(() => {
-    setCurrentDate(subMonths(currentDate, 1));
-    setDate(subMonths(currentDate, 1));
-  }, [currentDate, setCurrentDate, setDate]);
+    setCurrentDate(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1),
+    );
+  }, [setCurrentDate, currentDate]);
 
   const isExistWrittenLetter = useCallback(
     (date: string) => {
@@ -74,14 +76,14 @@ const MonthCalendar = ({
     (date: string) => {
       setDate(new Date(date));
       setCurrentDate(new Date(date));
+      onClose();
     },
-    [setCurrentDate, setDate],
+    [setCurrentDate, setDate, onClose],
   );
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
 
   const handlePresentModalPress = useCallback(() => {
-    // onClose();
     bottomSheetModalRef.current?.present();
   }, []);
 
@@ -121,9 +123,14 @@ const MonthCalendar = ({
     bottomSheetModalRef.current?.close();
   }, [year, month, currentDate, setCurrentDate, setDate]);
 
+  const onClickCancelButton = useCallback(() => {
+    onClose();
+    setCurrentDate(SAVE_DATE);
+  }, [onClose, setCurrentDate, SAVE_DATE]);
+
   return (
     <View style={styles.section}>
-      <Pressable onPress={onClose} style={styles.header}>
+      <Pressable onPress={onClickCancelButton} style={styles.header}>
         <Cancel />
       </Pressable>
       <View>
@@ -301,6 +308,8 @@ const styles = StyleSheet.create({
   },
   existDay: {
     backgroundColor: THEME.COLOR.ORANGE_3,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   today: {
     backgroundColor: THEME.COLOR.ORANGE_1,
@@ -311,7 +320,7 @@ const styles = StyleSheet.create({
   dateTextBox: {
     marginTop: 6,
     width: 30,
-    height: 12,
+    height: 14,
     marginHorizontal: 'auto',
   },
   dateText: {
