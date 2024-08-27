@@ -15,9 +15,16 @@ const DAY_OF_THE_WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 type Props = {
   setDate: (date: Date) => void;
   letterList: string[];
+  onClickMonthCalendarButton: () => void;
+  showMonthCalendar: boolean;
 };
 
-const WeekCalendar = ({ setDate, letterList }: Props) => {
+const WeekCalendar = ({
+  setDate,
+  letterList,
+  onClickMonthCalendarButton,
+  showMonthCalendar,
+}: Props) => {
   const {
     currentDate,
     setCurrentDate,
@@ -29,7 +36,6 @@ const WeekCalendar = ({ setDate, letterList }: Props) => {
     currentDate.getMonth() + 1
   }월`;
   const [weekCalendar, setWeekCalendar] = useState<number[]>([]);
-  const [showMonthCalendar, setShowMonthCalendar] = useState(false);
 
   useEffect(() => {
     const findIndex = weekCalendarList.findIndex((weeks: string[]) =>
@@ -56,10 +62,6 @@ const WeekCalendar = ({ setDate, letterList }: Props) => {
     },
     [setCurrentDate, setDate],
   );
-
-  const onClickMonthCalendarButton = useCallback(() => {
-    setShowMonthCalendar(prev => !prev);
-  }, []);
 
   const isActiveDate = useCallback(
     (date: number) => {
@@ -213,6 +215,7 @@ const styles = StyleSheet.create({
   },
   writtenButton: {
     backgroundColor: THEME.COLOR.ORANGE_3,
+    alignItems: 'center',
   },
   todayButton: {
     backgroundColor: THEME.COLOR.ORANGE_1,
@@ -220,7 +223,7 @@ const styles = StyleSheet.create({
   dateTextBox: {
     marginTop: 6,
     width: 30,
-    height: 12,
+    height: 14,
   },
   dateText: {
     fontSize: 12,
