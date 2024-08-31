@@ -1,16 +1,16 @@
 import { SafeAreaView, StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
 
-import { THEME } from '../constants/theme';
-import MainBanner from '../components/home/MainBanner';
-import PetsSection from '../components/home/PetsSection';
-import ThickDivider from '../components/home/ThickDivider';
-import LetterShowCase from '../components/home/LetterShowCase';
-import LetterShowCaseButton from '../components/home/LetterShowCaseButton';
-import ContentsSection from '../components/home/ContentsSection';
-import ContactSection from '../components/home/ContactSection';
-import ThinDivider from '../components/home/ThinDivider';
-import Footer from '../components/home/Footer';
+import { THEME } from '../../constants/theme';
+import MainBanner from '../../components/home/MainBanner';
+import PetsSection from '../../components/home/PetsSection';
+import ThickDivider from '../../components/home/ThickDivider';
+import LetterShowCase from '../../components/home/LetterShowCase';
+import LetterShowCaseButton from '../../components/home/LetterShowCaseButton';
+import ContentsSection from '../../components/home/ContentsSection';
+import ContactSection from '../../components/home/ContactSection';
+import ThinDivider from '../../components/home/ThinDivider';
+import Footer from '../../components/home/Footer';
 
 const Home = () => {
   return (

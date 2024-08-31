@@ -15,8 +15,8 @@ const MainBanner = () => {
         paginationStyle={{ top: -158, gap: 2 }}
         dotStyle={{ backgroundColor: THEME.COLOR.GRAY_5 }}
         activeDotColor={THEME.COLOR.ORANGE_1}>
-        {bannerList.map(({ id, image }) => (
-          <Banner key={id} src={image} />
+        {bannerList.map(({ id, image, page }) => (
+          <Banner key={id} src={image} page={page} />
         ))}
       </Swiper>
     </View>
