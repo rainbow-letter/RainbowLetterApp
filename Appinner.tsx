@@ -13,6 +13,8 @@ import Secession from './src/pages/MyPage/Secession';
 import QnA from './src/pages/MyPage/QnA';
 import Register from './src/pages/Pets/Register';
 import accountSlice from './src/slices/account';
+import Donate from './src/pages/Home/Donate';
+import DetailLetter from './src/pages/Letter/DetailLetter';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -25,6 +27,8 @@ export type RootStackParamList = {
   Secession: undefined;
   Register: undefined;
   BottomTabScreen: undefined;
+  Donate: undefined;
+  DetailLetter: any;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -89,6 +93,12 @@ const Appinner = () => {
           component={Register}
           options={{ title: '등록하기' }}
         />
+        <Stack.Screen
+          name="DetailLetter"
+          component={DetailLetter}
+          options={{ title: '편지함' }}
+        />
+        <Stack.Screen name="Donate" component={Donate} />
       </Stack.Navigator>
     </NavigationContainer>
   );

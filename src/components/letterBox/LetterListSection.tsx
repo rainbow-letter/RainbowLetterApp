@@ -1,8 +1,11 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { format, getDay } from 'date-fns';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import { RootBottomTabParamList } from '../../components/bottomTab/BottomTabScreen';
 import ThickDivider from '../home/ThickDivider';
 import LetterItem from './LetterItem';
 import { Letters } from '../../model/Letter.model';
@@ -17,6 +20,8 @@ type Props = {
 };
 
 const LetterListSection = ({ date, letterList }: Props) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootBottomTabParamList>>();
   const pet = useSelector((state: RootState) => state.petSelect);
   const [filteredLetterListByPet, setFilteredLetterLisByPet] = useState<
     Letters[]
@@ -50,6 +55,10 @@ const LetterListSection = ({ date, letterList }: Props) => {
     return today === format(date, 'yyyy-MM-dd');
   }, [date]);
 
+  const onClickWriteLetterButton = useCallback(() => {
+    navigation.navigate('WriteLetter');
+  }, [navigation]);
+
   return (
     <>
       <ThickDivider />
@@ -59,7 +68,9 @@ const LetterListSection = ({ date, letterList }: Props) => {
           <LetterItem letter={letter} />
         ))}
         {isToday && (
-          <Pressable style={styles.addButton}>
+          <Pressable
+            onPress={onClickWriteLetterButton}
+            style={styles.addButton}>
             <Plus />
             <Text style={styles.addButtonText}>편지 쓰기</Text>
           </Pressable>

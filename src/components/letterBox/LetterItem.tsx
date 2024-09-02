@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { isCheckUnread } from '../../utils/letter';
-import { RootBottomTabParamList } from '../bottomTab/BottomTabScreen';
+import { RootStackParamList } from '../../../Appinner';
 import Stamp from '../../assets/ic_letterBox_letterStamp.png';
 import { THEME } from '../../constants/theme';
 import LetterStatus from './LetterStatus';
@@ -14,14 +14,14 @@ type Props = {
 };
 
 const LetterItem = ({
-  letter: { readStatus, status, summary, index },
+  letter: { readStatus, status, summary, index, id },
 }: Props) => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<RootBottomTabParamList>>();
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const onClickWriteLetterButton = useCallback(() => {
-    navigation.navigate('WriteLetter');
-  }, [navigation]);
+    navigation.navigate('DetailLetter', { id });
+  }, [navigation, id]);
 
   return (
     <Pressable
