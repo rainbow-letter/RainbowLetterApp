@@ -7,7 +7,8 @@ import {
 } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 import { RootState } from '../../store/reducer';
@@ -25,9 +26,9 @@ import PetSelectSlice from '../../slices/petSelect';
 import { RootBottomTabParamList } from '../../components/bottomTab/BottomTabScreen';
 import WriteLetterSlice from '../../slices/writeLetter';
 
-type Props = NativeStackScreenProps<RootBottomTabParamList, 'WriteLetter'>;
-
-const WriteLetter = ({ navigation }: Props) => {
+const WriteLetter = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootBottomTabParamList>>();
   const dispatch = useDispatch();
   const letter = useSelector((state: RootState) => state.writeLetter);
   const { token } = useSelector((state: RootState) => state.account);
