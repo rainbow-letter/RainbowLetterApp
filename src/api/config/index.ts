@@ -4,7 +4,7 @@ import Config from 'react-native-config';
 
 const DEFAULT_ACCEPT_TYPE = 'application/json';
 const IMAGE_ACCEPT_TYPE = 'multipart/form-data';
-const baseURL = Platform.OS === 'ios' ? Config.API_URL : Config.API_URL + '/';
+const baseURL = Platform.OS === 'ios' ? Config.API_HOST : Config.API_HOST + '/';
 
 let _token: string | null = null;
 export const setAxiosToken = (token: typeof _token): void => {
