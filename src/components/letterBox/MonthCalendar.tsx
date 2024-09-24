@@ -126,7 +126,7 @@ const MonthCalendar = ({
   const onClickCancelButton = useCallback(() => {
     onClose();
     setCurrentDate(SAVE_DATE);
-  }, [onClose, setCurrentDate, SAVE_DATE]);
+  }, [onClose, setCurrentDate]);
 
   return (
     <View style={styles.section}>
