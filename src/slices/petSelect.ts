@@ -1,29 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { Pets } from '../model/Pet.model';
+import { PetsList } from '../model/Pet.model';
 
-const initialState: Pets = {
+const initialState: PetsList = {
   id: 0,
+  userId: 0,
   name: '',
   species: '',
   owner: '',
-  letterCount: 0,
-  favoriteCount: 0,
-  image: {
-    id: 0,
-    objectKey: '',
-    url: '',
-  },
-  deathAnniversary: '',
   personalities: [],
+  deathAnniversary: '',
+  image: '',
+  favorite: {
+    id: 0,
+    total: 0,
+    dayIncreaseCount: 0,
+    canIncrease: true,
+    lastIncreasedAt: '',
+  },
+  createdAt: '',
+  updatedAt: '',
 };
 
 const PetSelectSlice = createSlice({
   name: 'PetSelect',
   initialState,
   reducers: {
-    setPetInfo(state, action: PayloadAction<Partial<Pets>>) {
+    setPetInfo(state, action: PayloadAction<Partial<PetsList>>) {
       state = { ...state, ...action.payload };
       return state;
     },

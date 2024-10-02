@@ -24,9 +24,10 @@ export const createLetter = (
 
 export const getLetterList = (
   token: string,
+  petId: number,
 ): ApiResponse<{ letters: Letters[] }> => {
   const config = {
-    url: accountUrl('/letters/list'),
+    url: accountUrl(`/letters/box?pet=${petId}`),
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,

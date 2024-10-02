@@ -24,6 +24,7 @@ const DetailLetter = ({ route }: Props) => {
   const { id } = route.params;
   const { token } = useSelector((state: RootState) => state.account);
   const [letterData, setLetterData] = useState<Letter | null>(null);
+  console.log(letterData);
 
   useEffect(() => {
     (async () => {
@@ -37,8 +38,8 @@ const DetailLetter = ({ route }: Props) => {
     navigation.navigate('WriteLetter');
   }, [navigation]);
 
-  const isExistReplyContents = !!letterData?.reply.content;
-  const isExistSentImage = !!letterData?.image.objectKey;
+  const isExistReplyContents = !!letterData?.reply?.content;
+  const isExistSentImage = !!letterData?.letter.image;
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -46,23 +47,21 @@ const DetailLetter = ({ route }: Props) => {
         <View style={styles.relativeLayout}>
           <CoverImage />
           <LetterPaper
-            content={letterData?.content}
+            content={letterData?.letter.content}
             pet={letterData?.pet.name}
-            timeStamp={letterData?.createdAt}
+            timeStamp={letterData?.letter.createdAt}
             type="LETTER"
           />
         </View>
         {isExistReplyContents && (
           <LetterPaper
-            content={letterData?.content}
+            content={letterData?.reply.content}
             pet={letterData?.pet.name}
-            timeStamp={letterData?.createdAt}
+            timeStamp={letterData?.reply.createdAt}
             type="REPLY"
           />
         )}
-        {isExistSentImage && (
-          <SentImage objectKey={letterData?.image.objectKey} />
-        )}
+        {isExistSentImage && <SentImage objectKey={letterData?.letter.image} />}
         <Button
           isCheck={isExistReplyContents}
           style={styles.button}

@@ -5,11 +5,12 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { RootState } from '../../store/reducer';
 import { getDashBoardPets } from '../../api/pets';
@@ -27,6 +28,7 @@ import { RootBottomTabParamList } from '../../components/bottomTab/BottomTabScre
 import WriteLetterSlice from '../../slices/writeLetter';
 
 const WriteLetter = () => {
+  const writeRef = useRef<any>(null);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootBottomTabParamList>>();
   const dispatch = useDispatch();
@@ -36,6 +38,16 @@ const WriteLetter = () => {
   const [petsList, setPetsList] = useState<PetDashBoard[]>([]);
   const [showTutorial, setShowTutorial] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (writeRef.current) {
+        writeRef.current?.scrollTo({
+          y: 0,
+        });
+      }
+    }, []),
+  );
 
   useEffect(() => {
     const getPetList = async () => {
@@ -76,7 +88,7 @@ const WriteLetter = () => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <ScrollView>
+      <ScrollView ref={writeRef}>
         <PetsSection petsList={petsList} />
         <View style={styles.relativeLayout}>
           <CoverImage />

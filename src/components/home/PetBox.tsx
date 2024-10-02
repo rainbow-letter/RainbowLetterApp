@@ -1,19 +1,28 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../Appinner';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { getDashBoardPets } from '../../api/pets';
 import { RootState } from '../../store/reducer';
 import { PetDashBoard } from '../../model/Home.model';
 import NameSection from './NameSection';
 import PetInfo from './PetInfo';
-import NoPets from '../common/NoPets';
 import { THEME } from '../../constants/theme';
+import Button from '../common/Button';
 
 const PetBox = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [petsList, setPetsList] = useState<PetDashBoard[]>([]);
   const [selectedPet, setSelectedPet] = useState<string>('');
   const token = useSelector((state: RootState) => state.account.token);
+
+  const onClickPetRegisterButton = useCallback(() => {
+    navigation.navigate('Register');
+  }, [navigation]);
 
   useEffect(() => {
     const getPetList = async () => {
@@ -35,7 +44,11 @@ const PetBox = () => {
       <Text style={styles.title}>우리 아이</Text>
       {petsList.length < 1 ? (
         <View style={styles.noPetBox}>
-          <NoPets />
+          <Text style={styles.noPetTitle}>앗, 편지를 받을 아이가 없어요</Text>
+          <Text style={styles.noPetDes}>우리 아이를 등록하러 가볼까요?</Text>
+          <Button isCheck onPress={onClickPetRegisterButton}>
+            등록하기
+          </Button>
         </View>
       ) : (
         <>
@@ -72,5 +85,17 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 15,
     paddingHorizontal: 15,
+  },
+  noPetTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    lineHeight: 26,
+    textAlign: 'center',
+  },
+  noPetDes: {
+    marginTop: 13,
+    textAlign: 'center',
+    fontSize: 16,
+    marginBottom: 27,
   },
 });
