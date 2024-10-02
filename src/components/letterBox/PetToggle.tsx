@@ -10,7 +10,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStackParamList } from '../../../Appinner';
-import { Pets } from '../../model/Pet.model';
+import { PetsList } from '../../model/Pet.model';
 import Arrow from '../../assets/ic_letterBox_arrow.svg';
 import { RootState } from '../../store/reducer';
 import { THEME } from '../../constants/theme';
@@ -18,7 +18,7 @@ import Plus from '../../assets/ic_letterBox_add.svg';
 import PetSelectSlice from '../../slices/petSelect';
 
 type Props = {
-  petsList: Pets[];
+  petsList: PetsList[];
 };
 
 const PetToggle = ({ petsList }: Props) => {
@@ -42,7 +42,7 @@ const PetToggle = ({ petsList }: Props) => {
   );
 
   const handleSelectPet = useCallback(
-    (pet: Pets) => {
+    (pet: PetsList) => {
       const action = PetSelectSlice.actions.setPetInfo(pet);
       dispatch(action);
       bottomSheetModalRef.current?.close();

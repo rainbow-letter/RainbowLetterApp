@@ -1,5 +1,5 @@
 import { ImageSourcePropType } from 'react-native';
-import { Image } from './Image.model';
+// import { Image } from './Image.model';
 
 export interface Contents {
   title: string;
@@ -14,6 +14,6 @@ export interface PetDashBoard {
   name: string;
   letterCount: number;
   favoriteCount: number;
-  image: Image;
+  image: string;
   deathAnniversary: string;
 }

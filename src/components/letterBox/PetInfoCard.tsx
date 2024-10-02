@@ -3,12 +3,12 @@ import React from 'react';
 
 import CoverImage from '../common/CoverImage';
 import ThickDivider from '../home/ThickDivider';
-import { Pets } from '../../model/Pet.model';
+import { PetsList } from '../../model/Pet.model';
 import InfoBox from './InfoBox';
 import PetToggle from './PetToggle';
 
 type Props = {
-  petsList: Pets[];
+  petsList: PetsList[];
 };
 
 const PetInfoCard = ({ petsList }: Props) => {

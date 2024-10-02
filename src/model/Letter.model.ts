@@ -1,35 +1,49 @@
 type StatusType = 'REQUEST' | 'RESPONSE';
 type ReadType = 'UNREAD' | 'READ';
 type ReplyType = 'REPLY' | 'CHAT_GPT';
-
-type Pet = {
-  id: number;
-  name: string;
-  owner: string;
-  species: string;
-  personalities: string[];
-  deathAnniversary: null;
-  image: {
-    id: null;
-    objectKey: null;
-    url: null;
-  };
-};
+type PromptType = 'A' | 'B';
 
 type Reply = {
   id: number;
+  petId: number;
+  letterId: number;
   summary: string;
   content: string;
+  promptType: PromptType;
   inspection: true;
+  inspectionTime: Date;
+  status: ReplyType;
+  submitTime: Date;
   readStatus: ReadType;
-  type: ReplyType;
-  timestamp: Date;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
-type Image = {
+type LetterContents = {
   id: number;
-  objectKey: string;
-  url: string;
+  userId: number;
+  petId: number;
+  number: number;
+  summary: string;
+  content: string;
+  shareLink: string;
+  image: string;
+  status: StatusType;
+  createdAt: Date | string;
+  updatedAt: Date;
+};
+
+type Pet = {
+  id: number;
+  userId: number;
+  name: string;
+  species: string;
+  owner: string;
+  personalities: string[];
+  deathAnniversary: string;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export interface Tip {
@@ -46,7 +60,7 @@ export interface WriteLetter {
 
 export interface Letters {
   id: number;
-  index?: number;
+  number: number;
   summary: string;
   status: StatusType;
   petName: string;
@@ -55,12 +69,7 @@ export interface Letters {
 }
 
 export interface Letter {
-  id: number;
-  summary: string;
-  content: string;
-  shareLink: string;
   pet: Pet;
-  image: Image;
+  letter: LetterContents;
   reply: Reply;
-  createdAt: string;
 }

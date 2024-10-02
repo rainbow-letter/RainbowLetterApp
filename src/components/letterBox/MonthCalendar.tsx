@@ -126,6 +126,7 @@ const MonthCalendar = ({
   const onClickCancelButton = useCallback(() => {
     onClose();
     setCurrentDate(SAVE_DATE);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onClose, setCurrentDate]);
 
   return (
@@ -166,11 +167,11 @@ const MonthCalendar = ({
                   <Pressable
                     onPress={() => onClickDateButton(day)}
                     style={
-                      isToday(day)
-                        ? [styles.day, styles.today]
-                        : !isExistWrittenLetter(day)
+                      isExistWrittenLetter(day)
+                        ? [styles.day, styles.existDay]
+                        : !isToday(day)
                         ? styles.unExistDay
-                        : [styles.day, styles.existDay]
+                        : [styles.day, styles.today]
                     }>
                     {isExistWrittenLetter(day) && <Stamp />}
                   </Pressable>

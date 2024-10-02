@@ -63,7 +63,7 @@ const Reset = ({ navigation }: Props) => {
     try {
       setIsLoading(true);
       isCheckProperPassword();
-      await updatePassword({ newPassword: account.newPassword }, token);
+      await updatePassword(account, token);
       navigation.goBack();
     } catch (error) {
       if (axios.isAxiosError(error)) {

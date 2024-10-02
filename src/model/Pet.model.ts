@@ -21,6 +21,7 @@ export interface PetFavorite {
   total: number;
   dayIncreaseCount: number;
   canIncrease: boolean;
+  lastIncreasedAt: Date | string;
 }
 
 export interface Pets {
@@ -36,4 +37,18 @@ export interface Pets {
 
   letterCount?: number;
   favoriteCount?: number;
+}
+
+export interface PetsList {
+  id: number;
+  userId: number;
+  name: string;
+  species: string;
+  owner: string;
+  personalities: string[];
+  deathAnniversary: string;
+  image: string;
+  favorite: PetFavorite;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }

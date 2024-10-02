@@ -2,7 +2,7 @@ import { AxiosRequest, AxiosRequestWithImage } from './config';
 import { createRequestURL } from './config/requestConfig';
 import { PetDashBoard } from '../model/Home.model';
 import { ApiResponse } from '../model/Api.model';
-import { Pets } from '../model/Pet.model';
+import { PetsList } from '../model/Pet.model';
 
 const accountUrl = createRequestURL('/api/pets');
 
@@ -33,7 +33,9 @@ export const registerPetInfo = (token: string, data: any) => {
   return AxiosRequestWithImage(config);
 };
 
-export const getPetList = (token: string): ApiResponse<{ pets: Pets[] }> => {
+export const getPetList = (
+  token: string,
+): ApiResponse<{ pets: PetsList[] }> => {
   const config = {
     url: accountUrl(''),
     method: 'GET',

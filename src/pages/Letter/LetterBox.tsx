@@ -2,15 +2,15 @@ import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
+import { useFocusEffect } from '@react-navigation/native';
 
 import NoPets from '../../components/common/NoPets';
 import PetInfoCard from '../../components/letterBox/PetInfoCard';
 import WeekCalendar from '../../components/letterBox/WeekCalendar';
 import LetterListSection from '../../components/letterBox/LetterListSection';
-import { getLetterList } from '../../api/letter';
 import { RootState } from '../../store/reducer';
 import { Letters } from '../../model/Letter.model';
-import { Pets } from '../../model/Pet.model';
+import { PetsList } from '../../model/Pet.model';
 import { getPetList } from '../../api/pets';
 import { THEME } from '../../constants/theme';
 import PetSelectSlice from '../../slices/petSelect';
@@ -21,20 +21,26 @@ const LetterBox = () => {
   const calendarRef = useRef<any>(null);
 
   const [letterList, setLetterList] = useState<Letters[]>([]);
-  const [petsList, setPetsList] = useState<Pets[]>([]);
+  const [petsList, setPetsList] = useState<PetsList[]>([]);
   const [date, setDate] = useState(new Date());
   const [showMonthCalendar, setShowMonthCalendar] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (calendarRef.current) {
+        calendarRef.current?.scrollTo({
+          y: 0,
+        });
+      }
+    }, []),
+  );
 
   useEffect(() => {
     (async () => {
       const {
-        data: { letters },
-      } = await getLetterList(token);
-      const {
         data: { pets },
       } = await getPetList(token);
 
-      setLetterList(letters || []);
       setPetsList(pets || []);
 
       const action = PetSelectSlice.actions.setPetInfo(pets[0]);
@@ -64,6 +70,7 @@ const LetterBox = () => {
         <WeekCalendar
           setDate={setDate}
           letterList={mappedLetterListByDate}
+          setLetterList={setLetterList}
           onClickMonthCalendarButton={onClickMonthCalendarButton}
           showMonthCalendar={showMonthCalendar}
         />

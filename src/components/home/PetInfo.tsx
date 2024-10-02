@@ -26,8 +26,8 @@ const PetInfo = ({ pet, letterCount }: Props) => {
 
   useEffect(() => {
     const getImage = async () => {
-      if (pet?.image.objectKey) {
-        const { request } = await getPetImage(token, pet?.image.objectKey);
+      if (pet?.image) {
+        const { request } = await getPetImage(token, pet?.image);
         return setPetImage({ uri: request.responseURL });
       }
 

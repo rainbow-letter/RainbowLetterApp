@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
 import { format, addDays, subDays } from 'date-fns';
+import { useFocusEffect } from '@react-navigation/native';
 
 import MonthCalendar from './MonthCalendar';
 import useCalendar from '../../hooks/useCalendar';
@@ -9,12 +10,16 @@ import Left from '../../assets/ic_letterBox_left.svg';
 import Right from '../../assets/ic_letterBox_right.svg';
 import DropDown from '../../assets/ic_letterBox_dropdown.svg';
 import Stamp from '../../assets/ic_letterBox_stamp.svg';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/reducer';
+import { getLetterList } from '../../api/letter';
 
 const DAY_OF_THE_WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 
 type Props = {
   setDate: (date: Date) => void;
   letterList: string[];
+  setLetterList: (letter: any) => void;
   onClickMonthCalendarButton: () => void;
   showMonthCalendar: boolean;
 };
@@ -22,6 +27,7 @@ type Props = {
 const WeekCalendar = ({
   setDate,
   letterList,
+  setLetterList,
   onClickMonthCalendarButton,
   showMonthCalendar,
 }: Props) => {
@@ -36,6 +42,27 @@ const WeekCalendar = ({
     currentDate.getMonth() + 1
   }월`;
   const [weekCalendar, setWeekCalendar] = useState<number[]>([]);
+  const { token } = useSelector((state: RootState) => state.account);
+  const pet = useSelector((state: RootState) => state.petSelect);
+
+  useFocusEffect(
+    useCallback(() => {
+      setCurrentDate(new Date());
+      setDate(new Date());
+    }, [setCurrentDate, setDate]),
+  );
+
+  useEffect(() => {
+    (async () => {
+      if (pet?.id === undefined || weekCalendar.length <= 0) return;
+
+      const {
+        data: { letters },
+      } = await getLetterList(token, pet?.id);
+
+      setLetterList(letters || []);
+    })();
+  }, [pet, weekCalendar, token, setLetterList]);
 
   useEffect(() => {
     const findIndex = weekCalendarList.findIndex((weeks: string[]) =>
@@ -43,6 +70,7 @@ const WeekCalendar = ({
     );
 
     setWeekCalendar(weekCalendarListForWeeks[findIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentDate]);
 
   const onClickNextWeek = useCallback(() => {
@@ -115,11 +143,11 @@ const WeekCalendar = ({
               <Pressable
                 onPress={() => onClickDateButton(date)}
                 style={
-                  isToday(date)
-                    ? [styles.dateButton, styles.todayButton]
-                    : !isExistWrittenLetter(date)
+                  isExistWrittenLetter(date)
+                    ? [styles.dateButton, styles.writtenButton]
+                    : !isToday(date)
                     ? styles.dateButton
-                    : [styles.dateButton, styles.writtenButton]
+                    : [styles.dateButton, styles.todayButton]
                 }>
                 {isExistWrittenLetter(date) && <Stamp />}
               </Pressable>

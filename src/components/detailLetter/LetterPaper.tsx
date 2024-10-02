@@ -7,7 +7,7 @@ import { THEME } from '../../constants/theme';
 type Props = {
   content: string | undefined;
   pet: string | undefined;
-  timeStamp: string | undefined;
+  timeStamp: Date | string | undefined;
   type: 'LETTER' | 'REPLY';
 };
 

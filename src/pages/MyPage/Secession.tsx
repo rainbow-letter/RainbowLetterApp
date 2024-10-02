@@ -41,7 +41,7 @@ const Secession = ({ navigation }: Props) => {
       await deleteUserInfo(token);
       dispatch(accountSlice.actions.removeToken());
       await EncryptedStorage.removeItem('token');
-      navigation.push('Home');
+      navigation.navigate('Home');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
