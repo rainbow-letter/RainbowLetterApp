@@ -2,6 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- ios에서 웹뷰 설정 -->
+	<key>NSAllowsArbitraryLoads</key>
+	<true/> 
+	<key>NSAllowsArbitraryLoadsInWebContent</key>
+	<true/>
+	<key>NSExceptionDomains</key>
+	<dict>
+		<key>https://rainbowletter.co.kr/</key>
+		<dict>
+			<key>NSExceptionAllowsInsecureHTTPLoads</key>
+			<true/>
+			<key>NSExceptionRequiresForwardSecrecy</key>
+			<true/>
+			<key>NSIncludesSubdomains</key>
+			<true/>
+		</dict>
+	</dict>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

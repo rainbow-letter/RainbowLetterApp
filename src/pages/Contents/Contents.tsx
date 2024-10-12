@@ -1,21 +1,34 @@
-import { Pressable, View, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../Appinner';
+import WebView from 'react-native-webview';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const Contents = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
   return (
-    <View>
-      <Text>Contents</Text>
-      <Pressable onPress={() => navigation.navigate('Register')}>
-        <Text>아이 등록하러 가기</Text>
-      </Pressable>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <WebView
+        style={styles.webview}
+        source={{
+          uri: 'https://rainbowletter.co.kr/contents',
+        }}
+      />
+    </SafeAreaView>
   );
 };
 
 export default Contents;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  webview: {
+    flex: 1,
+    width: windowWidth,
+    height: windowHeight,
+  },
+});
