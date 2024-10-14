@@ -15,7 +15,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { RootState } from '../../store/reducer';
 import { getDashBoardPets } from '../../api/pets';
 import { createLetter } from '../../api/letter';
-import WriteLetterTutorial from '../../components/writeLetter/WriteLetterTutorial';
+// import WriteLetterTutorial from '../../components/writeLetter/WriteLetterTutorial';
 import PetsSection from '../../components/writeLetter/PetsSection';
 import WritingSection from '../../components/writeLetter/WritingSection';
 import ImageSection from '../../components/writeLetter/ImageSection';
@@ -26,6 +26,8 @@ import { THEME } from '../../constants/theme';
 import PetSelectSlice from '../../slices/petSelect';
 import { RootBottomTabParamList } from '../../components/bottomTab/BottomTabScreen';
 import WriteLetterSlice from '../../slices/writeLetter';
+import { generateFormData } from '../../utils/image';
+import { uploadImage } from '../../api/image';
 
 const WriteLetter = () => {
   const writeRef = useRef<any>(null);
@@ -36,8 +38,14 @@ const WriteLetter = () => {
   const { token } = useSelector((state: RootState) => state.account);
   const { id } = useSelector((state: RootState) => state.petSelect);
   const [petsList, setPetsList] = useState<PetDashBoard[]>([]);
-  const [showTutorial, setShowTutorial] = useState<boolean>(true);
+  // const [showTutorial, setShowTutorial] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [imageFile, setImageFile] = useState<{
+    uri: string;
+    name: string;
+    type: string;
+  } | null>();
+  const [preview, setPreview] = useState<{ uri: string } | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -61,19 +69,29 @@ const WriteLetter = () => {
     getPetList();
   }, [token, dispatch]);
 
-  const handleCloseTutorial = useCallback(() => {
-    setShowTutorial(prev => !prev);
-  }, []);
+  const getImageObjectKey = useCallback(
+    async (image: any) => {
+      if (imageFile) {
+        const formData = generateFormData(image);
+        const { data } = await uploadImage(token, formData);
+
+        return data.objectKey;
+      }
+    },
+    [token, imageFile],
+  );
 
   const onClickSendLetterButton = useCallback(async () => {
     try {
       setIsLoading(true);
-      await createLetter(token, id, letter);
+      const objectKey = await getImageObjectKey(imageFile);
       const action = WriteLetterSlice.actions.setLetter({
-        content: '',
-        summary: '',
+        image: objectKey,
       });
       dispatch(action);
+      await createLetter(token, id, letter);
+      dispatch(WriteLetterSlice.actions.clearLetter());
+      setPreview(null);
       navigation.navigate('LetterBox');
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -82,7 +100,7 @@ const WriteLetter = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [id, letter, token, navigation, dispatch]);
+  }, [id, letter, imageFile, token, navigation, dispatch, getImageObjectKey]);
 
   const canClick = letter.content && !isLoading;
 
@@ -94,11 +112,11 @@ const WriteLetter = () => {
           <CoverImage />
           <WritingSection />
         </View>
-        <WriteLetterTutorial
-          visible={showTutorial}
-          onClose={handleCloseTutorial}
+        <ImageSection
+          setImageFile={setImageFile}
+          setPreview={setPreview}
+          preview={preview}
         />
-        <ImageSection />
         <Button
           onPress={onClickSendLetterButton}
           isCheck={canClick}

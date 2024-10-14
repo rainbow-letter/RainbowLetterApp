@@ -9,11 +9,7 @@ const initialState: PetRegister = {
   owner: '',
   personalities: [],
   deathAnniversary: '',
-  image: {
-    uri: '',
-    name: '',
-    type: '',
-  },
+  image: '',
   year: '',
   month: '',
   day: '',
@@ -47,6 +43,17 @@ const PetRegisterSlice = createSlice({
         2,
         '0',
       )}-${action.payload.padStart(2, '0')}`;
+    },
+    clearPetInfo(state) {
+      state.name = '';
+      state.species = '';
+      state.owner = '';
+      state.personalities = [];
+      state.deathAnniversary = '';
+      state.image = '';
+      state.year = '';
+      state.month = '';
+      state.day = '';
     },
   },
 });

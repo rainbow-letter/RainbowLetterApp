@@ -1,18 +1,19 @@
 import { StyleSheet, Pressable, Image, Text, View } from 'react-native';
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
-import { useDispatch } from 'react-redux';
 
-import WriteLetterSlice from '../../slices/writeLetter';
 import { THEME } from '../../constants/theme';
 import Plus from '../../assets/ic_register_plus.svg';
 import Cancel from '../../assets/ic_register_cancel.png';
 
-const ImageSection = () => {
-  const dispatch = useDispatch();
-  const [preview, setPreview] = useState<{ uri: string } | null>(null);
+type Props = {
+  setImageFile: any;
+  preview: { uri: string } | null;
+  setPreview: any;
+};
 
+const ImageSection = ({ setImageFile, preview, setPreview }: Props) => {
   const onResponse = useCallback(
     async (response: any) => {
       setPreview({ uri: `data:${response.mime};base64,${response.data}` });
@@ -24,17 +25,14 @@ const ImageSection = () => {
         100,
         0,
       ).then(r => {
-        const action = WriteLetterSlice.actions.setLetter({
-          image: {
-            uri: r.uri,
-            name: r.name,
-            type: response.mime,
-          },
+        setImageFile({
+          uri: r.uri,
+          name: r.name,
+          type: response.mime,
         });
-        dispatch(action);
       });
     },
-    [dispatch],
+    [setImageFile, setPreview],
   );
 
   const onChangeFile = useCallback(() => {
@@ -49,11 +47,8 @@ const ImageSection = () => {
 
   const handleImageDelete = useCallback(() => {
     setPreview(null);
-    const action = WriteLetterSlice.actions.setLetter({
-      image: null,
-    });
-    dispatch(action);
-  }, [dispatch]);
+    setImageFile(null);
+  }, [setImageFile, setPreview]);
 
   return (
     <View style={styles.section}>
