@@ -6,7 +6,7 @@ import { WriteLetter } from '../model/Letter.model';
 const initialState: WriteLetter = {
   summary: '',
   content: '',
-  image: null,
+  image: '',
 };
 
 const WriteLetterSlice = createSlice({
@@ -16,6 +16,12 @@ const WriteLetterSlice = createSlice({
     setLetter(state, action: PayloadAction<Partial<WriteLetter>>) {
       state = { ...state, ...action.payload };
       return state;
+    },
+    clearLetter(state) {
+      console.log('asdaclearLettersd', state.summary);
+      state.summary = '';
+      state.content = '';
+      state.image = '';
     },
   },
 });

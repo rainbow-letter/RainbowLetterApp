@@ -1,4 +1,4 @@
-import { AxiosRequest } from './config';
+import { AxiosRequest, AxiosRequestWithImage } from './config';
 import { createRequestURL } from './config/requestConfig';
 import { ApiResponse } from '../model/Api.model';
 
@@ -14,4 +14,17 @@ export const getPetImage = (token: string, key: string): ApiResponse<any> => {
   };
 
   return AxiosRequest(config);
+};
+
+export const uploadImage = (token: string, data: any): ApiResponse<any> => {
+  const config = {
+    url: accountUrl(''),
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data,
+  };
+
+  return AxiosRequestWithImage(config);
 };

@@ -6,7 +6,7 @@ import { THEME } from '../../constants/theme';
 type Props = {
   children: React.ReactNode;
   onPress: () => void;
-  isCheck?: boolean | string;
+  isCheck?: boolean | string | null;
   style?: any;
 };
 

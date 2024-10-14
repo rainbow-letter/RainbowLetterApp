@@ -46,7 +46,7 @@ const LetterBox = () => {
       const action = PetSelectSlice.actions.setPetInfo(pets[0]);
       dispatch(action);
     })();
-  }, [token, dispatch]);
+  }, [token, dispatch, date]);
 
   const onClickMonthCalendarButton = useCallback(() => {
     setShowMonthCalendar(prev => !prev);

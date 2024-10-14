@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 
@@ -8,12 +8,12 @@ import Cancel from '../../../assets/ic_register_cancel.png';
 import { THEME } from '../../../constants/theme';
 
 type Props = {
-  setImage: any;
+  setImageFile: any;
+  setPreview: any;
+  preview: { uri: string } | null | undefined;
 };
 
-const ImageUploadSection = ({ setImage }: Props) => {
-  const [preview, setPreview] = useState<{ uri: string } | null>();
-
+const ImageUploadSection = ({ setImageFile, setPreview, preview }: Props) => {
   const onResponse = useCallback(
     async (response: any) => {
       setPreview({ uri: `data:${response.mime};base64,${response.data}` });
@@ -25,14 +25,14 @@ const ImageUploadSection = ({ setImage }: Props) => {
         100,
         0,
       ).then(r => {
-        setImage({
+        setImageFile({
           uri: r.uri,
           name: r.name,
           type: response.mime,
         });
       });
     },
-    [setImage],
+    [setImageFile, setPreview],
   );
 
   const onChangeFile = useCallback(() => {
@@ -47,8 +47,8 @@ const ImageUploadSection = ({ setImage }: Props) => {
 
   const handleImageDelete = useCallback(() => {
     setPreview(null);
-    setImage(null);
-  }, [setImage]);
+    setImageFile(null);
+  }, [setImageFile, setPreview]);
 
   return (
     <View style={styles.section}>
