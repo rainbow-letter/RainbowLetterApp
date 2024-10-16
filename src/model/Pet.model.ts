@@ -5,15 +5,15 @@ export interface StyledPetRegisterTitle {
 }
 
 export interface PetRegister {
-  name: string;
-  species: string;
-  owner: string;
-  personalities: string[];
-  deathAnniversary: string | null;
-  image: any;
-  year?: string;
-  month?: string;
-  day?: string;
+  name: string | undefined;
+  species: string | undefined;
+  owner: string | undefined;
+  personalities: string[] | undefined;
+  deathAnniversary: string | null | undefined;
+  image: string | undefined;
+  year?: string | null | undefined;
+  month?: string | null | undefined;
+  day?: string | null | undefined;
 }
 
 export interface PetFavorite {

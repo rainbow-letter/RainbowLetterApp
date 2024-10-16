@@ -7,7 +7,7 @@ type Props = {
   placeholder: string;
   width: number;
   onChange: (date: string) => void;
-  value?: string;
+  value?: string | null;
 };
 
 const DateInput = ({ placeholder, width, onChange, value }: Props) => {
@@ -17,7 +17,7 @@ const DateInput = ({ placeholder, width, onChange, value }: Props) => {
       style={[styles.input, { width }]}
       maxLength={placeholder.length}
       onChangeText={onChange}
-      value={value}
+      value={value ? value : ''}
     />
   );
 };

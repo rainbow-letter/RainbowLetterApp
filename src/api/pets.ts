@@ -46,3 +46,28 @@ export const getPetList = (
 
   return AxiosRequest(config);
 };
+
+export const getPetInfo = (token: string, id: number) => {
+  const config = {
+    url: accountUrl(`/${id}`),
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return AxiosRequest(config);
+};
+
+export const updatePetInfo = (token: string, id: number, data: any) => {
+  const config = {
+    url: accountUrl(`/${id}`),
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data,
+  };
+
+  return AxiosRequestWithImage(config);
+};

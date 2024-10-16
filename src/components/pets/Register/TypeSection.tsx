@@ -10,9 +10,9 @@ import { RootState } from '../../../store/reducer';
 import AnimatedChip from '../../common/AnimatedChip';
 
 const TypeSection = ({ titleStyle }: StyledPetRegisterTitle) => {
+  const { species } = useSelector((state: RootState) => state.petRegister);
   const [isEtcCheck, setIsEtcCheck] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { species } = useSelector((state: RootState) => state.petRegister);
 
   const handleCheckType = useCallback(
     (species: string) => {
@@ -45,13 +45,16 @@ const TypeSection = ({ titleStyle }: StyledPetRegisterTitle) => {
             <Chip
               key={`pets-type-${type}`}
               value={type}
-              isSelected={species === type && !isEtcCheck}
+              isSelected={species === type && !isEtcCheck && species !== ''}
               onClick={() => handleCheckType(type)}
             />
           ))}
         </View>
         <AnimatedChip
-          isCheck={isEtcCheck}
+          isCheck={species !== '' && !PETS_TYPE.includes(species ?? '')}
+          value={
+            species !== '' && !PETS_TYPE.includes(species ?? '') ? species : ''
+          }
           onClick={() => setIsEtcCheck(true)}
           onChange={handleEtcInput}
         />

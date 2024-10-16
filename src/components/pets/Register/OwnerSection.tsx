@@ -10,9 +10,9 @@ import PetRegisterSlice from '../../../slices/pets';
 import AnimatedChip from '../../common/AnimatedChip';
 
 const OwnerSection = ({ titleStyle }: StyledPetRegisterTitle) => {
+  const { owner } = useSelector((state: RootState) => state.petRegister);
   const [isEtcCheck, setIsEtcCheck] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { owner } = useSelector((state: RootState) => state.petRegister);
 
   const handleCheckOwner = useCallback(
     (owner: string) => {
@@ -45,13 +45,16 @@ const OwnerSection = ({ titleStyle }: StyledPetRegisterTitle) => {
             <Chip
               key={`pets-owner-${item}`}
               value={item}
-              isSelected={item === owner && !isEtcCheck}
+              isSelected={item === owner && !isEtcCheck && owner !== ''}
               onClick={() => handleCheckOwner(item)}
             />
           ))}
         </View>
         <AnimatedChip
-          isCheck={isEtcCheck}
+          isCheck={owner !== '' && !PETS_OWNERS.includes(owner ?? '')}
+          value={
+            owner !== '' && !PETS_OWNERS.includes(owner ?? '') ? owner : ''
+          }
           onClick={() => setIsEtcCheck(true)}
           onChange={handleEtcInput}
         />

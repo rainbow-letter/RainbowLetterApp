@@ -5,7 +5,7 @@ import { THEME } from '../../constants/theme';
 
 type Props = {
   value: string;
-  isSelected: boolean;
+  isSelected: boolean | undefined;
   onClick: () => void;
 };
 

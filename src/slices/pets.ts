@@ -44,6 +44,23 @@ const PetRegisterSlice = createSlice({
         '0',
       )}-${action.payload.padStart(2, '0')}`;
     },
+    setUpdatePetInfo(state, action: PayloadAction<Partial<PetRegister>>) {
+      state.name = action.payload.name;
+      state.species = action.payload.species;
+      state.owner = action.payload.owner;
+      state.personalities = action.payload.personalities;
+      state.deathAnniversary = action.payload.deathAnniversary;
+      state.image = action.payload.image;
+      state.year =
+        action.payload.deathAnniversary &&
+        action.payload.deathAnniversary.slice(0, 4);
+      state.month =
+        action.payload.deathAnniversary &&
+        action.payload.deathAnniversary.slice(5, 7);
+      state.day =
+        action.payload.deathAnniversary &&
+        action.payload.deathAnniversary.slice(8, 10);
+    },
     clearPetInfo(state) {
       state.name = '';
       state.species = '';

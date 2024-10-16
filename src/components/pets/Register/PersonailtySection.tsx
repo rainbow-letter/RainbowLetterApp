@@ -17,18 +17,18 @@ const PersonailtySection = ({ titleStyle }: StyledPetRegisterTitle) => {
 
   const handleCheckPersonailty = useCallback(
     (personality: string) => {
-      if (personalities.includes(personality)) {
+      if (personalities && personalities.includes(personality)) {
         const updateList = personalities.filter(item => item !== personality);
         const action = PetRegisterSlice.actions.setPetInfo({
           personalities: updateList,
         });
         return dispatch(action);
       }
-      if (personalities.length >= 3) {
+      if (personalities && personalities.length >= 3) {
         return;
       }
 
-      const updateList = [...personalities, personality];
+      const updateList = personalities && [...personalities, personality];
       const action = PetRegisterSlice.actions.setPetInfo({
         personalities: updateList,
       });
@@ -48,7 +48,7 @@ const PersonailtySection = ({ titleStyle }: StyledPetRegisterTitle) => {
           <Chip
             key={`pets-personailty-${personailty}`}
             value={personailty}
-            isSelected={personalities.includes(personailty)}
+            isSelected={personalities && personalities.includes(personailty)}
             onClick={() => handleCheckPersonailty(personailty)}
           />
         ))}
