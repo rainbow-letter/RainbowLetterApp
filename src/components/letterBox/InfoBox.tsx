@@ -1,19 +1,28 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
+import { RootStackParamList } from '../../../Appinner';
 import { THEME } from '../../constants/theme';
 import Tag from '../common/Tag';
 import { RootState } from '../../store/reducer';
 import { calculateDDay } from '../../utils/date';
 
 const InfoBox = () => {
-  const { name, personalities, owner, deathAnniversary } = useSelector(
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { name, personalities, owner, deathAnniversary, id } = useSelector(
     (state: RootState) => state.petSelect,
   );
 
   const deathAnniversaryDDay =
     deathAnniversary && calculateDDay(deathAnniversary);
+
+  const onClickProfileEditButton = useCallback(() => {
+    navigation.navigate('Register', { id });
+  }, [navigation, id]);
 
   return (
     <View style={styles.infoSection}>
@@ -22,7 +31,9 @@ const InfoBox = () => {
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.deathAnniversary}>{deathAnniversaryDDay}</Text>
         </View>
-        <Pressable style={styles.profileUpdateButton}>
+        <Pressable
+          onPress={onClickProfileEditButton}
+          style={styles.profileUpdateButton}>
           <Text style={styles.profileUpdateButtonText}>프로필 수정</Text>
         </Pressable>
         <View style={styles.personalityBox}>

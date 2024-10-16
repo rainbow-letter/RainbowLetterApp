@@ -14,9 +14,10 @@ type Props = {
   isCheck: boolean;
   onClick: () => void;
   onChange?: (value: string) => void;
+  value?: string;
 };
 
-const AnimatedChip = ({ isCheck, onClick, onChange }: Props) => {
+const AnimatedChip = ({ isCheck, onClick, onChange, value }: Props) => {
   const widthAnim = useRef(new Animated.Value(0)).current;
   const [isFoucs, setIsFocus] = useState(false);
 
@@ -65,6 +66,7 @@ const AnimatedChip = ({ isCheck, onClick, onChange }: Props) => {
             onChangeText={onChange}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
+            value={value}
           />
         </Animated.View>
       </Pressable>

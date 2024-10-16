@@ -25,7 +25,7 @@ export type RootStackParamList = {
   MyPage: undefined;
   QnA: undefined;
   Secession: undefined;
-  Register: undefined;
+  Register: any;
   BottomTabScreen: undefined;
   Donate: undefined;
   DetailLetter: any;

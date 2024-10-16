@@ -8,9 +8,8 @@ import {
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
-import { useFocusEffect } from '@react-navigation/native';
 
 import { RootState } from '../../store/reducer';
 import { getDashBoardPets } from '../../api/pets';

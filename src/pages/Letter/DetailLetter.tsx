@@ -24,7 +24,6 @@ const DetailLetter = ({ route }: Props) => {
   const { id } = route.params;
   const { token } = useSelector((state: RootState) => state.account);
   const [letterData, setLetterData] = useState<Letter | null>(null);
-  console.log(letterData);
 
   useEffect(() => {
     (async () => {

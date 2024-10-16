@@ -1,6 +1,8 @@
 import { StyleSheet, SafeAreaView, Alert } from 'react-native';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import DismissKeyboardView from '../../hooks/DismissKeyboardView';
 import NameSection from '../../components/pets/Register/NameSection';
@@ -12,14 +14,12 @@ import ImageUploadSection from '../../components/pets/Register/ImageUploadSectio
 import Button from '../../components/common/Button';
 import { THEME } from '../../constants/theme';
 import { RootState } from '../../store/reducer';
-import { registerPetInfo } from '../../api/pets';
+import { registerPetInfo, getPetInfo, updatePetInfo } from '../../api/pets';
 import { isCheckFutureDate } from '../../utils/date';
-import { uploadImage } from '../../api/image';
-import { generateFormData } from '../../utils/image';
 import PetRegisterSlice from '../../slices/pets';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootBottomTabParamList } from '../../components/bottomTab/BottomTabScreen';
+import { getPetImage } from '../../api/image';
+import { getImageObjectKey } from '../../utils/image';
 
 const titleStyle = {
   fontWeight: 'bold',
@@ -28,7 +28,11 @@ const titleStyle = {
   fontSize: 16,
 };
 
-const Register = () => {
+type Props = {
+  route: any;
+};
+
+const Register = ({ route }: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootBottomTabParamList>>();
   const dispatch = useDispatch();
@@ -42,26 +46,48 @@ const Register = () => {
   } | null>();
   const [preview, setPreview] = useState<{ uri: string } | null>();
 
-  const getImageObjectKey = useCallback(
-    async (image: any) => {
-      if (imageFile) {
-        const formData = generateFormData(image);
-        const { data } = await uploadImage(token, formData);
-
-        return data.objectKey;
-      }
-    },
-    [token, imageFile],
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        dispatch(PetRegisterSlice.actions.clearPetInfo());
+      };
+    }, [dispatch]),
   );
+
+  useEffect(() => {
+    (async () => {
+      // dispatch(PetRegisterSlice.actions.clearPetInfo());
+      if (route.params?.id) {
+        const { data } = await getPetInfo(token, route.params?.id);
+        const action = PetRegisterSlice.actions.setUpdatePetInfo(data);
+        dispatch(action);
+      }
+    })();
+  }, [token, route.params?.id, dispatch]);
+
+  useEffect(() => {
+    const getImage = async () => {
+      if (route.params?.id && petInfo.image) {
+        const { request } = await getPetImage(token, petInfo.image);
+        return setPreview({ uri: request.responseURL });
+      }
+    };
+
+    getImage();
+  }, [token, petInfo.image, route.params?.id]);
 
   const onClickPetRegisterButton = useCallback(async () => {
     try {
       setIsLoading(true);
-      const objectKey = await getImageObjectKey(imageFile);
-      const action = PetRegisterSlice.actions.setPetInfo({
-        image: objectKey,
-      });
-      dispatch(action);
+      let objectKey = petInfo.image;
+
+      if (imageFile) {
+        objectKey = await getImageObjectKey(imageFile, token);
+        const action = PetRegisterSlice.actions.setPetInfo({
+          image: objectKey,
+        });
+        dispatch(action);
+      }
 
       // eslint-disable-next-line
       const { year, month, day, ...info } = petInfo;
@@ -70,7 +96,14 @@ const Register = () => {
       if (isFuture) {
         return Alert.alert('날짜를 다시 확인해주세요!');
       }
-      await registerPetInfo(token, info);
+      if (route.params?.id) {
+        await updatePetInfo(token, route.params?.id, {
+          ...info,
+          image: objectKey,
+        });
+      } else {
+        await registerPetInfo(token, { ...info, image: objectKey });
+      }
       dispatch(PetRegisterSlice.actions.clearPetInfo());
       navigation.navigate('LetterBox');
     } catch (error) {
@@ -78,10 +111,10 @@ const Register = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [navigation, dispatch, token, getImageObjectKey, petInfo, imageFile]);
+  }, [navigation, dispatch, token, petInfo, imageFile, route.params?.id]);
 
   const canClick =
-    petInfo.name && petInfo.species && petInfo.owner && imageFile && !isLoading;
+    petInfo.name && petInfo.species && petInfo.owner && preview && !isLoading;
 
   return (
     <SafeAreaView style={styles.screen}>
