@@ -24,6 +24,7 @@ const LetterBox = () => {
   const [petsList, setPetsList] = useState<PetsList[]>([]);
   const [date, setDate] = useState(new Date());
   const [showMonthCalendar, setShowMonthCalendar] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -32,6 +33,7 @@ const LetterBox = () => {
           y: 0,
         });
       }
+      setIsEditing(false);
     }, []),
   );
 
@@ -50,6 +52,7 @@ const LetterBox = () => {
 
   const onClickMonthCalendarButton = useCallback(() => {
     setShowMonthCalendar(prev => !prev);
+    setIsEditing(false);
     calendarRef.current?.scrollTo({
       y: 0,
     });
@@ -73,8 +76,15 @@ const LetterBox = () => {
           setLetterList={setLetterList}
           onClickMonthCalendarButton={onClickMonthCalendarButton}
           showMonthCalendar={showMonthCalendar}
+          setIsEditing={setIsEditing}
         />
-        <LetterListSection date={date} letterList={letterList} />
+        <LetterListSection
+          date={date}
+          letterList={letterList}
+          setIsEditing={setIsEditing}
+          isEditing={isEditing}
+          setLetterList={setLetterList}
+        />
       </ScrollView>
     </SafeAreaView>
   );

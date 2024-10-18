@@ -22,6 +22,7 @@ type Props = {
   setLetterList: (letter: any) => void;
   onClickMonthCalendarButton: () => void;
   showMonthCalendar: boolean;
+  setIsEditing: (isEditing: boolean) => void;
 };
 
 const WeekCalendar = ({
@@ -30,6 +31,7 @@ const WeekCalendar = ({
   setLetterList,
   onClickMonthCalendarButton,
   showMonthCalendar,
+  setIsEditing,
 }: Props) => {
   const {
     currentDate,
@@ -76,19 +78,22 @@ const WeekCalendar = ({
   const onClickNextWeek = useCallback(() => {
     setCurrentDate(addDays(currentDate, 7));
     setDate(addDays(currentDate, 7));
-  }, [currentDate, setCurrentDate, setDate]);
+    setIsEditing(false);
+  }, [currentDate, setCurrentDate, setDate, setIsEditing]);
 
   const onClickPrevWeek = useCallback(() => {
     setCurrentDate(subDays(currentDate, 7));
     setDate(subDays(currentDate, 7));
-  }, [currentDate, setCurrentDate, setDate]);
+    setIsEditing(false);
+  }, [currentDate, setCurrentDate, setDate, setIsEditing]);
 
   const onClickDateButton = useCallback(
     (date: number) => {
       setCurrentDate(new Date(date));
       setDate(new Date(date));
+      setIsEditing(false);
     },
-    [setCurrentDate, setDate],
+    [setCurrentDate, setDate, setIsEditing],
   );
 
   const isActiveDate = useCallback(

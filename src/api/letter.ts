@@ -48,3 +48,18 @@ export const getLetter = (token: string, id: number): ApiResponse<Letter> => {
 
   return AxiosRequest(config);
 };
+
+export const deleteLetter = (
+  token: string,
+  id: number,
+): ApiResponse<Letter> => {
+  const config = {
+    url: accountUrl(`/letters/${id}`),
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return AxiosRequest(config);
+};
