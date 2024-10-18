@@ -33,19 +33,12 @@ const QNA: Question[] = [
   {
     id: 4,
     prefix: 'Q.',
-    question: '하트는 하루에 몇 번까지 보낼 수 있나요?',
-    answer:
-      '하루 최대 3번 가능해요. 아침, 점심, 저녁 생각날 때 하트를 보내주세요.',
-  },
-  {
-    id: 5,
-    prefix: 'Q.',
     question: '서비스 공지사항은 어디에서 확인하나요?',
     answer:
       '네이버 ‘무지개편지’ 블로그를 확인해주세요. https://blog.naver.com/rainbowletter',
   },
   {
-    id: 6,
+    id: 5,
     prefix: 'Q.',
     question: '문의/제휴하고 싶다면 어디로 연락하나요?',
     answer:

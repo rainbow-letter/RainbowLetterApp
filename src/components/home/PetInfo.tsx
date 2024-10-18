@@ -9,7 +9,6 @@ import { getPetImage } from '../../api/image';
 import { THEME } from '../../constants/theme';
 import DefaultImage from '../../assets/im_default.png';
 import Letter from '../../assets/ic_home_letter.svg';
-import Heart from '../../assets/ic_home_heart.svg';
 import Arrow from '../../assets/ic_home_dashborad_arrow.svg';
 
 type Props = {
@@ -51,13 +50,6 @@ const PetInfo = ({ pet, letterCount }: Props) => {
             <Text
               style={styles.letterText}>{`보낸 편지 ${letterCount}회`}</Text>
           </View>
-        </View>
-        <View style={styles.heart}>
-          <Heart />
-          <Text
-            style={
-              styles.letterText
-            }>{`보낸 하트 ${pet?.favoriteCount}회`}</Text>
         </View>
       </View>
       <Arrow style={styles.arrow} />
