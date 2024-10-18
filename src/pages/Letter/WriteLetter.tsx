@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   ScrollView,
   View,
+  Text,
   ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -14,12 +15,12 @@ import axios from 'axios';
 import { RootState } from '../../store/reducer';
 import { getDashBoardPets } from '../../api/pets';
 import { createLetter } from '../../api/letter';
-// import WriteLetterTutorial from '../../components/writeLetter/WriteLetterTutorial';
 import PetsSection from '../../components/writeLetter/PetsSection';
 import WritingSection from '../../components/writeLetter/WritingSection';
 import ImageSection from '../../components/writeLetter/ImageSection';
 import CoverImage from '../../components/common/CoverImage';
 import Button from '../../components/common/Button';
+import Spinner from '../../components/common/Spinner';
 import { PetDashBoard } from '../../model/Home.model';
 import { THEME } from '../../constants/theme';
 import PetSelectSlice from '../../slices/petSelect';
@@ -37,7 +38,6 @@ const WriteLetter = () => {
   const { token } = useSelector((state: RootState) => state.account);
   const { id } = useSelector((state: RootState) => state.petSelect);
   const [petsList, setPetsList] = useState<PetDashBoard[]>([]);
-  // const [showTutorial, setShowTutorial] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageFile, setImageFile] = useState<{
     uri: string;
@@ -45,6 +45,7 @@ const WriteLetter = () => {
     type: string;
   } | null>();
   const [preview, setPreview] = useState<{ uri: string } | null>(null);
+  const [isFetchLoading, setIsFetchLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -53,7 +54,16 @@ const WriteLetter = () => {
           y: 0,
         });
       }
-    }, []),
+      (async () => {
+        setIsFetchLoading(true);
+        const { data } = await getDashBoardPets(token);
+        setPetsList(data.pets || []);
+
+        const action = PetSelectSlice.actions.setPetInfo(data.pets[0]);
+        dispatch(action);
+        setIsFetchLoading(false);
+      })();
+    }, [token, dispatch]),
   );
 
   useEffect(() => {
@@ -103,6 +113,16 @@ const WriteLetter = () => {
 
   const canClick = letter.content && !isLoading;
 
+  if (isFetchLoading) {
+    return (
+      <View style={styles.spinnerCon}>
+        <Text>
+          <Spinner size="large" color={THEME.COLOR.ORANGE_1} />
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView ref={writeRef}>
@@ -140,6 +160,12 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 56,
     marginBottom: 70,
+  },
+  spinnerCon: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: THEME.COLOR.WHITE,
   },
 });
 

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
+import Spinner from '../../components/common/Spinner';
 import { THEME } from '../../constants/theme';
 import NextImg from '../../assets/ic_myPage_next.svg';
 import { getUserInfo } from '../../api/account';
@@ -32,6 +33,7 @@ const MyPage = () => {
   const [errorData, setErrorData] = useState<ErrorData | null | undefined>(
     null,
   );
+  const [isFetchLoading, setIsFetchLoading] = useState(true);
   const dispatch = useAppDispatch();
   const token = useSelector((state: RootState) => state.account.token);
   const newPhoneNumber = useSelector(
@@ -44,9 +46,11 @@ const MyPage = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
+        setIsFetchLoading(true);
         const { data } = await getUserInfo(token);
         setUserInfo(data);
         dispatch(accountSlice.actions.setPhoneNumber(data.phoneNumber));
+        setIsFetchLoading(false);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log(error);
@@ -87,6 +91,16 @@ const MyPage = () => {
       }
     }
   }, [isCheck, phoneNumber, token, dispatch]);
+
+  if (isFetchLoading) {
+    return (
+      <View style={styles.spinnerCon}>
+        <Text>
+          <Spinner size="large" color={THEME.COLOR.ORANGE_1} />
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -263,5 +277,11 @@ const styles = StyleSheet.create({
   errorInput: {
     borderWidth: 1,
     borderColor: THEME.COLOR.RED_1,
+  },
+  spinnerCon: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: THEME.COLOR.WHITE,
   },
 });

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RootStackParamList } from '../../../Appinner';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -12,32 +12,46 @@ import NameSection from './NameSection';
 import PetInfo from './PetInfo';
 import { THEME } from '../../constants/theme';
 import Button from '../common/Button';
+import Spinner from '../common/Spinner';
 
 const PetBox = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [petsList, setPetsList] = useState<PetDashBoard[]>([]);
   const [selectedPet, setSelectedPet] = useState<string>('');
+  const [isFetchLoading, setIsFetchLoading] = useState(true);
   const token = useSelector((state: RootState) => state.account.token);
 
   const onClickPetRegisterButton = useCallback(() => {
     navigation.navigate('Register');
   }, [navigation]);
 
-  useEffect(() => {
-    const getPetList = async () => {
-      const { data } = await getDashBoardPets(token);
-      setPetsList(data.pets || []);
-      if (data.pets.length > 0) {
-        setSelectedPet(data.pets[0].name || '');
-      }
-    };
-
-    getPetList();
-  }, [token]);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        setIsFetchLoading(true);
+        const { data } = await getDashBoardPets(token);
+        setPetsList(data.pets || []);
+        setIsFetchLoading(false);
+        if (data.pets.length > 0) {
+          setSelectedPet(data.pets[0].name || '');
+        }
+      })();
+    }, [token]),
+  );
 
   const petsNames = petsList.map(pet => pet.name);
   const filteredPet = petsList.find(pet => pet.name === selectedPet);
+
+  if (isFetchLoading) {
+    return (
+      <View style={styles.spinnerCon}>
+        <Text>
+          <Spinner size="large" color={THEME.COLOR.ORANGE_1} />
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.section}>
@@ -97,5 +111,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     marginBottom: 27,
+  },
+  spinnerCon: {
+    height: 220,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -1,5 +1,5 @@
-import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
+import React, { useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import { useFocusEffect } from '@react-navigation/native';
@@ -8,6 +8,7 @@ import NoPets from '../../components/common/NoPets';
 import PetInfoCard from '../../components/letterBox/PetInfoCard';
 import WeekCalendar from '../../components/letterBox/WeekCalendar';
 import LetterListSection from '../../components/letterBox/LetterListSection';
+import Spinner from '../../components/common/Spinner';
 import { RootState } from '../../store/reducer';
 import { Letters } from '../../model/Letter.model';
 import { PetsList } from '../../model/Pet.model';
@@ -25,6 +26,7 @@ const LetterBox = () => {
   const [date, setDate] = useState(new Date());
   const [showMonthCalendar, setShowMonthCalendar] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isFetchLoading, setIsFetchLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -34,21 +36,20 @@ const LetterBox = () => {
         });
       }
       setIsEditing(false);
-    }, []),
+
+      (async () => {
+        setIsFetchLoading(true);
+        const {
+          data: { pets },
+        } = await getPetList(token);
+        setPetsList(pets || []);
+
+        const action = PetSelectSlice.actions.setPetInfo(pets[0]);
+        dispatch(action);
+        setIsFetchLoading(false);
+      })();
+    }, [token, dispatch]),
   );
-
-  useEffect(() => {
-    (async () => {
-      const {
-        data: { pets },
-      } = await getPetList(token);
-
-      setPetsList(pets || []);
-
-      const action = PetSelectSlice.actions.setPetInfo(pets[0]);
-      dispatch(action);
-    })();
-  }, [token, dispatch, date]);
 
   const onClickMonthCalendarButton = useCallback(() => {
     setShowMonthCalendar(prev => !prev);
@@ -62,30 +63,40 @@ const LetterBox = () => {
     format(letter.createdAt, 'yyyy-MM-dd'),
   );
 
-  if (petsList !== null && petsList.length < 1) {
-    return <NoPets />;
+  if (isFetchLoading) {
+    return (
+      <View style={styles.spinnerCon}>
+        <Text>
+          <Spinner size="large" color={THEME.COLOR.ORANGE_1} />
+        </Text>
+      </View>
+    );
   }
 
   return (
     <SafeAreaView style={styles.screen}>
-      <ScrollView ref={calendarRef}>
-        <PetInfoCard petsList={petsList} />
-        <WeekCalendar
-          setDate={setDate}
-          letterList={mappedLetterListByDate}
-          setLetterList={setLetterList}
-          onClickMonthCalendarButton={onClickMonthCalendarButton}
-          showMonthCalendar={showMonthCalendar}
-          setIsEditing={setIsEditing}
-        />
-        <LetterListSection
-          date={date}
-          letterList={letterList}
-          setIsEditing={setIsEditing}
-          isEditing={isEditing}
-          setLetterList={setLetterList}
-        />
-      </ScrollView>
+      {petsList !== null && petsList.length < 1 ? (
+        <NoPets />
+      ) : (
+        <ScrollView ref={calendarRef}>
+          <PetInfoCard petsList={petsList} />
+          <WeekCalendar
+            setDate={setDate}
+            letterList={mappedLetterListByDate}
+            setLetterList={setLetterList}
+            onClickMonthCalendarButton={onClickMonthCalendarButton}
+            showMonthCalendar={showMonthCalendar}
+            setIsEditing={setIsEditing}
+          />
+          <LetterListSection
+            date={date}
+            letterList={letterList}
+            setIsEditing={setIsEditing}
+            isEditing={isEditing}
+            setLetterList={setLetterList}
+          />
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };
@@ -97,5 +108,11 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: THEME.COLOR.WHITE,
     position: 'relative',
+  },
+  spinnerCon: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: THEME.COLOR.WHITE,
   },
 });
