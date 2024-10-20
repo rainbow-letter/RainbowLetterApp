@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     color: THEME.COLOR.ORANGE_1,
     fontSize: 16,
     fontWeight: 'bold',
+    lineHeight: 20,
   },
   header: {
     flexDirection: 'row',

@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   petNameText: {
     fontSize: 20,
     fontFamily: 'KyoboHandwriting2019',
+    color: THEME.COLOR.BLACK_1,
   },
   padText: {
     backgroundColor: THEME.COLOR.ORANGE_3,

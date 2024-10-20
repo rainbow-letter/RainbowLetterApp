@@ -50,5 +50,6 @@ const styles = StyleSheet.create({
     color: THEME.COLOR.BLACK_1,
     fontSize: 16,
     fontWeight: '600',
+    lineHeight: 20,
   },
 });

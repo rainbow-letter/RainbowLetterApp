@@ -42,5 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: THEME.COLOR.WHITE,
+    lineHeight: 24,
   },
 });
