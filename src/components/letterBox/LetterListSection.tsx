@@ -72,8 +72,8 @@ const LetterListSection = ({
   }, [date]);
 
   const onClickWriteLetterButton = useCallback(() => {
-    navigation.navigate('WriteLetter');
-  }, [navigation]);
+    navigation.navigate('WriteLetter', { id: pet?.id });
+  }, [navigation, pet?.id]);
 
   const onClickEditButton = useCallback(() => {
     setIsEditing(!isEditing);

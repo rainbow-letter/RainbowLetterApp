@@ -16,7 +16,11 @@ import { getPetList } from '../../api/pets';
 import { THEME } from '../../constants/theme';
 import PetSelectSlice from '../../slices/petSelect';
 
-const LetterBox = () => {
+type Props = {
+  route: any;
+};
+
+const LetterBox = ({ route }: Props) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.account);
   const calendarRef = useRef<any>(null);
@@ -44,11 +48,18 @@ const LetterBox = () => {
         } = await getPetList(token);
         setPetsList(pets || []);
 
-        const action = PetSelectSlice.actions.setPetInfo(pets[0]);
-        dispatch(action);
+        if (route.params?.id) {
+          const findPet = pets.find(pet => pet.id === route.params?.id);
+          const action = PetSelectSlice.actions.setPetInfo(findPet);
+          dispatch(action);
+        } else {
+          const action = PetSelectSlice.actions.setPetInfo(pets[0]);
+          dispatch(action);
+        }
+
         setIsFetchLoading(false);
       })();
-    }, [token, dispatch]),
+    }, [token, dispatch, route.params?.id]),
   );
 
   const onClickMonthCalendarButton = useCallback(() => {

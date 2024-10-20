@@ -29,7 +29,11 @@ import WriteLetterSlice from '../../slices/writeLetter';
 import { generateFormData } from '../../utils/image';
 import { uploadImage } from '../../api/image';
 
-const WriteLetter = () => {
+type Props = {
+  route: any;
+};
+
+const WriteLetter = ({ route }: Props) => {
   const writeRef = useRef<any>(null);
   const navigation =
     useNavigation<NativeStackNavigationProp<RootBottomTabParamList>>();
@@ -59,11 +63,18 @@ const WriteLetter = () => {
         const { data } = await getDashBoardPets(token);
         setPetsList(data.pets || []);
 
-        const action = PetSelectSlice.actions.setPetInfo(data.pets[0]);
-        dispatch(action);
+        if (route.params?.id) {
+          const findPet = data.pets.find(pet => pet.id === route.params?.id);
+          const action = PetSelectSlice.actions.setPetInfo(findPet);
+          dispatch(action);
+        } else {
+          const action = PetSelectSlice.actions.setPetInfo(data.pets[0]);
+          dispatch(action);
+        }
+
         setIsFetchLoading(false);
       })();
-    }, [token, dispatch]),
+    }, [token, dispatch, route.params?.id]),
   );
 
   useEffect(() => {
@@ -101,7 +112,7 @@ const WriteLetter = () => {
       await createLetter(token, id, letter);
       dispatch(WriteLetterSlice.actions.clearLetter());
       setPreview(null);
-      navigation.navigate('LetterBox');
+      navigation.navigate('LetterBox', { id: id });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
