@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     color: THEME.COLOR.BLACK_1,
+    lineHeight: 24,
   },
   bottomSheetContent: {
     paddingTop: 14,

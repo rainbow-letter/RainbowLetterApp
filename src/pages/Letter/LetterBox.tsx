@@ -126,4 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: THEME.COLOR.WHITE,
   },
+  test: {
+    overflow: 'hidden',
+  },
 });
