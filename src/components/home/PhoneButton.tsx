@@ -33,5 +33,6 @@ const styles = StyleSheet.create({
   kakaoText: {
     color: THEME.COLOR.ORANGE_1,
     fontWeight: 'bold',
+    lineHeight: 18,
   },
 });

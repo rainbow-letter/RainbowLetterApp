@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   chipText: {
     color: THEME.COLOR.BLACK_1,
     fontSize: 14,
+    lineHeight: 18,
   },
   selectedChipText: {
     color: THEME.COLOR.ORANGE_1,
