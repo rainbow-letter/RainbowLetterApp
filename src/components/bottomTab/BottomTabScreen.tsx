@@ -11,8 +11,8 @@ import TabGoBack from '../common/TabGoBack';
 
 export type RootBottomTabParamList = {
   Home: undefined;
-  LetterBox: undefined;
-  WriteLetter: undefined;
+  LetterBox: any;
+  WriteLetter: any;
   Contents: undefined;
   MyPage: undefined;
 };

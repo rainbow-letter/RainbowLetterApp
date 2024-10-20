@@ -15,11 +15,11 @@ const LetterPaper = ({ content, pet, timeStamp, type }: Props) => {
   const isLetter = type === 'LETTER';
 
   return (
-    <View style={isLetter ? styles.letterSection : styles.replaySection}>
-      <View style={isLetter ? styles.pad : [styles.pad, styles.replyPad]}>
+    <View style={!isLetter ? styles.letterSection : styles.replaySection}>
+      <View style={!isLetter ? styles.pad : [styles.pad, styles.replyPad]}>
         <Text style={styles.petNameText}>{pet}에게</Text>
         <TextInput
-          style={isLetter ? styles.padText : [styles.padText, styles.replyPad]}
+          style={!isLetter ? styles.padText : [styles.padText, styles.replyPad]}
           multiline
           value={content}
           textAlignVertical="top"

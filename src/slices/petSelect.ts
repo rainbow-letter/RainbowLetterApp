@@ -27,7 +27,7 @@ const PetSelectSlice = createSlice({
   name: 'PetSelect',
   initialState,
   reducers: {
-    setPetInfo(state, action: PayloadAction<Partial<PetsList>>) {
+    setPetInfo(state, action: PayloadAction<Partial<PetsList | undefined>>) {
       state = { ...state, ...action.payload };
       return state;
     },

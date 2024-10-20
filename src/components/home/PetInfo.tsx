@@ -1,5 +1,6 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../../store/reducer';
@@ -9,8 +10,9 @@ import { getPetImage } from '../../api/image';
 import { THEME } from '../../constants/theme';
 import DefaultImage from '../../assets/im_default.png';
 import Letter from '../../assets/ic_home_letter.svg';
-import Heart from '../../assets/ic_home_heart.svg';
 import Arrow from '../../assets/ic_home_dashborad_arrow.svg';
+import { useNavigation } from '@react-navigation/native';
+import { RootBottomTabParamList } from '../bottomTab/BottomTabScreen';
 
 type Props = {
   pet: PetDashBoard | undefined;
@@ -18,6 +20,8 @@ type Props = {
 };
 
 const PetInfo = ({ pet, letterCount }: Props) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootBottomTabParamList>>();
   const [petImage, setPetImage] = useState<any>();
   const token = useSelector((state: RootState) => state.account.token);
 
@@ -37,8 +41,12 @@ const PetInfo = ({ pet, letterCount }: Props) => {
     getImage();
   }, [pet, token]);
 
+  const onClickPetCardButton = useCallback(() => {
+    navigation.navigate('LetterBox', { id: pet?.id });
+  }, [navigation, pet?.id]);
+
   return (
-    <View style={styles.infoBox}>
+    <Pressable onPress={onClickPetCardButton} style={styles.infoBox}>
       <Image source={petImage} style={styles.image} alt="아이 사진" />
       <View style={styles.info}>
         <View style={styles.nameWrap}>
@@ -52,16 +60,9 @@ const PetInfo = ({ pet, letterCount }: Props) => {
               style={styles.letterText}>{`보낸 편지 ${letterCount}회`}</Text>
           </View>
         </View>
-        <View style={styles.heart}>
-          <Heart />
-          <Text
-            style={
-              styles.letterText
-            }>{`보낸 하트 ${pet?.favoriteCount}회`}</Text>
-        </View>
       </View>
       <Arrow style={styles.arrow} />
-    </View>
+    </Pressable>
   );
 };
 

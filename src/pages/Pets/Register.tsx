@@ -56,7 +56,6 @@ const Register = ({ route }: Props) => {
 
   useEffect(() => {
     (async () => {
-      // dispatch(PetRegisterSlice.actions.clearPetInfo());
       if (route.params?.id) {
         const { data } = await getPetInfo(token, route.params?.id);
         const action = PetRegisterSlice.actions.setUpdatePetInfo(data);

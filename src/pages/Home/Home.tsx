@@ -7,7 +7,7 @@ import PetsSection from '../../components/home/PetsSection';
 import ThickDivider from '../../components/home/ThickDivider';
 import LetterShowCase from '../../components/home/LetterShowCase';
 import LetterShowCaseButton from '../../components/home/LetterShowCaseButton';
-import ContentsSection from '../../components/home/ContentsSection';
+// import ContentsSection from '../../components/home/ContentsSection';
 import ContactSection from '../../components/home/ContactSection';
 import ThinDivider from '../../components/home/ThinDivider';
 import Footer from '../../components/home/Footer';
@@ -22,7 +22,7 @@ const Home = () => {
         <LetterShowCase />
         <LetterShowCaseButton />
         <ThickDivider />
-        <ContentsSection />
+        {/* <ContentsSection /> */}
         <ContactSection />
         <ThinDivider />
         <Footer />

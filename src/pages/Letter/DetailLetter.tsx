@@ -45,21 +45,21 @@ const DetailLetter = ({ route }: Props) => {
       <ScrollView>
         <View style={styles.relativeLayout}>
           <CoverImage />
-          <LetterPaper
-            content={letterData?.letter.content}
-            pet={letterData?.pet.name}
-            timeStamp={letterData?.letter.createdAt}
-            type="LETTER"
-          />
+          {isExistReplyContents && (
+            <LetterPaper
+              content={letterData?.reply.content}
+              pet={letterData?.pet.name}
+              timeStamp={letterData?.reply.submitTime}
+              type="REPLY"
+            />
+          )}
         </View>
-        {isExistReplyContents && (
-          <LetterPaper
-            content={letterData?.reply.content}
-            pet={letterData?.pet.name}
-            timeStamp={letterData?.reply.createdAt}
-            type="REPLY"
-          />
-        )}
+        <LetterPaper
+          content={letterData?.letter.content}
+          pet={letterData?.pet.name}
+          timeStamp={letterData?.letter.createdAt}
+          type="LETTER"
+        />
         {isExistSentImage && <SentImage objectKey={letterData?.letter.image} />}
         <Button
           isCheck={isExistReplyContents}
