@@ -16,6 +16,7 @@ const LetterStatus = ({ status, readStatus }: Props) => {
   const letterStatus = letterReplyStatus(status);
   const isCompleteResponse = status === 'RESPONSE';
   const Icon = isCheckUnread(readStatus, status) ? <Check /> : <GrayCheck />;
+  console.log(letterStatus);
 
   return (
     <View
@@ -60,12 +61,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     color: THEME.COLOR.RED_1,
+    lineHeight: 15,
   },
   completedText: {
     color: THEME.COLOR.GREEN_2,
   },
   unCompletedText: {
-    color: THEME.COLOR.GRAY_3,
+    color: THEME.COLOR.GRAY_7,
   },
   completedBg: {
     backgroundColor: THEME.COLOR.GREEN_1,

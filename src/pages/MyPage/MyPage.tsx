@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
     color: THEME.COLOR.WHITE,
     fontSize: 12,
     fontWeight: '700',
+    lineHeight: 14,
   },
   logOutButtonText: {
     color: THEME.COLOR.RED_1,

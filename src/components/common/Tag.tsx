@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
   tagText: {
     fontSize: 14,
     color: THEME.COLOR.ORANGE_1,
+    lineHeight: 18,
   },
 });

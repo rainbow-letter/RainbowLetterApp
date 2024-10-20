@@ -41,5 +41,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: THEME.COLOR.BLACK_1,
+    lineHeight: 18,
   },
 });

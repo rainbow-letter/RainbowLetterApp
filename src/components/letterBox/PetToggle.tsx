@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     color: THEME.COLOR.BLACK_1,
+    lineHeight: 24,
   },
   bottomSheetContent: {
     paddingTop: 14,
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
   sheetTitle: {
     textAlign: 'center',
     fontSize: 20,
+    color: THEME.COLOR.BLACK_1,
   },
   nameWrap: {
     marginBottom: 25,
@@ -144,6 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingVertical: 12,
     paddingLeft: 18,
+    color: THEME.COLOR.BLACK_1,
   },
   addButton: {
     paddingHorizontal: 20,
@@ -153,11 +156,12 @@ const styles = StyleSheet.create({
     borderColor: THEME.COLOR.ORANGE_1,
     borderRadius: 8,
     marginTop: 12,
-    gap: 4,
+    gap: 8,
     flexDirection: 'row',
   },
   addButtonText: {
     color: THEME.COLOR.ORANGE_1,
     fontSize: 16,
+    lineHeight: 18,
   },
 });

@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     paddingLeft: 6,
+    color: THEME.COLOR.BLACK_1,
   },
   noPetBox: {
     borderWidth: 1,

@@ -12,9 +12,9 @@ const Footer = () => {
   return (
     <View style={styles.footer}>
       <View style={styles.contact}>
-        <Text>문의</Text>
+        <Text style={styles.black}>문의</Text>
         <View style={styles.divideCol} />
-        <Text>rainbowletter41@gmail.com</Text>
+        <Text style={styles.black}>rainbowletter41@gmail.com</Text>
       </View>
       <View style={styles.copyright}>
         <Text style={styles.center}>Copyright © 2023 무지개편지</Text>
@@ -52,9 +52,13 @@ const styles = StyleSheet.create({
   },
   center: {
     textAlign: 'center',
+    color: THEME.COLOR.BLACK_1,
   },
   blog: {
     marginTop: 40,
     marginHorizontal: 'auto',
+  },
+  black: {
+    color: THEME.COLOR.BLACK_1,
   },
 });

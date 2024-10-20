@@ -122,7 +122,7 @@ const WeekCalendar = ({
         <View style={styles.weekTitleWrap}>
           <Pressable onPress={onClickPrevWeek} style={styles.weekButton}>
             <Left />
-            <Text>이전 주</Text>
+            <Text style={styles.weekButtonText}>이전 주</Text>
           </Pressable>
           <Pressable
             onPress={onClickMonthCalendarButton}
@@ -131,7 +131,7 @@ const WeekCalendar = ({
             <DropDown />
           </Pressable>
           <Pressable onPress={onClickNextWeek} style={styles.weekButton}>
-            <Text>다음 주</Text>
+            <Text style={styles.weekButtonText}>다음 주</Text>
             <Right />
           </Pressable>
         </View>
@@ -211,7 +211,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   weekButtonText: {
-    color: THEME.COLOR.GRAY_6,
+    lineHeight: 17,
+    color: THEME.COLOR.BLACK_1,
   },
   weekTitleButton: {
     flexDirection: 'row',
@@ -262,6 +263,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: THEME.COLOR.GRAY_7,
     textAlign: 'center',
+    lineHeight: 14,
   },
   activeDate: {
     backgroundColor: THEME.COLOR.ORANGE_1,

@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 26,
     fontWeight: 'bold',
+    color: THEME.COLOR.BLACK_1,
   },
   deathAnniversary: {
     color: THEME.COLOR.ORANGE_1,
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
   },
   profileUpdateButtonText: {
     color: THEME.COLOR.GRAY_4,
+    lineHeight: 18,
   },
   personalityBox: {
     marginTop: 10,

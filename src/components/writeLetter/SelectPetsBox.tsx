@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   petText: {
     fontSize: 16,
     color: THEME.COLOR.BLACK_1,
+    lineHeight: 18,
   },
   relative: {
     position: 'relative',
@@ -117,5 +118,6 @@ const styles = StyleSheet.create({
   plusText: {
     fontSize: 16,
     color: THEME.COLOR.GRAY_4,
+    lineHeight: 20,
   },
 });

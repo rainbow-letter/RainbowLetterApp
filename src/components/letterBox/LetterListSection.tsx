@@ -132,7 +132,6 @@ const LetterListSection = ({
         )}
         <View style={styles.header}>
           <Text style={styles.today}>{dateAndDay}</Text>
-
           <Pressable
             disabled={!isExistTodayLetter}
             style={styles.deleteButton}
@@ -184,6 +183,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: THEME.COLOR.BLACK_1,
   },
   addButton: {
     flexDirection: 'row',
@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     color: THEME.COLOR.ORANGE_1,
     fontSize: 16,
     fontWeight: 'bold',
+    lineHeight: 20,
   },
   header: {
     flexDirection: 'row',
@@ -217,6 +218,7 @@ const styles = StyleSheet.create({
   },
   deleteButtonText: {
     color: THEME.COLOR.GRAY_4,
+    lineHeight: 18,
   },
   tooltipContainer: {
     position: 'absolute',
@@ -235,11 +237,13 @@ const styles = StyleSheet.create({
   tooltipText: {
     fontSize: 12,
     textAlign: 'center',
+    color: THEME.COLOR.BLACK_1,
+    lineHeight: 16,
   },
   tooltipArrow: {
     position: 'absolute',
     left: '50%',
-    top: 41,
+    top: 44,
     width: 10,
     height: 10,
     backgroundColor: 'white',

@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 4,
     color: THEME.COLOR.WHITE,
+    lineHeight: 18,
   },
   label: {
     fontSize: 12,

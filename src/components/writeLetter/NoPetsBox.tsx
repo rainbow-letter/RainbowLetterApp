@@ -39,5 +39,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: THEME.COLOR.ORANGE_1,
     fontWeight: 'bold',
+    lineHeight: 20,
   },
 });

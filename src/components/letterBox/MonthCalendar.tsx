@@ -138,7 +138,7 @@ const MonthCalendar = ({
         <View style={styles.monthTitleWrap}>
           <Pressable onPress={onClickPrevMonth} style={styles.monthButton}>
             <Left />
-            <Text>이전 달</Text>
+            <Text style={styles.monthButtonText}>이전 달</Text>
           </Pressable>
           <Pressable
             onPress={handlePresentModalPress}
@@ -147,7 +147,7 @@ const MonthCalendar = ({
             <DropDown />
           </Pressable>
           <Pressable onPress={onClickNextMonth} style={styles.monthButton}>
-            <Text>다음 달</Text>
+            <Text style={styles.monthButtonText}>다음 달</Text>
             <Right />
           </Pressable>
         </View>
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: 'white',
-    zIndex: 1,
+    zIndex: 50,
     paddingHorizontal: 18,
     borderTopWidth: 1,
     borderTopColor: THEME.COLOR.GRAY_8,
@@ -267,7 +267,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   monthButtonText: {
-    color: THEME.COLOR.GRAY_6,
+    lineHeight: 17,
+    color: THEME.COLOR.BLACK_1,
   },
   monthTitleButton: {
     flexDirection: 'row',
@@ -328,6 +329,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: THEME.COLOR.GRAY_7,
     textAlign: 'center',
+    lineHeight: 14,
   },
   activeDate: {
     backgroundColor: THEME.COLOR.ORANGE_1,

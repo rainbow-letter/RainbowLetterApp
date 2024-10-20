@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
   },
   letterText: {
     color: THEME.COLOR.GRAY_4,
+    lineHeight: 18,
   },
   heart: {
     flexDirection: 'row',
