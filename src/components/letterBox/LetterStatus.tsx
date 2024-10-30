@@ -16,7 +16,6 @@ const LetterStatus = ({ status, readStatus }: Props) => {
   const letterStatus = letterReplyStatus(status);
   const isCompleteResponse = status === 'RESPONSE';
   const Icon = isCheckUnread(readStatus, status) ? <Check /> : <GrayCheck />;
-  console.log(letterStatus);
 
   return (
     <View

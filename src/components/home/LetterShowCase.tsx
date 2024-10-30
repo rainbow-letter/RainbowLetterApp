@@ -1,40 +1,34 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import React from 'react';
+import WebView from 'react-native-webview';
 
-import Carousel from './Carousel';
-import { SHOWCASE_LETTERS } from './constants';
-import { THEME } from '../../constants/theme';
-
-const screenWidth = Math.round(Dimensions.get('window').width);
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const LetterShowCase = () => {
   return (
-    <View style={styles.section}>
-      <Text style={styles.title}>무지개에 걸린 편지</Text>
-      <View>
-        <Carousel
-          gap={10}
-          offset={36}
-          pages={SHOWCASE_LETTERS}
-          pageWidth={(screenWidth - (10 + 36) * 2) / 2}
-        />
-      </View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <WebView
+        style={styles.webview}
+        source={{
+          uri: 'https://rainbowletter.co.kr/web-view/letter-showcase',
+        }}
+      />
+    </SafeAreaView>
   );
 };
 
 export default LetterShowCase;
 
 const styles = StyleSheet.create({
-  section: {
-    width: '100%',
+  container: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 280,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: THEME.COLOR.BLACK_1,
-    marginTop: 30,
-    marginBottom: 20,
-    paddingLeft: 18,
+  webview: {
+    flex: 1,
+    width: windowWidth,
+    height: windowHeight,
   },
 });
