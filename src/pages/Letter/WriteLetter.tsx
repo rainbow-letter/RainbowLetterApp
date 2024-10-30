@@ -28,6 +28,8 @@ import { RootBottomTabParamList } from '../../components/bottomTab/BottomTabScre
 import WriteLetterSlice from '../../slices/writeLetter';
 import { generateFormData } from '../../utils/image';
 import { uploadImage } from '../../api/image';
+import ModalContainer from '../../components/common/ModalContainer';
+import AdModal from '../../components/writeLetter/AdModal';
 
 type Props = {
   route: any;
@@ -50,6 +52,7 @@ const WriteLetter = ({ route }: Props) => {
   } | null>();
   const [preview, setPreview] = useState<{ uri: string } | null>(null);
   const [isFetchLoading, setIsFetchLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -101,6 +104,11 @@ const WriteLetter = ({ route }: Props) => {
     [token, imageFile],
   );
 
+  const handleModal = useCallback(() => {
+    setIsModalOpen(false);
+    navigation.navigate('LetterBox', { id: id });
+  }, [navigation, id]);
+
   const onClickSendLetterButton = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -112,7 +120,7 @@ const WriteLetter = ({ route }: Props) => {
       await createLetter(token, id, letter);
       dispatch(WriteLetterSlice.actions.clearLetter());
       setPreview(null);
-      navigation.navigate('LetterBox', { id: id });
+      setIsModalOpen(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
@@ -120,7 +128,7 @@ const WriteLetter = ({ route }: Props) => {
     } finally {
       setIsLoading(false);
     }
-  }, [id, letter, imageFile, token, navigation, dispatch, getImageObjectKey]);
+  }, [id, letter, imageFile, token, dispatch, getImageObjectKey]);
 
   const canClick = letter.content && !isLoading;
 
@@ -153,6 +161,9 @@ const WriteLetter = ({ route }: Props) => {
           style={styles.button}>
           {isLoading ? <ActivityIndicator /> : '편지 보내기'}
         </Button>
+        <ModalContainer visible={isModalOpen}>
+          <AdModal handleModal={handleModal} />
+        </ModalContainer>
       </ScrollView>
     </SafeAreaView>
   );

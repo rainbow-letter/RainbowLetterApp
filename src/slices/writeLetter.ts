@@ -18,7 +18,6 @@ const WriteLetterSlice = createSlice({
       return state;
     },
     clearLetter(state) {
-      console.log('asdaclearLettersd', state.summary);
       state.summary = '';
       state.content = '';
       state.image = '';

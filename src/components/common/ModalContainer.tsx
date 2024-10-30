@@ -4,15 +4,13 @@ import React from 'react';
 type Props = {
   visible: boolean;
   children: React.ReactNode;
-  handleModal: (isOpen: boolean) => void;
+  handleModal?: (isOpen: boolean) => void;
 };
 
-const ModalContainer = ({ visible, children, handleModal }: Props) => {
+const ModalContainer = ({ visible, children }: Props) => {
   return (
     <Modal visible={visible} transparent={true}>
-      <TouchableOpacity
-        style={styles.overlay}
-        onPress={() => handleModal(false)}>
+      <TouchableOpacity style={styles.overlay}>
         <View style={styles.container}>{children}</View>
       </TouchableOpacity>
     </Modal>
