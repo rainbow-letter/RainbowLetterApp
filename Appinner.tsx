@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { useDispatch } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 
 import SignUp from './src/pages/Account/SignUp';
 import Login from './src/pages/Account/Login';
@@ -45,6 +46,8 @@ const Appinner = () => {
 
     getToken();
   }, [dispatch]);
+
+  SplashScreen.hide();
 
   return (
     <NavigationContainer>
