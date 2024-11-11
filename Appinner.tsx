@@ -16,6 +16,7 @@ import Register from './src/pages/Pets/Register';
 import accountSlice from './src/slices/account';
 import Donate from './src/pages/Home/Donate';
 import DetailLetter from './src/pages/Letter/DetailLetter';
+import Email from './src/pages/Account/Email';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -75,6 +76,11 @@ const Appinner = () => {
           name="Login"
           component={Login}
           options={{ title: '로그인' }}
+        />
+        <Stack.Screen
+          name="Email"
+          component={Email}
+          options={{ title: '이메일' }}
         />
         <Stack.Screen
           name="Reset"

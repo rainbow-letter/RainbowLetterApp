@@ -8,7 +8,6 @@ import {
   ScrollView,
   Dimensions,
   ActivityIndicator,
-  Linking,
 } from 'react-native';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { SafeAreaView } from 'react-native';
@@ -85,12 +84,6 @@ const Login = ({ navigation }: Props) => {
     }
   }, [profile, dispatch, navigation]);
 
-  const onClickKakaoLoginButton = useCallback(() => {
-    Linking.openURL(
-      'https://rainbowletter.co.kr/api/oauth2/authorization/kakao',
-    );
-  }, []);
-
   const canClick =
     profile.email && profile.password && !errorData && !isLoading;
 
@@ -108,7 +101,7 @@ const Login = ({ navigation }: Props) => {
               <Pressable>
                 <Image source={Naver} style={styles.icon} />
               </Pressable>
-              <Pressable onPress={onClickKakaoLoginButton}>
+              <Pressable>
                 <Image source={Kakao} style={styles.icon} />
               </Pressable>
             </View>
