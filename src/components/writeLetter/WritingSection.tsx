@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, TextInput } from 'react-native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import WriteLetterSlice from '../../slices/writeLetter';
 import { THEME } from '../../constants/theme';
@@ -11,6 +12,34 @@ const WritingSection = () => {
   const { content } = useSelector((state: RootState) => state.writeLetter);
   const dispatch = useDispatch();
 
+  const saveContent = async (value: string) => {
+    try {
+      await AsyncStorage.setItem('letterContent', value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const savedContent = await AsyncStorage.getItem('letterContent');
+        if (savedContent) {
+          dispatch(
+            WriteLetterSlice.actions.setLetter({
+              content: savedContent,
+              summary: savedContent.slice(0, 20),
+            }),
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadContent();
+  }, [dispatch]);
+
   const handleInputLetter = useCallback(
     (value: string) => {
       const action = WriteLetterSlice.actions.setLetter({
@@ -18,6 +47,7 @@ const WritingSection = () => {
         summary: value.slice(0, 20),
       });
       dispatch(action);
+      saveContent(value);
     },
     [dispatch],
   );
